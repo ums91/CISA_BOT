@@ -32,27 +32,24 @@ Please review the vulnerability and apply the recommended patches or mitigations
 **Source**: [CISA KEV Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 """
 
-    # Debug logging
-    print("Attempting to create issue with title:", title)
-    print("Issue body:", body)
-
     retries = 0
     while True:
         try:
             # Check remaining requests before trying to create an issue
-            remaining_requests = repo.github.get_rate_limit().core.remaining
-            if remaining_requests <= 1:
-                reset_time = repo.github.get_rate_limit().core.reset.timestamp() - time.time() + 5
+            rate_limit = repo.github.get_rate_limit().core
+            if rate_limit.remaining < 5:  # Leave some buffer
+                reset_time = rate_limit.reset.timestamp() - time.time() + 5
                 print(f"Rate limit low. Waiting for {reset_time:.2f} seconds...")
                 time.sleep(reset_time)
 
+            # Create the issue
             issue = repo.create_issue(title=title, body=body, labels=["CISA-Alert", "Vulnerability"])
             print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
             break  # Exit the loop if successful
         except GithubException as e:
             if e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
                 retries += 1
-                wait_time = min(60, 2 ** retries)  # Cap the wait time to 60 seconds
+                wait_time = min(3600, 2 ** retries)  # Exponential backoff, max 1 hour
                 print(f"Rate limit exceeded. Waiting for {wait_time:.2f} seconds before retrying...")
                 time.sleep(wait_time)
             else:
@@ -73,14 +70,14 @@ def main():
     # Fetch vulnerabilities
     vulnerabilities = fetch_cisa_vulnerabilities()
 
-    # Create a ThreadPoolExecutor for concurrent execution
-    with ThreadPoolExecutor(max_workers=2) as executor:  # Reduced number of workers
+    # Create a ThreadPoolExecutor for concurrent execution with limited workers
+    with ThreadPoolExecutor(max_workers=2) as executor:  # Fewer workers to limit API hits
         future_to_vulnerability = {executor.submit(create_github_issue, repo, vulnerability): vulnerability for vulnerability in vulnerabilities}
 
         for future in as_completed(future_to_vulnerability):
             vulnerability = future_to_vulnerability[future]
             try:
-                future.result()  # This will raise an exception if the function raised one
+                future.result()  # Raise any exceptions from create_github_issue
             except Exception as e:
                 print(f"Error processing vulnerability {vulnerability.get('cveID', 'No CVE ID')}: {e}")
 
