@@ -3,9 +3,9 @@ import requests
 from github import Github
 
 # GitHub and CISA credentials
-GITHUB_TOKEN = os.getenv("PERSONAL_GITHUB_TOKEN")
+GITHUB_TOKEN = os.getenv("PERSONAL_GITHUB_TOKEN")  # Ensure this matches your GitHub Action secret name
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
-REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
+REPO_NAME = "ums91/CISA_BOT"  # Replace with your actual GitHub repository name
 
 def fetch_cisa_vulnerabilities():
     """Fetch the latest vulnerabilities from CISA's KEV catalog."""
@@ -30,18 +30,28 @@ Please review the vulnerability and apply the recommended patches or mitigations
 
 **Source**: [CISA KEV Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 """
+    # Create GitHub issue with labels
     issue = repo.create_issue(title=title, body=body, labels=["CISA-Alert", "Vulnerability"])
     print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
 
 def main():
-    # Initialize GitHub client and repository
+    # Initialize GitHub client with the token
     github = Github(GITHUB_TOKEN)
-    repo = github.get_repo(REPO_NAME)
+    try:
+        # Access the repository
+        repo = github.get_repo(REPO_NAME)
+        print("Repository accessed successfully:", repo.full_name)
+    except Exception as e:
+        print("Error accessing the repository:", e)
+        return
 
     # Fetch vulnerabilities and create issues
     vulnerabilities = fetch_cisa_vulnerabilities()
     for vulnerability in vulnerabilities:
-        create_github_issue(repo, vulnerability)
+        try:
+            create_github_issue(repo, vulnerability)
+        except Exception as e:
+            print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
 
 if __name__ == "__main__":
     main()
