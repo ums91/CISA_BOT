@@ -1,5 +1,29 @@
 from github import Github
 import time
+import requests
+
+# Function to fetch vulnerabilities from a CISA source
+def fetch_vulnerabilities():
+    """Fetch vulnerabilities from a CISA source (placeholder function)."""
+    # Replace this with the actual API or method to fetch vulnerabilities
+    # Example data format returned from CISA
+    return [
+        {
+            'cve_id': 'CVE-2024-37383',
+            'vendor': 'Unknown Vendor',
+            'product': 'Webmail',
+            'description': '',  # Empty for testing
+            'remediation_deadline': '2024-11-14',
+        },
+        {
+            'cve_id': 'CVE-2021-31196',
+            'vendor': 'Unknown Vendor',
+            'product': 'Exchange Server',
+            'description': '',  # Empty for testing
+            'remediation_deadline': '2024-09-11',
+        }
+        # Add more vulnerabilities as needed
+    ]
 
 # Function to create an issue on GitHub
 def create_github_issue(repo, vulnerability):
@@ -35,7 +59,7 @@ def create_github_issue(repo, vulnerability):
 # Main function to run the bot
 def main():
     # GitHub token and repository info
-    GITHUB_TOKEN = "YOUR_GITHUB_TOKEN"  # Replace with your GitHub token
+    GITHUB_TOKEN = os.getenv("PERSONAL_GITHUB_TOKEN")  # Replace with your GitHub token
     REPO_NAME = "ums91/CISA_BOT"  # Replace with your repository name
 
     # Initialize GitHub client
@@ -47,29 +71,12 @@ def main():
         repo = github.get_repo(REPO_NAME)
         print(f"Repository accessed successfully: {REPO_NAME}")
 
-        # Example list of fetched vulnerabilities from CISA
-        vulnerabilities = [
-            {
-                'cve_id': 'CVE-2024-37383',
-                'vendor': 'Unknown Vendor',
-                'product': 'Webmail',
-                'description': '',  # Empty for testing
-                'remediation_deadline': '2024-11-14',
-            },
-            {
-                'cve_id': 'CVE-2021-31196',
-                'vendor': 'Unknown Vendor',
-                'product': 'Exchange Server',
-                'description': '',  # Empty for testing
-                'remediation_deadline': '2024-09-11',
-            }
-            # Add more vulnerabilities as needed
-        ]
+        # Fetch vulnerabilities from CISA
+        vulnerabilities = fetch_vulnerabilities()
 
         # Loop through vulnerabilities and create issues one by one
         for vulnerability in vulnerabilities:
             create_github_issue(repo, vulnerability)
-            time.sleep(1)  # Optional: add a small delay between requests to avoid hitting rate limits
 
     except Exception as e:
         print(f"Error accessing repository: {e}")
