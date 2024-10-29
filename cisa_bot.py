@@ -30,8 +30,17 @@ Please review the vulnerability and apply the recommended patches or mitigations
 
 **Source**: [CISA KEV Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 """
-    issue = repo.create_issue(title=title, body=body, labels=["CISA-Alert", "Vulnerability"])
-    print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
+
+    # Debug logging
+    print("Attempting to create issue with title:", title)
+    print("Issue body:", body)
+
+    try:
+        issue = repo.create_issue(title=title, body=body, labels=["CISA-Alert", "Vulnerability"])
+        print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
+    except Exception as e:
+        print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
+
 
 def main():
     # Initialize GitHub client and repository
