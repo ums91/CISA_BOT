@@ -12,18 +12,18 @@ def fetch_cisa_vulnerabilities():
     """Fetch the latest vulnerabilities from CISA's KEV catalog."""
     response = requests.get(CISA_API_URL)
     response.raise_for_status()
-    return response.json()["vulnerabilities"]
+    return response.json().get("vulnerabilities", [])
 
 def create_github_issue(repo, vulnerability):
     """Create a GitHub issue for a new vulnerability."""
-    title = f"CISA Alert: {vulnerability['cveID']} - {vulnerability.get('vendor', 'Unknown Vendor')} Vulnerability"
+    title = f"CISA Alert: {vulnerability.get('cveID', 'No CVE ID')} - {vulnerability.get('vendor', 'Unknown Vendor')} Vulnerability"
     body = f"""
 ### Vulnerability Details
-- **CVE ID**: {vulnerability['cveID']}
+- **CVE ID**: {vulnerability.get('cveID', 'No CVE ID')}
 - **Vendor**: {vulnerability.get('vendor', 'Unknown Vendor')}
 - **Product**: {vulnerability.get('product', 'Unknown Product')}
-- **Description**: {vulnerability['description']}
-- **Remediation Deadline**: {vulnerability['dueDate']}
+- **Description**: {vulnerability.get('description', 'No Description Available')}
+- **Remediation Deadline**: {vulnerability.get('dueDate', 'No Deadline Provided')}
 
 ### Recommended Action
 Please review the vulnerability and apply the recommended patches or mitigations.
@@ -32,15 +32,15 @@ Please review the vulnerability and apply the recommended patches or mitigations
 """
     try:
         issue = repo.create_issue(title=title, body=body, labels=["CISA-Alert", "Vulnerability"])
-        print(f"Issue created for {vulnerability['cveID']}: {issue.html_url}")
+        print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
     except GithubException as e:
         if e.status == 404:
-            print(f"Failed to create issue for {vulnerability['cveID']}: Repository not found.")
+            print(f"Failed to create issue for {vulnerability.get('cveID', 'No CVE ID')}: Repository not found.")
         elif e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
             print("Rate limit exceeded, backing off...")
             raise e  # Raise the exception to handle it in the main function
         else:
-            print(f"Error creating issue for {vulnerability['cveID']}: {e}")
+            print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
 
 def main():
     # Initialize GitHub client and repository
