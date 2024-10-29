@@ -36,11 +36,21 @@ Please review the vulnerability and apply the recommended patches or mitigations
     print("Attempting to create issue with title:", title)
     print("Issue body:", body)
 
-    try:
-        issue = repo.create_issue(title=title, body=body, labels=["CISA-Alert", "Vulnerability"])
-        print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
-    except GithubException as e:
-        print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
+    retries = 0
+    while True:
+        try:
+            issue = repo.create_issue(title=title, body=body, labels=["CISA-Alert", "Vulnerability"])
+            print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
+            break  # Exit the loop if successful
+        except GithubException as e:
+            if e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
+                retries += 1
+                wait_time = 2 ** retries  # Exponential backoff
+                print(f"Rate limit exceeded. Waiting for {wait_time:.2f} seconds before retrying...")
+                time.sleep(wait_time)
+            else:
+                print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
+                break  # Exit on other errors
 
 def main():
     # Initialize GitHub client and repository
