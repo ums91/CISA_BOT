@@ -44,7 +44,15 @@ def main():
     except Exception as e:
         print("Error accessing the repository:", e)
         return
-
+        
+    # Check if the token has access
+    try:
+        issues = repo.get_issues()
+        print(f"Successfully accessed issues. Count: {len(issues)}")
+    except Exception as e:
+        print("Error accessing issues:", e)
+        return
+    
     # Fetch vulnerabilities and create issues
     vulnerabilities = fetch_cisa_vulnerabilities()
     for vulnerability in vulnerabilities:
