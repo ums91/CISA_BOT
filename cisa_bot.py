@@ -11,18 +11,19 @@ def fetch_cisa_vulnerabilities():
     """Fetch the latest vulnerabilities from CISA's KEV catalog."""
     response = requests.get(CISA_API_URL)
     response.raise_for_status()
-    return response.json()["vulnerabilities"]
+    return response.json().get("vulnerabilities", [])
 
 def create_github_issue(repo, vulnerability):
     """Create a GitHub issue for a new vulnerability."""
-    title = f"CISA Alert: {vulnerability['cveID']} - {vulnerability['vendor']} Vulnerability"
+    # Use `.get()` with default values to handle missing fields
+    title = f"CISA Alert: {vulnerability.get('cveID', 'No CVE ID')} - {vulnerability.get('vendor', 'Unknown Vendor')} Vulnerability"
     body = f"""
 ### Vulnerability Details
-- **CVE ID**: {vulnerability['cveID']}
-- **Vendor**: {vulnerability['vendor']}
-- **Product**: {vulnerability['product']}
-- **Description**: {vulnerability['description']}
-- **Remediation Deadline**: {vulnerability['dueDate']}
+- **CVE ID**: {vulnerability.get('cveID', 'N/A')}
+- **Vendor**: {vulnerability.get('vendor', 'Unknown Vendor')}
+- **Product**: {vulnerability.get('product', 'Unknown Product')}
+- **Description**: {vulnerability.get('description', 'No description available.')}
+- **Remediation Deadline**: {vulnerability.get('dueDate', 'N/A')}
 
 ### Recommended Action
 Please review the vulnerability and apply the recommended patches or mitigations.
@@ -30,7 +31,7 @@ Please review the vulnerability and apply the recommended patches or mitigations
 **Source**: [CISA KEV Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 """
     issue = repo.create_issue(title=title, body=body, labels=["CISA-Alert", "Vulnerability"])
-    print(f"Issue created for {vulnerability['cveID']}: {issue.html_url}")
+    print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
 
 def main():
     # Initialize GitHub client and repository
