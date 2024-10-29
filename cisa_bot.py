@@ -3,7 +3,7 @@ import requests
 from github import Github
 
 # GitHub and CISA credentials
-GITHUB_TOKEN = os.getenv("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")
+GITHUB_TOKEN = os.getenv("PERSONAL_GITHUB_TOKEN")
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
 
