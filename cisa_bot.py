@@ -5,7 +5,7 @@ from github import Github, GithubException
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # GitHub and CISA credentials
-GITHUB_TOKEN = os.getenv("PERSONAL_GITHUB_TOKEN")
+GITHUB_TOKEN = os.getenv("MY_TOKEN")
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
 
