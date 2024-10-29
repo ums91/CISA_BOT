@@ -55,7 +55,7 @@ def main():
         while True:
             rate_limit = github.get_rate_limit()  # Check rate limit before each attempt
             if rate_limit.core.remaining == 0:
-                wait_time = (rate_limit.core.reset - time.time()) + 5  # Add some buffer time
+                wait_time = (rate_limit.core.reset.timestamp() - time.time()) + 5  # Convert to timestamp
                 print(f"Rate limit reached. Waiting for {wait_time:.2f} seconds...")
                 time.sleep(wait_time)  # Sleep until the limit resets
                 continue  # Check the rate limit again after waiting
