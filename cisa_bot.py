@@ -15,12 +15,6 @@ HEADERS = {
     "Accept": "application/vnd.github.v3+json"
 }
 
-def fetch_cisa_vulnerabilities():
-    """Fetch the latest vulnerabilities from CISA's KEV catalog."""
-    response = requests.get(CISA_API_URL)
-    response.raise_for_status()
-    return response.json().get("vulnerabilities", [])
-
 def create_github_issue(vulnerability):
     """Direct API call to create a GitHub issue for a new vulnerability."""
     title = f"CISA Alert: {vulnerability.get('cveID', 'No CVE ID')} - {vulnerability.get('vendor', 'Unknown Vendor')} Vulnerability"
@@ -49,6 +43,7 @@ Please review the vulnerability and apply the recommended patches or mitigations
         try:
             # Check rate limit and back off if necessary
             response = requests.post(API_URL, headers=HEADERS, json=issue_data)
+            print("Response Status Code:", response.status_code)  # Added for debugging
             if response.status_code == 201:
                 issue_url = response.json().get("html_url")
                 print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue_url}")
@@ -61,12 +56,16 @@ Please review the vulnerability and apply the recommended patches or mitigations
             elif response.status_code == 404:
                 print(f"Repository not found or issues not enabled for repository: {REPO_NAME}")
                 break
+            elif response.status_code == 401:
+                print(f"Unauthorized: Check your credentials. Response: {response.json()}")
+                break
             else:
                 print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {response.status_code} {response.json()}")
                 break
         except requests.RequestException as e:
             print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
             break
+
 
 def main():
     # Fetch vulnerabilities
