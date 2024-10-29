@@ -9,6 +9,12 @@ GITHUB_TOKEN = os.getenv("MY_TOKEN")
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
 
+def fetch_cisa_vulnerabilities():
+    """Fetch the latest vulnerabilities from CISA's KEV catalog."""
+    response = requests.get(CISA_API_URL)
+    response.raise_for_status()  # Raise an error for bad responses
+    return response.json().get("vulnerabilities", [])
+
 def create_github_issue(github_client, repo, vulnerability):
     """Create a GitHub issue for a new vulnerability."""
     title = f"CISA Alert: {vulnerability.get('cveID', 'No CVE ID')} - {vulnerability.get('vendor', 'Unknown Vendor')} Vulnerability"
@@ -59,7 +65,6 @@ Please review the vulnerability and apply the recommended patches or mitigations
             else:
                 print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
             break  # Exit on other errors
-
 
 def main():
     # Initialize GitHub client and repository
