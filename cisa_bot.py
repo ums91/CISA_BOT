@@ -9,12 +9,6 @@ GITHUB_TOKEN = os.getenv("MY_TOKEN")
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
 
-def fetch_cisa_vulnerabilities():
-    """Fetch the latest vulnerabilities from CISA's KEV catalog."""
-    response = requests.get(CISA_API_URL)
-    response.raise_for_status()
-    return response.json().get("vulnerabilities", [])
-
 def create_github_issue(github_client, repo, vulnerability):
     """Create a GitHub issue for a new vulnerability."""
     title = f"CISA Alert: {vulnerability.get('cveID', 'No CVE ID')} - {vulnerability.get('vendor', 'Unknown Vendor')} Vulnerability"
@@ -32,6 +26,8 @@ Please review the vulnerability and apply the recommended patches or mitigations
 **Source**: [CISA KEV Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 """
 
+    print(f"Attempting to create an issue with title: {title}")
+
     retries = 0
     while True:
         try:
@@ -47,9 +43,12 @@ Please review the vulnerability and apply the recommended patches or mitigations
             print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
             break  # Exit the loop if successful
         except GithubException as e:
+            print(f"GithubException: {e}")
             # Check for specific errors
             if e.status == 404:
                 print(f"Error: Repository '{REPO_NAME}' not found or issue creation failed: {e.data}")
+                # Print additional information for debugging
+                print(f"Repository: {repo}, Title: {title}, Body: {body}")
             elif e.status == 401:
                 print(f"Error: Bad credentials. Check your GitHub token and its permissions.")
             elif e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
@@ -60,6 +59,7 @@ Please review the vulnerability and apply the recommended patches or mitigations
             else:
                 print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
             break  # Exit on other errors
+
 
 def main():
     # Initialize GitHub client and repository
