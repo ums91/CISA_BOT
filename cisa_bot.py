@@ -68,15 +68,17 @@ def main():
     try:
         repo = github_client.get_repo(REPO_NAME)
         print("Repository accessed successfully:", repo.full_name)
-    except Exception as e:
+        print(f"Repo Name: {repo.name}, Full Name: {repo.full_name}, Private: {repo.private}")
+    except GithubException as e:
         print("Error accessing the repository:", e)
         return
 
     # Fetch vulnerabilities
     vulnerabilities = fetch_cisa_vulnerabilities()
+    print(f"Fetched {len(vulnerabilities)} vulnerabilities from CISA.")
 
     # Create a ThreadPoolExecutor for concurrent execution with limited workers
-    with ThreadPoolExecutor(max_workers=2) as executor:  # Fewer workers to limit API hits
+    with ThreadPoolExecutor(max_workers=2) as executor:
         future_to_vulnerability = {
             executor.submit(create_github_issue, github_client, repo, vulnerability): vulnerability for vulnerability in vulnerabilities
         }
