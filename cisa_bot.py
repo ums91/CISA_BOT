@@ -37,7 +37,7 @@ Please review the vulnerability and apply the recommended patches or mitigations
         if e.status == 404:
             print(f"Failed to create issue for {vulnerability.get('cveID', 'No CVE ID')}: Repository not found.")
         elif e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
-            print("Rate limit exceeded, backing off...")
+            print("Rate limit exceeded. Backing off...")
             raise e  # Raise the exception to handle it in the main function
         else:
             print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
@@ -55,14 +55,17 @@ def main():
     # Fetch vulnerabilities and create issues
     vulnerabilities = fetch_cisa_vulnerabilities()
     for vulnerability in vulnerabilities:
+        retries = 0
         while True:
             try:
                 create_github_issue(repo, vulnerability)
                 break  # Exit the retry loop if successful
             except GithubException as e:
                 if e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
-                    print("Rate limit exceeded, waiting for 1 hour before retrying...")
-                    time.sleep(3600)  # Sleep for an hour
+                    retries += 1
+                    wait_time = min(3600, 2 ** retries)  # Exponential backoff, capped at 1 hour
+                    print(f"Rate limit exceeded. Waiting for {wait_time} seconds before retrying...")
+                    time.sleep(wait_time)  # Sleep before retrying
                 else:
                     print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
                     break  # Exit the retry loop for other errors
