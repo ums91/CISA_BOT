@@ -47,14 +47,19 @@ Please review the vulnerability and apply the recommended patches or mitigations
             print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
             break  # Exit the loop if successful
         except GithubException as e:
-            if e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
+            # Check for specific errors
+            if e.status == 404:
+                print(f"Error: Repository '{REPO_NAME}' not found or issue creation failed: {e.data}")
+            elif e.status == 401:
+                print(f"Error: Bad credentials. Check your GitHub token and its permissions.")
+            elif e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
                 retries += 1
                 wait_time = min(3600, 2 ** retries)  # Exponential backoff, max 1 hour
                 print(f"Rate limit exceeded. Waiting for {wait_time:.2f} seconds before retrying...")
                 time.sleep(wait_time)
             else:
                 print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
-                break  # Exit on other errors
+            break  # Exit on other errors
 
 def main():
     # Initialize GitHub client and repository
