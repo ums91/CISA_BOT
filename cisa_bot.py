@@ -2,6 +2,7 @@ import os
 import requests
 import time
 from github import Github, GithubException
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # GitHub and CISA credentials
 GITHUB_TOKEN = os.getenv("PERSONAL_GITHUB_TOKEN")
@@ -38,7 +39,7 @@ Please review the vulnerability and apply the recommended patches or mitigations
     try:
         issue = repo.create_issue(title=title, body=body, labels=["CISA-Alert", "Vulnerability"])
         print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
-    except Exception as e:
+    except GithubException as e:
         print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
 
 def main():
@@ -54,28 +55,17 @@ def main():
 
     # Fetch vulnerabilities
     vulnerabilities = fetch_cisa_vulnerabilities()
-    for vulnerability in vulnerabilities:
-        retries = 0
-        while True:
-            rate_limit = github.get_rate_limit()  # Check rate limit before each attempt
-            if rate_limit.core.remaining == 0:
-                wait_time = (rate_limit.core.reset.timestamp() - time.time()) + 5  # Convert to timestamp
-                print(f"Rate limit reached. Waiting for {wait_time:.2f} seconds...")
-                time.sleep(wait_time)  # Sleep until the limit resets
-                continue  # Check the rate limit again after waiting
 
+    # Create a ThreadPoolExecutor for concurrent execution
+    with ThreadPoolExecutor(max_workers=5) as executor:  # You can adjust the number of workers
+        future_to_vulnerability = {executor.submit(create_github_issue, repo, vulnerability): vulnerability for vulnerability in vulnerabilities}
+
+        for future in as_completed(future_to_vulnerability):
+            vulnerability = future_to_vulnerability[future]
             try:
-                create_github_issue(repo, vulnerability)
-                break  # Exit the retry loop if successful
-            except GithubException as e:
-                if e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
-                    retries += 1
-                    wait_time = min(3600, 2 ** retries)  # Exponential backoff, capped at 1 hour
-                    print(f"Rate limit exceeded. Waiting for {wait_time:.2f} seconds before retrying...")
-                    time.sleep(wait_time)  # Sleep before retrying
-                else:
-                    print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
-                    break  # Exit the retry loop for other errors
+                future.result()  # This will raise an exception if the function raised one
+            except Exception as e:
+                print(f"Error processing vulnerability {vulnerability.get('cveID', 'No CVE ID')}: {e}")
 
 if __name__ == "__main__":
     main()
