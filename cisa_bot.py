@@ -10,7 +10,7 @@ CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_v
 REPO_NAME = "ums91/CISA_BOT"
 
 # Date filter (all vulnerabilities after this date will be considered)
-DATE_FILTER = datetime.strptime("2024-10-26", "%Y-%m-%d")
+DATE_FILTER = datetime.strptime("2024-10-15", "%Y-%m-%d")
 
 # Labels and milestone
 STATIC_LABELS = ["Vulnerability", "CISA-Alert", "CISA", "Pillar:Program"]
