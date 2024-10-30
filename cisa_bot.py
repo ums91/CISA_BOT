@@ -4,7 +4,7 @@ import time
 from github import Github, GithubException
 
 # GitHub and CISA credentials
-GITHUB_TOKEN = os.getenv("NEW_TOKEN")
+GITHUB_TOKEN = "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"  # Replace with your actual GitHub token
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
 
