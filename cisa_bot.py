@@ -108,7 +108,7 @@ def create_github_issue(github_client, repo, vulnerability):
     cwe_id = nvd_details.get("cwe_id", "N/A")
     cwe_name = nvd_details.get("cwe_name", "N/A")
 
-    title = f"CISA Alert: {cve_id} - {name} - {vendor} Vulnerability"
+    title = f"CISA Alert: {cve_id} - {product} - {vendor} Vulnerability"
     
     # Build the issue body with detailed information
     body = f"""
