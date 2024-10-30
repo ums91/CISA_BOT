@@ -34,9 +34,14 @@ def fetch_nvd_details(cve_id):
         response.raise_for_status()
         cve_data = response.json().get("result", {}).get("CVE_Items", [])
         
+        print(f"Response for {cve_id}: {cve_data}")  # Debugging line
+        
         if not cve_data:
             print(f"No data found for {cve_id} on NVD.")
             return {}
+
+        # Continue processing as before...
+
         
         # Extract relevant fields from NVD API
         cve_info = cve_data[0]
