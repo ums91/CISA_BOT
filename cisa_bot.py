@@ -39,11 +39,13 @@ def fetch_nvd_details(cve_id):
         cve_info = cve_data[0]
         severity = cve_info.get("impact", {}).get("baseMetricV3", {}).get("cvssV3", {}).get("baseSeverity", "Unknown")
         cvss_score = cve_info.get("impact", {}).get("baseMetricV3", {}).get("cvssV3", {}).get("baseScore", "N/A")
+        adp = cve_info.get("impact", {}).get("baseMetricV3", {}).get("exploitabilityScore", "N/A")
         weaknesses = [weak.get("value", "N/A") for weak in cve_info.get("cve", {}).get("problemtype", {}).get("problemtype_data", [{}])[0].get("description", [])]
         
         return {
             "severity": severity,
             "cvss_score": cvss_score,
+            "adp": adp,
             "weaknesses": ", ".join(weaknesses) if weaknesses else "N/A"
         }
     except requests.RequestException as e:
@@ -87,6 +89,7 @@ def create_github_issue(github_client, repo, vulnerability):
     nvd_details = fetch_nvd_details(cve_id)
     severity = nvd_details.get("severity", "Unknown")
     cvss_score = nvd_details.get("cvss_score", "No CVSS Score")
+    adp = nvd_details.get("adp", "No ADP Available")
     weaknesses = nvd_details.get("weaknesses", "No Weaknesses Provided")
     
     title = f"CISA Alert: {cve_id} - {name} - {vendor} Vulnerability"
@@ -102,6 +105,7 @@ def create_github_issue(github_client, repo, vulnerability):
 - **Remediation Deadline**: {due_date}
 - **Severity**: {severity}
 - **CVSS Score**: {cvss_score}
+- **Attack Damage Potential (ADP)**: {adp}
 - **Weaknesses**: {weaknesses}
 
 ### Recommended Action
@@ -189,10 +193,13 @@ def main():
 
     # Fetch vulnerabilities
     vulnerabilities = fetch_cisa_vulnerabilities()
-    print(f"Fetched {len(vulnerabilities)} vulnerabilities from CISA KEV catalog.")
+    print(f"Fetched {len(vulnerabilities)} vulnerabilities from CISA.")
 
-    for vulnerability in vulnerabilities:
-        create_github_issue(github_client, repo, vulnerability)
+    if vulnerabilities:
+        for vulnerability in vulnerabilities:
+            create_github_issue(github_client, repo, vulnerability)
+    else:
+        print("No vulnerabilities found to create an issue.")
 
 if __name__ == "__main__":
     main()
