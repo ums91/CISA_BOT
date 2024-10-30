@@ -59,7 +59,7 @@ def create_github_issue(github_client, repo, vulnerability):
     epss_score = vulnerability.get('epss', 'No EPSS Score')
     weaknesses = vulnerability.get('weaknesses', 'No Weaknesses Provided')
     ghsa_id = vulnerability.get('ghsaID', 'No GHSA ID')
-    
+
     title = f"CISA Alert: {cve_id} - {name} - {vendor} Vulnerability"
     
     # Build the issue body with detailed information
@@ -84,8 +84,10 @@ Please review the vulnerability and apply the recommended patches or mitigations
 
     print(f"Attempting to create an issue with title: {title}")
 
-    # Determine severity-based label
+    # Determine severity-based label with debug logging
     severity = vulnerability.get('severity', 'Unknown').lower()
+    print(f"Fetched severity: {severity}")
+
     severity_label = {
         "high": "Security_Issue_Severity_High",
         "low": "Security_Issue_Severity_Low",
@@ -93,10 +95,17 @@ Please review the vulnerability and apply the recommended patches or mitigations
         "severe": "Security_Issue_Severity_Severe"
     }.get(severity, None)  # Default if severity not specified
 
+    if severity_label:
+        print(f"Severity label determined: {severity_label}")
+    else:
+        print("No matching severity label found for:", severity)
+
     # Default labels
     labels = ["CISA-Alert", "Vulnerability", "CISA", "Pillar:Program"]
     if severity_label:
         labels.append(severity_label)
+    else:
+        print("Warning: Severity label could not be determined; default labels only will be used.")
 
     # Retrieve or create the milestone "2024Q2"
     milestone = None
@@ -137,9 +146,8 @@ Please review the vulnerability and apply the recommended patches or mitigations
             print(f"GithubException: {e}")
             if e.status == 404:
                 print(f"Error: Repository '{REPO_NAME}' not found or issue creation failed: {e.data}")
-                print(f"Repository: {repo}, Title: {title}, Body: {body}")
             elif e.status == 401:
-                print(f"Error: Bad credentials. Check your GitHub token and its permissions.")
+                print("Error: Bad credentials. Check your GitHub token and its permissions.")
             elif e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
                 retries += 1
                 wait_time = min(3600, 2 ** retries)  # Exponential backoff, max 1 hour
@@ -148,6 +156,7 @@ Please review the vulnerability and apply the recommended patches or mitigations
             else:
                 print(f"Error creating issue for {cve_id}: {e}")
             break  # Exit on other errors
+
 
 def main():
     # Initialize GitHub client and repository
