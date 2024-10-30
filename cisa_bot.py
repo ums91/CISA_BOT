@@ -2,7 +2,6 @@ import os
 import requests
 import time
 from github import Github, GithubException
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # GitHub and CISA credentials
 GITHUB_TOKEN = os.getenv("MY_TOKEN")
@@ -50,10 +49,8 @@ Please review the vulnerability and apply the recommended patches or mitigations
             break  # Exit the loop if successful
         except GithubException as e:
             print(f"GithubException: {e}")
-            # Check for specific errors
             if e.status == 404:
                 print(f"Error: Repository '{REPO_NAME}' not found or issue creation failed: {e.data}")
-                # Print additional information for debugging
                 print(f"Repository: {repo}, Title: {title}, Body: {body}")
             elif e.status == 401:
                 print(f"Error: Bad credentials. Check your GitHub token and its permissions.")
@@ -73,7 +70,6 @@ def main():
     try:
         repo = github_client.get_repo(REPO_NAME)
         print("Repository accessed successfully:", repo.full_name)
-        print(f"Repo Name: {repo.name}, Full Name: {repo.full_name}, Private: {repo.private}")
     except GithubException as e:
         print("Error accessing the repository:", e)
         return
@@ -82,18 +78,12 @@ def main():
     vulnerabilities = fetch_cisa_vulnerabilities()
     print(f"Fetched {len(vulnerabilities)} vulnerabilities from CISA.")
 
-    # Create a ThreadPoolExecutor for concurrent execution with limited workers
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        future_to_vulnerability = {
-            executor.submit(create_github_issue, github_client, repo, vulnerability): vulnerability for vulnerability in vulnerabilities
-        }
-
-        for future in as_completed(future_to_vulnerability):
-            vulnerability = future_to_vulnerability[future]
-            try:
-                future.result()  # Raise any exceptions from create_github_issue
-            except Exception as e:
-                print(f"Error processing vulnerability {vulnerability.get('cveID', 'No CVE ID')}: {e}")
+    if vulnerabilities:
+        # Take only the first vulnerability and create an issue
+        first_vulnerability = vulnerabilities[0]
+        create_github_issue(github_client, repo, first_vulnerability)
+    else:
+        print("No vulnerabilities found to create an issue.")
 
 if __name__ == "__main__":
     main()
