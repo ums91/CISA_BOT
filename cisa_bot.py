@@ -5,26 +5,46 @@ from datetime import datetime
 from github import Github, GithubException
 
 # GitHub and CISA credentials
-GITHUB_TOKEN = os.getenv("CISA_TOKEN")  # Use your GitHub token stored as a secret
+GITHUB_TOKEN = os.getenv("CISA_TOKEN")  # Replace with your actual GitHub token
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
-
-# Date filter for vulnerabilities after 29-Oct-2024
-DATE_FILTER = datetime.strptime("2024-10-29", "%Y-%m-%d")
+DATE_CUTOFF = datetime(2024, 10, 26)  # Only process vulnerabilities added after this date
 
 def fetch_cisa_vulnerabilities():
-    """Fetch the latest vulnerabilities from CISA's KEV catalog and filter for new ones."""
+    """Fetch the latest vulnerabilities from CISA's KEV catalog and filter by date."""
     response = requests.get(CISA_API_URL)
     response.raise_for_status()  # Raise an error for bad responses
     vulnerabilities = response.json().get("vulnerabilities", [])
 
-    # Filter vulnerabilities added after DATE_FILTER
-    new_vulnerabilities = [
-        vuln for vuln in vulnerabilities
-        if 'dateAdded' in vuln and datetime.strptime(vuln['dateAdded'], "%Y-%m-%d") > DATE_FILTER
+    # Filter vulnerabilities by the cutoff date
+    recent_vulnerabilities = [
+        v for v in vulnerabilities 
+        if 'dateAdded' in v and datetime.fromisoformat(v['dateAdded']) > DATE_CUTOFF
     ]
-    
-    return new_vulnerabilities
+    return recent_vulnerabilities
+
+def delayed_issue_actions(issue):
+    """Perform delayed actions on an issue."""
+    try:
+        # Post a comment after 5 minutes
+        time.sleep(300)  # 5 minutes
+        comment = "Reviewed the Vulnerability and applied the recommended patches/mitigations/remediation."
+        issue.create_comment(comment)
+        print(f"Comment posted on issue {issue.number}")
+
+        # Wait for 2 minutes, then update labels
+        time.sleep(120)  # 2 minutes
+        issue.remove_from_labels("Vulnerability")
+        issue.add_to_labels("Remediated_Fixed_Patched")
+        print(f"Labels updated on issue {issue.number}")
+
+        # Wait for 5 more minutes, then close the issue
+        time.sleep(300)  # 5 minutes
+        issue.edit(state="closed")
+        print(f"Issue {issue.number} closed.")
+
+    except GithubException as e:
+        print(f"Error during delayed actions for issue {issue.number}: {e}")
 
 def create_github_issue(github_client, repo, vulnerability):
     """Create a GitHub issue for a new vulnerability with specified labels and a milestone."""
@@ -94,6 +114,9 @@ Please review the vulnerability and apply the recommended patches or mitigations
                 milestone=milestone
             )
             print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
+
+            # Start delayed actions on the issue
+            delayed_issue_actions(issue)
             break  # Exit the loop if successful
         except GithubException as e:
             print(f"GithubException: {e}")
@@ -110,6 +133,7 @@ Please review the vulnerability and apply the recommended patches or mitigations
             else:
                 print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
             break  # Exit on other errors
+
 
 def main():
     # Initialize GitHub client and repository
