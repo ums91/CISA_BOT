@@ -8,7 +8,7 @@ from github import Github, GithubException
 GITHUB_TOKEN = os.getenv("CISA_TOKEN")  # Replace with your actual GitHub token
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
-DATE_CUTOFF = datetime(2024, 10, 15)  # Only process vulnerabilities added after this date
+DATE_CUTOFF = datetime(2024, 10, 26)  # Only process vulnerabilities added after this date
 
 def fetch_cisa_vulnerabilities():
     """Fetch the latest vulnerabilities from CISA's KEV catalog and filter by date."""
@@ -24,19 +24,19 @@ def fetch_cisa_vulnerabilities():
     return recent_vulnerabilities
 
 def delayed_issue_actions(issue):
-    """Perform delayed actions on an issue."""
+    """Perform delayed actions on an issue with status updates."""
     try:
-        # Post a comment after 5 minutes
+        print("Issue created, waiting 5 minutes to post review comment...")
         time.sleep(300)  # 5 minutes
         comment = "Reviewed the Vulnerability and applied the recommended patches/mitigations/remediation."
         issue.create_comment(comment)
-        print(f"Comment posted on issue {issue.number}")
+        print("Comment posted on issue. Waiting 2 minutes to update labels...")
 
         # Wait for 2 minutes, then update labels
         time.sleep(120)  # 2 minutes
         issue.remove_from_labels("Vulnerability")
         issue.add_to_labels("Remediated_Fixed_Patched")
-        print(f"Labels updated on issue {issue.number}")
+        print("Labels updated. Waiting 5 minutes to close the issue...")
 
         # Wait for 5 more minutes, then close the issue
         time.sleep(300)  # 5 minutes
@@ -133,6 +133,7 @@ Please review the vulnerability and apply the recommended patches or mitigations
             else:
                 print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
             break  # Exit on other errors
+
 
 
 def main():
