@@ -3,38 +3,31 @@ import requests
 import time
 from datetime import datetime
 from github import Github, GithubException
-import random
 
 # GitHub and CISA credentials
-GITHUB_TOKEN = os.getenv("CISA_TOKEN")  # Environment variable for GitHub token
+GITHUB_TOKEN = os.getenv("CISA_TOKEN")  # Use your GitHub token stored as a secret
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
-REPO_NAME = "ums91/CISA_BOT"  # GitHub repository name
+REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
 
-# Date filter: only include vulnerabilities added after this date
-DATE_FILTER = datetime.strptime("2024-10-15", "%Y-%m-%d")
-
-# Labels and milestone
-BASE_LABELS = ["CISA-Alert", "Vulnerability", "CISA", "Pillar:Program"]
-SEVERITY_LABELS = [
-    "Security_Issue_Severity:High", "Security_Issue_Severity:Low",
-    "Security_Issue_Severity:Medium", "Security_Issue_Severity:Severe"
-]
-MILESTONE_TITLE = "2024Q2"
+# Date filter for vulnerabilities after 29-Oct-2024
+DATE_FILTER = datetime.strptime("2024-10-29", "%Y-%m-%d")
 
 def fetch_cisa_vulnerabilities():
-    """Fetch vulnerabilities from CISA's KEV catalog and filter for recent ones."""
+    """Fetch the latest vulnerabilities from CISA's KEV catalog and filter for new ones."""
     response = requests.get(CISA_API_URL)
-    response.raise_for_status()
+    response.raise_for_status()  # Raise an error for bad responses
     vulnerabilities = response.json().get("vulnerabilities", [])
 
-    # Filter to include vulnerabilities added after DATE_FILTER
-    return [
+    # Filter vulnerabilities added after DATE_FILTER
+    new_vulnerabilities = [
         vuln for vuln in vulnerabilities
         if 'dateAdded' in vuln and datetime.strptime(vuln['dateAdded'], "%Y-%m-%d") > DATE_FILTER
     ]
+    
+    return new_vulnerabilities
 
 def create_github_issue(github_client, repo, vulnerability):
-    """Create an issue for a new vulnerability with specified labels and milestone."""
+    """Create a GitHub issue for a new vulnerability."""
     title = f"CISA Alert: {vulnerability.get('cveID', 'No CVE ID')} - {vulnerability.get('vendor', 'Unknown Vendor')} Vulnerability"
     body = f"""
 ### Vulnerability Details
@@ -50,32 +43,42 @@ Please review the vulnerability and apply the recommended patches or mitigations
 **Source**: [CISA KEV Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 """
 
-    # Add labels and a milestone
-    severity_label = random.choice(SEVERITY_LABELS)  # Select a random severity label
-    labels = BASE_LABELS + [severity_label]
-    
-    try:
-        milestone = next((m for m in repo.get_milestones() if m.title == MILESTONE_TITLE), None)
-        issue = repo.create_issue(title=title, body=body, labels=labels, milestone=milestone)
-        print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
-        
-        # Schedule follow-up actions
-        time.sleep(300)  # Wait 5 minutes
-        issue.create_comment("Reviewed the Vulnerability and applied the recommended patches/mitigations/remediation.")
-        time.sleep(120)  # Wait 2 minutes
-        issue.remove_from_labels("Vulnerability")
-        issue.add_to_labels("Remediated_Fixed_Patched")
-        time.sleep(300)  # Wait 5 minutes
-        issue.edit(state="closed")
-        print(f"Issue for {vulnerability.get('cveID', 'No CVE ID')} closed.")
-        
-    except GithubException as e:
-        print(f"Failed to create issue: {e}")
+    print(f"Attempting to create an issue with title: {title}")
+
+    retries = 0
+    while True:
+        try:
+            # Check remaining requests before trying to create an issue
+            rate_limit = github_client.get_rate_limit().core
+            if rate_limit.remaining < 5:  # Leave some buffer
+                reset_time = rate_limit.reset.timestamp() - time.time() + 5
+                print(f"Rate limit low. Waiting for {reset_time:.2f} seconds...")
+                time.sleep(reset_time)
+
+            # Create the issue
+            issue = repo.create_issue(title=title, body=body, labels=["CISA-Alert", "Vulnerability"])
+            print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
+            break  # Exit the loop if successful
+        except GithubException as e:
+            print(f"GithubException: {e}")
+            if e.status == 404:
+                print(f"Error: Repository '{REPO_NAME}' not found or issue creation failed: {e.data}")
+                print(f"Repository: {repo}, Title: {title}, Body: {body}")
+            elif e.status == 401:
+                print(f"Error: Bad credentials. Check your GitHub token and its permissions.")
+            elif e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
+                retries += 1
+                wait_time = min(3600, 2 ** retries)  # Exponential backoff, max 1 hour
+                print(f"Rate limit exceeded. Waiting for {wait_time:.2f} seconds before retrying...")
+                time.sleep(wait_time)
+            else:
+                print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
+            break  # Exit on other errors
 
 def main():
-    # Initialize GitHub client
+    # Initialize GitHub client and repository
     github_client = Github(GITHUB_TOKEN)
-    
+
     try:
         repo = github_client.get_repo(REPO_NAME)
         print("Repository accessed successfully:", repo.full_name)
@@ -83,15 +86,16 @@ def main():
         print("Error accessing the repository:", e)
         return
 
-    # Fetch and process vulnerabilities
+    # Fetch new vulnerabilities
     vulnerabilities = fetch_cisa_vulnerabilities()
     print(f"Fetched {len(vulnerabilities)} new vulnerabilities from CISA.")
-    
+
     if vulnerabilities:
+        # Loop over each vulnerability and create an issue with a delay
         for vulnerability in vulnerabilities:
             create_github_issue(github_client, repo, vulnerability)
             print("Waiting 15 minutes before creating the next issue...")
-            time.sleep(15 * 60)  # Wait 15 minutes between issue creations
+            time.sleep(15 * 60)  # Wait for 15 minutes before the next issue
     else:
         print("No new vulnerabilities found to create an issue.")
 
