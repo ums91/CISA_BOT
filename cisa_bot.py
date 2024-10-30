@@ -27,7 +27,7 @@ def fetch_cisa_vulnerabilities():
     return new_vulnerabilities
 
 def create_github_issue(github_client, repo, vulnerability):
-    """Create a GitHub issue for a new vulnerability."""
+    """Create a GitHub issue for a new vulnerability with specified labels."""
     title = f"CISA Alert: {vulnerability.get('cveID', 'No CVE ID')} - {vulnerability.get('vendor', 'Unknown Vendor')} Vulnerability"
     body = f"""
 ### Vulnerability Details
@@ -45,6 +45,24 @@ Please review the vulnerability and apply the recommended patches or mitigations
 
     print(f"Attempting to create an issue with title: {title}")
 
+    # Determine severity-based label
+    severity = vulnerability.get('severity', 'Unknown').lower()
+    if severity == "high":
+        severity_label = "Security_Issue_Severity_High"
+    elif severity == "low":
+        severity_label = "Security_Issue_Severity_Low"
+    elif severity == "medium":
+        severity_label = "Security_Issue_Severity_Medium"
+    elif severity == "severe":
+        severity_label = "Security_Issue_Severity_Severe"
+    else:
+        severity_label = None  # Default if severity not specified
+
+    # Default labels
+    labels = ["CISA-Alert", "Vulnerability", "CISA", "Pillar:Program"]
+    if severity_label:
+        labels.append(severity_label)
+
     retries = 0
     while True:
         try:
@@ -55,8 +73,8 @@ Please review the vulnerability and apply the recommended patches or mitigations
                 print(f"Rate limit low. Waiting for {reset_time:.2f} seconds...")
                 time.sleep(reset_time)
 
-            # Create the issue
-            issue = repo.create_issue(title=title, body=body, labels=["CISA-Alert", "Vulnerability"])
+            # Create the issue with labels
+            issue = repo.create_issue(title=title, body=body, labels=labels)
             print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
             break  # Exit the loop if successful
         except GithubException as e:
