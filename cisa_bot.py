@@ -23,9 +23,6 @@ def fetch_cisa_vulnerabilities():
     ]
     return recent_vulnerabilities
 
-# Rest of the code remains unchanged
-
-
 def delayed_issue_actions(issue):
     """Perform delayed actions on an issue with status updates."""
     try:
@@ -51,14 +48,33 @@ def delayed_issue_actions(issue):
 
 def create_github_issue(github_client, repo, vulnerability):
     """Create a GitHub issue for a new vulnerability with specified labels and a milestone."""
-    title = f"CISA Alert: {vulnerability.get('cveID', 'No CVE ID')} - {vulnerability.get('vendor', 'Unknown Vendor')} Vulnerability"
+    # Extract vulnerability details with a fallback to 'Unknown' if missing
+    cve_id = vulnerability.get('cveID', 'No CVE ID')
+    name = vulnerability.get('name', 'Unnamed Vulnerability')
+    vendor = vulnerability.get('vendor', 'Unknown Vendor')
+    product = vulnerability.get('product', 'Unknown Product')
+    description = vulnerability.get('description', 'No Description Available')
+    due_date = vulnerability.get('dueDate', 'No Due Date')
+    cvss_score = vulnerability.get('cvss', 'No CVSS Score')
+    epss_score = vulnerability.get('epss', 'No EPSS Score')
+    weaknesses = vulnerability.get('weaknesses', 'No Weaknesses Provided')
+    ghsa_id = vulnerability.get('ghsaID', 'No GHSA ID')
+    
+    title = f"CISA Alert: {cve_id} - {name} - {vendor} Vulnerability"
+    
+    # Build the issue body with detailed information
     body = f"""
 ### Vulnerability Details
-- **CVE ID**: {vulnerability.get('cveID', 'No CVE ID')}
-- **Vendor**: {vulnerability.get('vendor', 'Unknown Vendor')}
-- **Product**: {vulnerability.get('product', 'Unknown Product')}
-- **Description**: {vulnerability.get('description', 'No Description Available')}
-- **Remediation Deadline**: {vulnerability.get('dueDate', 'No Due Date')}
+- **Name**: {name}
+- **CVE ID**: {cve_id}
+- **GHSA ID**: {ghsa_id}
+- **Vendor**: {vendor}
+- **Product**: {product}
+- **Description**: {description}
+- **Remediation Deadline**: {due_date}
+- **CVSS Score**: {cvss_score}
+- **EPSS Score**: {epss_score}
+- **Weaknesses**: {weaknesses}
 
 ### Recommended Action
 Please review the vulnerability and apply the recommended patches or mitigations.
@@ -70,16 +86,12 @@ Please review the vulnerability and apply the recommended patches or mitigations
 
     # Determine severity-based label
     severity = vulnerability.get('severity', 'Unknown').lower()
-    if severity == "high":
-        severity_label = "Security_Issue_Severity_High"
-    elif severity == "low":
-        severity_label = "Security_Issue_Severity_Low"
-    elif severity == "medium":
-        severity_label = "Security_Issue_Severity_Medium"
-    elif severity == "severe":
-        severity_label = "Security_Issue_Severity_Severe"
-    else:
-        severity_label = None  # Default if severity not specified
+    severity_label = {
+        "high": "Security_Issue_Severity_High",
+        "low": "Security_Issue_Severity_Low",
+        "medium": "Security_Issue_Severity_Medium",
+        "severe": "Security_Issue_Severity_Severe"
+    }.get(severity, None)  # Default if severity not specified
 
     # Default labels
     labels = ["CISA-Alert", "Vulnerability", "CISA", "Pillar:Program"]
@@ -116,7 +128,7 @@ Please review the vulnerability and apply the recommended patches or mitigations
                 labels=labels, 
                 milestone=milestone
             )
-            print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
+            print(f"Issue created for {cve_id}: {issue.html_url}")
 
             # Start delayed actions on the issue
             delayed_issue_actions(issue)
@@ -134,10 +146,8 @@ Please review the vulnerability and apply the recommended patches or mitigations
                 print(f"Rate limit exceeded. Waiting for {wait_time:.2f} seconds before retrying...")
                 time.sleep(wait_time)
             else:
-                print(f"Error creating issue for {vulnerability.get('cveID', 'No CVE ID')}: {e}")
+                print(f"Error creating issue for {cve_id}: {e}")
             break  # Exit on other errors
-
-
 
 def main():
     # Initialize GitHub client and repository
@@ -150,18 +160,16 @@ def main():
         print("Error accessing the repository:", e)
         return
 
-    # Fetch new vulnerabilities
+    # Fetch vulnerabilities
     vulnerabilities = fetch_cisa_vulnerabilities()
-    print(f"Fetched {len(vulnerabilities)} new vulnerabilities from CISA.")
+    print(f"Fetched {len(vulnerabilities)} vulnerabilities from CISA.")
 
     if vulnerabilities:
-        # Loop over each vulnerability and create an issue with a delay
-        for vulnerability in vulnerabilities:
-            create_github_issue(github_client, repo, vulnerability)
-            print("Waiting 15 minutes before creating the next issue...")
-            time.sleep(15 * 60)  # Wait for 15 minutes before the next issue
+        # Take only the first vulnerability and create an issue
+        first_vulnerability = vulnerabilities[0]
+        create_github_issue(github_client, repo, first_vulnerability)
     else:
-        print("No new vulnerabilities found to create an issue.")
+        print("No vulnerabilities found to create an issue.")
 
 if __name__ == "__main__":
     main()
