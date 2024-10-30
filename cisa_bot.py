@@ -123,7 +123,7 @@ def create_github_issue(github_client, repo, vulnerability):
 - **Required Action**: {required_action}
 - **CWE ID**: {cwe_id}
 - **CWE Name**: {cwe_name}
-- **Base Score**: {base_score}
+- **Base Score**: [{base_score}] https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name={cve_id})
 - **Severity**: {severity}
 
 ### Recommended Action
