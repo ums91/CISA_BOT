@@ -3,11 +3,12 @@ import requests
 import time
 from datetime import datetime
 from github import Github, GithubException
+from bs4 import BeautifulSoup
 
 # GitHub and CISA credentials
 GITHUB_TOKEN = os.getenv("CISA_TOKEN")  # Replace with your actual GitHub token
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
-NVD_API_URL = "https://services.nvd.nist.gov/rest/json/cves/2.0"  # Base URL for CVE details
+NVD_API_URL = "https://services.nvd.nist.gov/rest/json/cve/1.0/"  # Base URL for CVE details
 REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
 DATE_CUTOFF = datetime(2024, 10, 15)  # Only process vulnerabilities added after this date
 
@@ -25,8 +26,10 @@ def fetch_cisa_vulnerabilities():
     return recent_vulnerabilities
 
 def fetch_nvd_details(cve_id):
-    """Fetch additional details for a CVE from the NVD API."""
+    """Fetch additional details for a CVE from the NVD API and NVD website."""
+    nvd_details = {}
     try:
+        # Fetch details from NVD API
         response = requests.get(f"{NVD_API_URL}{cve_id}")
         response.raise_for_status()
         cve_data = response.json().get("result", {}).get("CVE_Items", [])
@@ -35,19 +38,29 @@ def fetch_nvd_details(cve_id):
             print(f"No data found for {cve_id} on NVD.")
             return {}
         
-        # Extract relevant fields if available
+        # Extract relevant fields from NVD API
         cve_info = cve_data[0]
-        severity = cve_info.get("impact", {}).get("baseMetricV3", {}).get("cvssV3", {}).get("baseSeverity", "Unknown")
-        cvss_score = cve_info.get("impact", {}).get("baseMetricV3", {}).get("cvssV3", {}).get("baseScore", "N/A")
-        adp = cve_info.get("impact", {}).get("baseMetricV3", {}).get("exploitabilityScore", "N/A")
-        weaknesses = [weak.get("value", "N/A") for weak in cve_info.get("cve", {}).get("problemtype", {}).get("problemtype_data", [{}])[0].get("description", [])]
+        nvd_details["base_score"] = cve_info.get("impact", {}).get("baseMetricV3", {}).get("cvssV3", {}).get("baseScore", "N/A")
+        nvd_details["severity"] = cve_info.get("impact", {}).get("baseMetricV3", {}).get("cvssV3", {}).get("baseSeverity", "Unknown")
         
-        return {
-            "severity": severity,
-            "cvss_score": cvss_score,
-            "adp": adp,
-            "weaknesses": ", ".join(weaknesses) if weaknesses else "N/A"
-        }
+        # Fetch additional details from NVD website
+        nvd_url = f"https://nvd.nist.gov/vuln/detail/{cve_id}"
+        html_response = requests.get(nvd_url)
+        soup = BeautifulSoup(html_response.content, 'html.parser')
+
+        # Extract additional details
+        nvd_details["vulnerability_name"] = soup.find("h2", class_="vuln-title").get_text(strip=True) if soup.find("h2", class_="vuln-title") else "N/A"
+        nvd_details["date_added"] = soup.find("time", class_="date").get_text(strip=True) if soup.find("time", class_="date") else "N/A"
+        nvd_details["due_date"] = soup.find(text="Due Date").find_next("td").get_text(strip=True) if soup.find(text="Due Date") else "N/A"
+        nvd_details["required_action"] = soup.find(text="Required Action").find_next("td").get_text(strip=True) if soup.find(text="Required Action") else "N/A"
+        
+        cwe_section = soup.find(text="CWE-ID")
+        nvd_details["cwe_id"] = cwe_section.find_next("td").get_text(strip=True) if cwe_section else "N/A"
+        
+        cwe_name_section = soup.find(text="CWE Name")
+        nvd_details["cwe_name"] = cwe_name_section.find_next("td").get_text(strip=True) if cwe_name_section else "N/A"
+
+        return nvd_details
     except requests.RequestException as e:
         print(f"Error fetching NVD details for {cve_id}: {e}")
         return {}
@@ -83,30 +96,35 @@ def create_github_issue(github_client, repo, vulnerability):
     vendor = vulnerability.get('vendor', 'Unknown Vendor')
     product = vulnerability.get('product', 'Unknown Product')
     description = vulnerability.get('description', 'No Description Available')
-    due_date = vulnerability.get('dueDate', 'No Due Date')
-    
+
     # Fetch additional details from NVD API
     nvd_details = fetch_nvd_details(cve_id)
+    base_score = nvd_details.get("base_score", "No Base Score")
     severity = nvd_details.get("severity", "Unknown")
-    cvss_score = nvd_details.get("cvss_score", "No CVSS Score")
-    adp = nvd_details.get("adp", "No ADP Available")
-    weaknesses = nvd_details.get("weaknesses", "No Weaknesses Provided")
-    
+    vulnerability_name = nvd_details.get("vulnerability_name", "N/A")
+    date_added = nvd_details.get("date_added", "N/A")
+    due_date = nvd_details.get("due_date", "N/A")
+    required_action = nvd_details.get("required_action", "N/A")
+    cwe_id = nvd_details.get("cwe_id", "N/A")
+    cwe_name = nvd_details.get("cwe_name", "N/A")
+
     title = f"CISA Alert: {cve_id} - {name} - {vendor} Vulnerability"
     
     # Build the issue body with detailed information
     body = f"""
 ### Vulnerability Details
-- **Name**: {name}
+- **Name**: {vulnerability_name}
 - **CVE ID**: [{cve_id}](https://nvd.nist.gov/vuln/detail/{cve_id})
 - **Vendor**: {vendor}
 - **Product**: {product}
 - **Description**: {description}
-- **Remediation Deadline**: {due_date}
+- **Date Added**: {date_added}
+- **Due Date**: {due_date}
+- **Required Action**: {required_action}
+- **CWE ID**: {cwe_id}
+- **CWE Name**: {cwe_name}
+- **Base Score**: {base_score}
 - **Severity**: {severity}
-- **CVSS Score**: {cvss_score}
-- **Attack Damage Potential (ADP)**: {adp}
-- **Weaknesses**: {weaknesses}
 
 ### Recommended Action
 Please review the vulnerability and apply the recommended patches or mitigations.
@@ -169,8 +187,9 @@ Please review the vulnerability and apply the recommended patches or mitigations
             print(f"GithubException: {e}")
             if e.status == 404:
                 print(f"Error: Repository '{REPO_NAME}' not found or issue creation failed: {e.data}")
+                print(f"Repository: {repo}, Title: {title}, Body: {body}")
             elif e.status == 401:
-                print("Error: Bad credentials. Check your GitHub token and its permissions.")
+                print(f"Error: Bad credentials. Check your GitHub token and its permissions.")
             elif e.status == 403 and "rate limit exceeded" in e.data["message"].lower():
                 retries += 1
                 wait_time = min(3600, 2 ** retries)  # Exponential backoff, max 1 hour
