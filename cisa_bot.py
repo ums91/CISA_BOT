@@ -27,7 +27,7 @@ def fetch_cisa_vulnerabilities():
     return new_vulnerabilities
 
 def create_github_issue(github_client, repo, vulnerability):
-    """Create a GitHub issue for a new vulnerability with specified labels."""
+    """Create a GitHub issue for a new vulnerability with specified labels and a milestone."""
     title = f"CISA Alert: {vulnerability.get('cveID', 'No CVE ID')} - {vulnerability.get('vendor', 'Unknown Vendor')} Vulnerability"
     body = f"""
 ### Vulnerability Details
@@ -63,6 +63,19 @@ Please review the vulnerability and apply the recommended patches or mitigations
     if severity_label:
         labels.append(severity_label)
 
+    # Retrieve or create the milestone "2024Q2"
+    milestone = None
+    try:
+        milestones = repo.get_milestones()
+        for m in milestones:
+            if m.title == "2024Q2":
+                milestone = m
+                break
+        if not milestone:
+            print("Milestone '2024Q2' not found in repository.")
+    except GithubException as e:
+        print(f"Error retrieving milestone: {e}")
+
     retries = 0
     while True:
         try:
@@ -73,8 +86,13 @@ Please review the vulnerability and apply the recommended patches or mitigations
                 print(f"Rate limit low. Waiting for {reset_time:.2f} seconds...")
                 time.sleep(reset_time)
 
-            # Create the issue with labels
-            issue = repo.create_issue(title=title, body=body, labels=labels)
+            # Create the issue with labels and milestone
+            issue = repo.create_issue(
+                title=title, 
+                body=body, 
+                labels=labels, 
+                milestone=milestone
+            )
             print(f"Issue created for {vulnerability.get('cveID', 'No CVE ID')}: {issue.html_url}")
             break  # Exit the loop if successful
         except GithubException as e:
