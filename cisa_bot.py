@@ -7,7 +7,7 @@ from github import Github, GithubException
 # GitHub and CISA credentials
 GITHUB_TOKEN = os.getenv("CISA_TOKEN")  # Replace with your actual GitHub token
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
-NVD_API_URL = "https://services.nvd.nist.gov/rest/json/cve/1.0/"  # Base URL for CVE details
+NVD_API_URL = "https://services.nvd.nist.gov/rest/json/cves/2.0"  # Base URL for CVE details
 REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
 DATE_CUTOFF = datetime(2024, 10, 15)  # Only process vulnerabilities added after this date
 
