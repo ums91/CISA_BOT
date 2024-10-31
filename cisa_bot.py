@@ -58,11 +58,13 @@ def fetch_nvd_details(cve_id):
                 nvd_details["base_score"] = base_metric_v3.get("cvssV3", {}).get("baseScore", "N/A")
                 
                 # Setting severity based on base score or exploitability score
-                if base_metric_v3.get("exploitabilityScore"):
+                score = base_metric_v3.get("baseScore")
+                if score is not None:
+                    score = float(score)
                     nvd_details["severity"] = (
-                        "Critical" if base_metric_v3["baseScore"] >= 9 else
-                        "High" if base_metric_v3["baseScore"] >= 7 else
-                        "Medium" if base_metric_v3["baseScore"] >= 4 else
+                        "Critical" if score >= 9 else
+                        "High" if score >= 7 else
+                        "Medium" if score >= 4 else
                         "Low"
                     )
                 else:
@@ -74,7 +76,7 @@ def fetch_nvd_details(cve_id):
                 # Fetch CWE ID and Name
                 cwe_data = cve_info.get("problemtype", {}).get("problemtype_data", [])
                 if cwe_data:
-                    nvd_details["cwe_id"] = cwe_data[0].get("description", ["N/A"])[0]
+                    nvd_details["cwe_id"] = cwe_data[0].get("cweId", "N/A")
                     nvd_details["cwe_name"] = cwe_data[0].get("description", ["N/A"])[0]
                 else:
                     nvd_details["cwe_id"] = "N/A"
