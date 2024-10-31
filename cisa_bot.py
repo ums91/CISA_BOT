@@ -180,13 +180,14 @@ Please review the vulnerability and apply the recommended patches or mitigations
     print(f"Attempting to create an issue with title: {title}")
 
     # Determine severity-based label
+    severity = nvd_details.get("severity", "Unknown").lower()
     severity_label = {
         "high": "Security_Issue_Severity_High",
         "low": "Security_Issue_Severity_Low",
         "medium": "Security_Issue_Severity_Medium",
         "critical": "Security_Issue_Severity_Severe",
         "unknown": None
-    }.get(severity.lower(), None)
+    }.get(severity, None)
 
     # Default labels
     labels = ["CISA-Alert", "Vulnerability", "CISA", "Pillar:Program"]
