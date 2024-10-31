@@ -77,10 +77,20 @@ def fetch_nvd_details(cve_id):
             nvd_details["date_added"] = soup.find("time", class_="date").get_text(strip=True) if soup.find("time", class_="date") else "N/A"
             nvd_details["due_date"] = soup.find(string="Due Date").find_next("td").get_text(strip=True) if soup.find(string="Due Date") else "N/A"
             nvd_details["required_action"] = soup.find(string="Required Action").find_next("td").get_text(strip=True) if soup.find(string="Required Action") else "N/A"
-            
+
+            # Extract vendor and description from the soup
+            vendor_element = soup.find("span", {"data-testid": "vuln-vendor"})
+            nvd_details["vendor"] = vendor_element.get_text(strip=True) if vendor_element else "Unknown Vendor"
+            description_element = soup.find("p", {"data-testid": "vuln-description"})
+            nvd_details["description"] = description_element.get_text(strip=True) if description_element else "No Description Available"
             cwe_section = soup.find(string="CWE-ID")
             nvd_details["cwe_id"] = cwe_section.find_next("td").get_text(strip=True) if cwe_section else "N/A"
-            
+            due_date_element = soup.find(string="Due Date")
+            nvd_details["due_date"] = due_date_element.find_next("td").get_text(strip=True) if due_date_element else "N/A"
+
+            required_action_element = soup.find(string="Required Action")
+            nvd_details["required_action"] = required_action_element.find_next("td").get_text(strip=True) if required_action_element else "N/A"
+
             cwe_name_section = soup.find(string="CWE Name")
             nvd_details["cwe_name"] = cwe_name_section.find_next("td").get_text(strip=True) if cwe_name_section else "N/A"
         else:
