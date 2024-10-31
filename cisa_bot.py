@@ -56,9 +56,18 @@ def fetch_nvd_details(cve_id):
                 
                 # Parsing relevant details
                 nvd_details["base_score"] = base_metric_v3.get("cvssV3", {}).get("baseScore", "N/A")
-                nvd_details["severity"] = base_metric_v3.get("exploitabilityScore", "Unknown")
                 
-                # Set the vulnerability name to the CVE ID if not found
+                # Setting severity based on base score or exploitability score
+                if base_metric_v3.get("exploitabilityScore"):
+                    nvd_details["severity"] = (
+                        "Critical" if base_metric_v3["baseScore"] >= 9 else
+                        "High" if base_metric_v3["baseScore"] >= 7 else
+                        "Medium" if base_metric_v3["baseScore"] >= 4 else
+                        "Low"
+                    )
+                else:
+                    nvd_details["severity"] = "Unknown"
+
                 nvd_details["vulnerability_name"] = cve_info.get("cve", {}).get("CVE_data_meta", {}).get("ID", cve_id)
                 nvd_details["date_added"] = cve_info.get("publishedDate", "N/A")
 
@@ -66,7 +75,7 @@ def fetch_nvd_details(cve_id):
                 cwe_data = cve_info.get("problemtype", {}).get("problemtype_data", [])
                 if cwe_data:
                     nvd_details["cwe_id"] = cwe_data[0].get("description", ["N/A"])[0]
-                    nvd_details["cwe_name"] = cwe_data[0].get("description", ["N/A"])[0]  # Adjust this as necessary
+                    nvd_details["cwe_name"] = cwe_data[0].get("description", ["N/A"])[0]
                 else:
                     nvd_details["cwe_id"] = "N/A"
                     nvd_details["cwe_name"] = "N/A"
@@ -105,8 +114,6 @@ def fetch_nvd_details(cve_id):
     return nvd_details
 
 
-
-
 def delayed_issue_actions(issue):
     """Perform delayed actions on an issue with status updates."""
     try:
@@ -132,47 +139,47 @@ def delayed_issue_actions(issue):
 
 def create_github_issue(github_client, repo, vulnerability):
     """Create a GitHub issue for a new vulnerability with specified labels and a milestone."""
-    # Extract vulnerability details from CISA catalog
     cve_id = vulnerability.get('cveID', 'No CVE ID')
-    name = vulnerability.get('name', 'Unnamed Vulnerability')
     vendor = vulnerability.get('vendor', 'Unknown Vendor')
     product = vulnerability.get('product', 'Unknown Product')
-    description = vulnerability.get('description', 'No Description Available')
 
     # Fetch additional details from NVD API
     nvd_details = fetch_nvd_details(cve_id)
     base_score = nvd_details.get("base_score", "No Base Score")
+
     severity = nvd_details.get("severity", "Unknown")
+    # All relevant details
     vulnerability_name = nvd_details.get("vulnerability_name", "N/A")
     date_added = nvd_details.get("date_added", "N/A")
     due_date = nvd_details.get("due_date", "N/A")
     required_action = nvd_details.get("required_action", "N/A")
     cwe_id = nvd_details.get("cwe_id", "N/A")
     cwe_name = nvd_details.get("cwe_name", "N/A")
-
+    # All relevant details
     title = f"CISA Alert: {cve_id} - {product} - {vendor} Vulnerability"
     
-    # Build the issue body with detailed information
     body = f"""
 ### Vulnerability Details
-- **Name**: {vulnerability_name}
+- **Name**: {nvd_details['vulnerability_name']}
 - **CVE ID**: [{cve_id}](https://nvd.nist.gov/vuln/detail/{cve_id})
 - **Vendor**: {vendor}
 - **Product**: {product}
-- **Description**: {description}
-- **Date Added**: {date_added}
-- **Due Date**: {due_date}
-- **Required Action**: {required_action}
-- **CWE ID**: {cwe_id}
-- **CWE Name**: {cwe_name}
-- **Base Score**: [{base_score}] https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name={cve_id})
-- **Severity**: {severity}
+- **Description**: {nvd_details['description']}
+- **Date Added**: {nvd_details['date_added']}
+- **Due Date**: {nvd_details['due_date']}
+- **Required Action**: {nvd_details['required_action']}
+- **CWE ID**: {nvd_details['cwe_id']}
+- **CWE Name**: {nvd_details['cwe_name']}
+- **Base Score**: [{nvd_details['base_score']}] https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?name={cve_id}
+- **Severity**: {nvd_details['severity']}
 
 ### Recommended Action
 Please review the vulnerability and apply the recommended patches or mitigations.
 
 **Source**: [CISA KEV Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
 """
+    ...
+
 
     print(f"Attempting to create an issue with title: {title}")
 
