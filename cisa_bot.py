@@ -27,48 +27,67 @@ def fetch_cisa_vulnerabilities():
 
 def fetch_nvd_details(cve_id):
     """Fetch additional details for a CVE from the NVD API and NVD website."""
-    nvd_details = {}
+    nvd_details = {
+        "base_score": "N/A",
+        "severity": "Unknown",
+        "vulnerability_name": "N/A",
+        "date_added": "N/A",
+        "due_date": "N/A",
+        "required_action": "N/A",
+        "cwe_id": "N/A",
+        "cwe_name": "N/A",
+    }
     try:
         # Fetch details from NVD API
         response = requests.get(f"{NVD_API_URL}{cve_id}")
-        response.raise_for_status()
-        cve_data = response.json().get("result", {}).get("CVE_Items", [])
         
-        print(f"Response for {cve_id}: {cve_data}")  # Debugging line
-        
-        if not cve_data:
-            print(f"No data found for {cve_id} on NVD.")
-            return {}
+        # Validate JSON response
+        if response.status_code == 200:
+            try:
+                cve_data = response.json().get("result", {}).get("CVE_Items", [])
+            except ValueError:
+                print(f"Failed to parse JSON for {cve_id}. Response content:\n{response.text}")
+                return nvd_details  # Return default values on JSON parse failure
+            
+            if not cve_data:
+                print(f"No data found for {cve_id} on NVD API.")
+                return nvd_details
 
-        # Continue processing as before...
-
-        
-        # Extract relevant fields from NVD API
-        cve_info = cve_data[0]
-        nvd_details["base_score"] = cve_info.get("impact", {}).get("baseMetricV3", {}).get("cvssV3", {}).get("baseScore", "N/A")
-        nvd_details["severity"] = cve_info.get("impact", {}).get("baseMetricV3", {}).get("cvssV3", {}).get("baseSeverity", "Unknown")
+            # Extract details from the API response
+            cve_info = cve_data[0]
+            nvd_details["base_score"] = cve_info.get("impact", {}).get("baseMetricV3", {}).get("cvssV3", {}).get("baseScore", "N/A")
+            nvd_details["severity"] = cve_info.get("impact", {}).get("baseMetricV3", {}).get("cvssV3", {}).get("baseSeverity", "Unknown")
+        else:
+            print(f"Error: Received {response.status_code} status for {cve_id} from NVD API.")
+            return nvd_details
         
         # Fetch additional details from NVD website
         nvd_url = f"https://nvd.nist.gov/vuln/detail/{cve_id}"
         html_response = requests.get(nvd_url)
-        soup = BeautifulSoup(html_response.content, 'html.parser')
+        if html_response.status_code == 200:
+            soup = BeautifulSoup(html_response.content, 'html.parser')
 
-        # Extract additional details
-        nvd_details["vulnerability_name"] = soup.find("h2", class_="vuln-title").get_text(strip=True) if soup.find("h2", class_="vuln-title") else "N/A"
-        nvd_details["date_added"] = soup.find("time", class_="date").get_text(strip=True) if soup.find("time", class_="date") else "N/A"
-        nvd_details["due_date"] = soup.find(text="Due Date").find_next("td").get_text(strip=True) if soup.find(text="Due Date") else "N/A"
-        nvd_details["required_action"] = soup.find(text="Required Action").find_next("td").get_text(strip=True) if soup.find(text="Required Action") else "N/A"
-        
-        cwe_section = soup.find(text="CWE-ID")
-        nvd_details["cwe_id"] = cwe_section.find_next("td").get_text(strip=True) if cwe_section else "N/A"
-        
-        cwe_name_section = soup.find(text="CWE Name")
-        nvd_details["cwe_name"] = cwe_name_section.find_next("td").get_text(strip=True) if cwe_name_section else "N/A"
+            # Extract additional details with error handling for each attribute
+            nvd_details["vulnerability_name"] = soup.find("h2", class_="vuln-title").get_text(strip=True) if soup.find("h2", class_="vuln-title") else "N/A"
+            nvd_details["date_added"] = soup.find("time", class_="date").get_text(strip=True) if soup.find("time", class_="date") else "N/A"
+            nvd_details["due_date"] = soup.find(text="Due Date").find_next("td").get_text(strip=True) if soup.find(text="Due Date") else "N/A"
+            nvd_details["required_action"] = soup.find(text="Required Action").find_next("td").get_text(strip=True) if soup.find(text="Required Action") else "N/A"
+            
+            # Get CWE details
+            cwe_section = soup.find(text="CWE-ID")
+            nvd_details["cwe_id"] = cwe_section.find_next("td").get_text(strip=True) if cwe_section else "N/A"
+            
+            cwe_name_section = soup.find(text="CWE Name")
+            nvd_details["cwe_name"] = cwe_name_section.find_next("td").get_text(strip=True) if cwe_name_section else "N/A"
+        else:
+            print(f"Error fetching NVD website details for {cve_id}. Status: {html_response.status_code}")
 
         return nvd_details
+
     except requests.RequestException as e:
         print(f"Error fetching NVD details for {cve_id}: {e}")
-        return {}
+        return nvd_details
+
 
 def delayed_issue_actions(issue):
     """Perform delayed actions on an issue with status updates."""
