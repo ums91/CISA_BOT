@@ -164,6 +164,11 @@ def create_github_issue(github_client, repo, vulnerability):
 - **Base Score**: [{nvd_details['base_score']}] https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:
 - **Severity**: {nvd_details['severity']}
 
+### CISA Vulnerability Information
+- **Date Added to CISA**: {vulnerability.get('dateAdded', 'N/A')}
+- **Notes**: {vulnerability.get('notes', 'N/A')}
+- **Related Products**: {', '.join(vulnerability.get('products', []))}
+
 ### Recommended Action
 Please review the vulnerability and apply the recommended patches or mitigations.
 
