@@ -161,7 +161,7 @@ def create_github_issue(github_client, repo, vulnerability):
 - **Required Action**: {nvd_details['required_action']}
 - **CWE ID**: {nvd_details['cwe_id']}
 - **CWE Name**: {nvd_details['cwe_name']}
-- **Base Score**: [{nvd_details['base_score']}] https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator?vector=AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:
+- **Base Score**: {nvd_details['base_score']}
 - **Severity**: {nvd_details['severity']}
 
 ### CISA Vulnerability Information
