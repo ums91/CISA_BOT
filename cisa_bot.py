@@ -30,7 +30,7 @@ def fetch_nvd_details(cve_id):
     nvd_details = {
         "base_score": "N/A",
         "severity": "Unknown",
-        "vulnerability_name": "N/A",
+        "vulnerability_name": cve_id,
         "date_added": "N/A",
         "due_date": "N/A",
         "required_action": "N/A",
@@ -39,74 +39,63 @@ def fetch_nvd_details(cve_id):
         "vendor": "Unknown Vendor",
         "description": "No Description Available"
     }
+
+    try:
+        # Fetch details from NVD API
+        response = requests.get(f"{NVD_API_URL}{cve_id}")
+        response.raise_for_status()  # Raise an error for bad responses
+        if response.headers.get("Content-Type") == "application/json":
+            cve_data = response.json().get("result", {}).get("CVE_Items", [])
+            if not cve_data:
+                print(f"No data found for {cve_id} on NVD API.")
+                return nvd_details
+            
+            cve_info = cve_data[0]
+            base_metric_v3 = cve_info.get("impact", {}).get("baseMetricV3", {})
+            
+            # Assign base score and severity
+            nvd_details["base_score"] = base_metric_v3.get("cvssV3", {}).get("baseScore", "N/A")
+            if nvd_details["base_score"] != "N/A":
+                score = float(nvd_details["base_score"])
+                nvd_details["severity"] = (
+                    "Critical" if score >= 9 else
+                    "High" if score >= 7 else
+                    "Medium" if score >= 4 else
+                    "Low"
+                )
+            
+            # CWE Information
+            cwe_data = cve_info.get("cve", {}).get("problemtype", {}).get("problemtype_data", [])
+            if cwe_data and cwe_data[0]["description"]:
+                nvd_details["cwe_id"] = cwe_data[0]["description"][0].get("value", "N/A")
+                nvd_details["cwe_name"] = cwe_data[0]["description"][0].get("value", "N/A")
+
+            nvd_details["date_added"] = cve_info.get("publishedDate", "N/A")
+            
+        else:
+            print(f"Unexpected content type for {cve_id}: {response.headers.get('Content-Type')}")
+
+    except requests.RequestException as e:
+        print(f"Error fetching NVD details for {cve_id}: {e}")
     
-    for attempt in range(3):  # Retry up to 3 times if necessary
-        try:
-            # Fetch details from NVD API
-            response = requests.get(f"{NVD_API_URL}{cve_id}")
-            if response.headers.get("Content-Type") == "application/json":
-                cve_data = response.json().get("result", {}).get("CVE_Items", [])
-                if not cve_data:
-                    print(f"No data found for {cve_id} on NVD API.")
-                    return nvd_details
-                
-                # Extract details from the API response
-                cve_info = cve_data[0]
-                base_metric_v3 = cve_info.get("impact", {}).get("baseMetricV3", {})
-                
-                # Parsing relevant details
-                nvd_details["base_score"] = base_metric_v3.get("cvssV3", {}).get("baseScore", "N/A")
-                
-                # Setting severity based on base score or exploitability score
-                score = base_metric_v3.get("baseScore")
-                if score is not None:
-                    score = float(score)
-                    nvd_details["severity"] = (
-                        "Critical" if score >= 9 else
-                        "High" if score >= 7 else
-                        "Medium" if score >= 4 else
-                        "Low"
-                    )
-                else:
-                    nvd_details["severity"] = "Unknown"
-
-                nvd_details["vulnerability_name"] = cve_info.get("cve", {}).get("CVE_data_meta", {}).get("ID", cve_id)
-                nvd_details["date_added"] = cve_info.get("publishedDate", "N/A")
-
-                # Fetch CWE ID and Name
-                cwe_data = cve_info.get("problemtype", {}).get("problemtype_data", [])
-                if cwe_data:
-                    nvd_details["cwe_id"] = cwe_data[0].get("cweId", "N/A")
-                    nvd_details["cwe_name"] = cwe_data[0].get("description", ["N/A"])[0]
-                else:
-                    nvd_details["cwe_id"] = "N/A"
-                    nvd_details["cwe_name"] = "N/A"
-
-                break  # Exit the retry loop if successful
-            else:
-                print(f"Unexpected content type for {cve_id}: {response.headers.get('Content-Type')}")
-                time.sleep(1)  # Short wait before retrying
-                
-        except ValueError as e:
-            print(f"Failed to parse JSON for {cve_id}. Response content:\n{response.text}")
-            return nvd_details  # Return default values on JSON parse failure
-        except requests.RequestException as e:
-            print(f"Error fetching NVD details for {cve_id}: {e}")
-            time.sleep(1)  # Short wait before retrying
-
-    # Fetch additional information from the NVD website
+    # Fetch additional details from NVD website
     nvd_url = f"https://nvd.nist.gov/vuln/detail/{cve_id}"
     try:
         html_response = requests.get(nvd_url)
         if html_response.status_code == 200:
             soup = BeautifulSoup(html_response.content, 'html.parser')
-            nvd_details["description"] = soup.find("p", {"data-testid": "vuln-description"}).get_text(strip=True) if soup.find("p", {"data-testid": "vuln-description"}) else nvd_details["description"]
-            nvd_details["due_date"] = soup.find(string="Due Date").find_next("td").get_text(strip=True) if soup.find(string="Due Date") else nvd_details["due_date"]
-            nvd_details["required_action"] = soup.find(string="Required Action").find_next("td").get_text(strip=True) if soup.find(string="Required Action") else nvd_details["required_action"]
-
-            # Extract vendor
-            vendor_element = soup.find("span", {"data-testid": "vuln-vendor"})
-            nvd_details["vendor"] = vendor_element.get_text(strip=True) if vendor_element else nvd_details["vendor"]
+            nvd_details["description"] = (
+                soup.find("p", {"data-testid": "vuln-description"}).get_text(strip=True) 
+                if soup.find("p", {"data-testid": "vuln-description"}) else nvd_details["description"]
+            )
+            nvd_details["due_date"] = (
+                soup.find(string="Due Date").find_next("td").get_text(strip=True) 
+                if soup.find(string="Due Date") else nvd_details["due_date"]
+            )
+            nvd_details["required_action"] = (
+                soup.find(string="Required Action").find_next("td").get_text(strip=True) 
+                if soup.find(string="Required Action") else nvd_details["required_action"]
+            )
         else:
             print(f"Error fetching NVD website details for {cve_id}. Status: {html_response.status_code}")
 
