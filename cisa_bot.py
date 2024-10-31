@@ -75,13 +75,13 @@ def fetch_nvd_details(cve_id):
             soup = BeautifulSoup(html_response.content, 'html.parser')
             nvd_details["vulnerability_name"] = soup.find("h2", class_="vuln-title").get_text(strip=True) if soup.find("h2", class_="vuln-title") else "N/A"
             nvd_details["date_added"] = soup.find("time", class_="date").get_text(strip=True) if soup.find("time", class_="date") else "N/A"
-            nvd_details["due_date"] = soup.find(text="Due Date").find_next("td").get_text(strip=True) if soup.find(text="Due Date") else "N/A"
-            nvd_details["required_action"] = soup.find(text="Required Action").find_next("td").get_text(strip=True) if soup.find(text="Required Action") else "N/A"
+            nvd_details["due_date"] = soup.find(string="Due Date").find_next("td").get_text(strip=True) if soup.find(string="Due Date") else "N/A"
+            nvd_details["required_action"] = soup.find(string="Required Action").find_next("td").get_text(strip=True) if soup.find(string="Required Action") else "N/A"
             
-            cwe_section = soup.find(text="CWE-ID")
+            cwe_section = soup.find(string="CWE-ID")
             nvd_details["cwe_id"] = cwe_section.find_next("td").get_text(strip=True) if cwe_section else "N/A"
             
-            cwe_name_section = soup.find(text="CWE Name")
+            cwe_name_section = soup.find(string="CWE Name")
             nvd_details["cwe_name"] = cwe_name_section.find_next("td").get_text(strip=True) if cwe_name_section else "N/A"
         else:
             print(f"Error fetching NVD website details for {cve_id}. Status: {html_response.status_code}")
