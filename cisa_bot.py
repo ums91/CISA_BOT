@@ -54,12 +54,23 @@ def fetch_nvd_details(cve_id):
                 cve_info = cve_data[0]
                 base_metric_v3 = cve_info.get("impact", {}).get("baseMetricV3", {})
                 
+                # Parsing relevant details
                 nvd_details["base_score"] = base_metric_v3.get("cvssV3", {}).get("baseScore", "N/A")
-                nvd_details["severity"] = base_metric_v3.get("severity", "Unknown")
-                nvd_details["vulnerability_name"] = cve_info.get("cve", {}).get("CVE_data_meta", {}).get("ID", "N/A")
-                nvd_details["date_added"] = cve_info.get("publishedDate", "N/A")
-                nvd_details["cwe_id"] = cve_info.get("cve", {}).get("problemtype", {}).get("problemtype_data", [{}])[0].get("description", ["N/A"])[0]
+                nvd_details["severity"] = base_metric_v3.get("exploitabilityScore", "Unknown")
                 
+                # Set the vulnerability name to the CVE ID if not found
+                nvd_details["vulnerability_name"] = cve_info.get("cve", {}).get("CVE_data_meta", {}).get("ID", cve_id)
+                nvd_details["date_added"] = cve_info.get("publishedDate", "N/A")
+
+                # Fetch CWE ID and Name
+                cwe_data = cve_info.get("problemtype", {}).get("problemtype_data", [])
+                if cwe_data:
+                    nvd_details["cwe_id"] = cwe_data[0].get("description", ["N/A"])[0]
+                    nvd_details["cwe_name"] = cwe_data[0].get("description", ["N/A"])[0]  # Adjust this as necessary
+                else:
+                    nvd_details["cwe_id"] = "N/A"
+                    nvd_details["cwe_name"] = "N/A"
+
                 break  # Exit the retry loop if successful
             else:
                 print(f"Unexpected content type for {cve_id}: {response.headers.get('Content-Type')}")
@@ -92,6 +103,7 @@ def fetch_nvd_details(cve_id):
         print(f"Error fetching NVD website details for {cve_id}: {e}")
 
     return nvd_details
+
 
 
 
