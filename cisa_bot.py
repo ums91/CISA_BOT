@@ -10,20 +10,22 @@ GITHUB_TOKEN = os.getenv("CISA_TOKEN")  # Replace with your actual GitHub token
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 NVD_API_URL = "https://services.nvd.nist.gov/rest/json/cve/1.0/"  # Base URL for CVE details
 REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
-DATE_CUTOFF = datetime(2024, 10, 15)  # Only process vulnerabilities added after this date
 
 def fetch_cisa_vulnerabilities():
-    """Fetch the latest vulnerabilities from CISA's KEV catalog and filter by date."""
+    """Fetch the latest vulnerabilities from CISA's KEV catalog and filter by today's date."""
     response = requests.get(CISA_API_URL)
     response.raise_for_status()  # Raise an error for bad responses
     vulnerabilities = response.json().get("vulnerabilities", [])
 
-    # Filter vulnerabilities by the cutoff date
-    recent_vulnerabilities = [
+    # Set today's date for filtering
+    today = datetime.today().date()
+
+    # Filter vulnerabilities reported on today's date
+    today_vulnerabilities = [
         v for v in vulnerabilities 
-        if 'dateAdded' in v and datetime.fromisoformat(v['dateAdded']) > DATE_CUTOFF
+        if 'dateAdded' in v and datetime.fromisoformat(v['dateAdded']).date() == today
     ]
-    return recent_vulnerabilities
+    return today_vulnerabilities
 
 def fetch_nvd_details(cve_id):
     """Fetch additional details for a CVE from the NVD API and NVD website."""
@@ -256,9 +258,9 @@ def main():
         print("Error accessing the repository:", e)
         return
 
-    # Fetch vulnerabilities
+    # Fetch vulnerabilities reported today
     vulnerabilities = fetch_cisa_vulnerabilities()
-    print(f"Fetched {len(vulnerabilities)} vulnerabilities from CISA.")
+    print(f"Fetched {len(vulnerabilities)} vulnerabilities from CISA for today.")
 
     if vulnerabilities:
         for vulnerability in vulnerabilities:
