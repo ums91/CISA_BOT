@@ -1,10 +1,10 @@
 import os
+import json
 import requests
 import time
 from datetime import datetime
 from github import Github, GithubException
 from bs4 import BeautifulSoup
-import JSON
 
 # GitHub and CISA credentials
 GITHUB_TOKEN = os.getenv("CISA_TOKEN")  # Replace with your actual GitHub token
