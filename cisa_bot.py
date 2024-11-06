@@ -289,7 +289,7 @@ def update_readme_with_vulnerabilities(vulnerabilities, repo):
 
     # Create the top section for README with latest or previous vulnerabilities
     vulnerabilities_section = "\n".join([
-        f"- **CVE ID**: {vuln['cveID']}, **Description**: {vuln['description']}, \n**Date Found**: {vuln['dateAdded']}"
+        f"- **CVE ID**: {vuln['cveID']}, **Description**: {vuln['description']}\n **Date Found**: {vuln['dateAdded']}"
         for vuln in vulnerabilities
     ])
 
