@@ -315,7 +315,6 @@ Features
         print(f"Error updating README: {e}")
 
 
-
 def main():
     # Initialize GitHub client and repository
     github_client = Github(GITHUB_TOKEN)
@@ -337,10 +336,8 @@ def main():
     else:
         print("No vulnerabilities found to create an issue.")
 
-# Call this function after fetching the latest vulnerabilities
-latest_vulnerabilities = fetch_cisa_vulnerabilities()  # Example call
- # Update README with vulnerabilities (either today's or the previous ones if none found today)
-update_readme_with_vulnerabilities(vulnerabilities, repo)
+    # Call this function after fetching the latest vulnerabilities
+    update_readme_with_vulnerabilities(vulnerabilities, repo)
 
 if __name__ == "__main__":
     main()
