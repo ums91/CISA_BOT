@@ -10,7 +10,22 @@ GITHUB_TOKEN = os.getenv("CISA_TOKEN")  # Replace with your actual GitHub token
 CISA_API_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 NVD_API_URL = "https://services.nvd.nist.gov/rest/json/cve/1.0/"  # Base URL for CVE details
 REPO_NAME = "ums91/CISA_BOT"  # Replace with your GitHub repository
+ISSUES_TRACKING_FILE = "created_issues.json"  # File to track created issues
 
+def load_created_issues():
+    """Load the list of vulnerabilities for which issues have already been created."""
+    if os.path.exists(ISSUES_TRACKING_FILE):
+        with open(ISSUES_TRACKING_FILE, "r") as file:
+            return json.load(file)
+    return {}
+
+def save_created_issue(cve_id):
+    """Save a newly created vulnerability issue to the tracking file."""
+    created_issues = load_created_issues()
+    created_issues[cve_id] = str(datetime.now().date())
+    with open(ISSUES_TRACKING_FILE, "w") as file:
+        json.dump(created_issues, file)
+        
 def fetch_cisa_vulnerabilities():
     """Fetch the latest vulnerabilities from CISA's KEV catalog and filter by today's date."""
     response = requests.get(CISA_API_URL)
@@ -26,6 +41,13 @@ def fetch_cisa_vulnerabilities():
         if 'dateAdded' in v and datetime.fromisoformat(v['dateAdded']).date() == today
     ]
     return today_vulnerabilities
+
+  # Check if the issue for this vulnerability has already been created today
+    created_issues = load_created_issues()
+    if cve_id in created_issues and created_issues[cve_id] == str(datetime.now().date()):
+        print(f"Issue already created today for {cve_id}. Skipping.")
+        return
+
 
 def fetch_nvd_details(cve_id):
     """Fetch additional details for a CVE from the NVD API and NVD website."""
