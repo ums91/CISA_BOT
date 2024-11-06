@@ -6,11 +6,11 @@
 - **CVE ID**: CVE-2024-37383, **Description**: No Description Available, **Date Found**: 2024-10-30
 - **CVE ID**: CVE-2024-37383, **Description**: No Description Available, **Date Found**: 2024-10-30
 
-CISA Bot
+# CISA Bot
 
 CISA Bot is a GitHub bot that automatically monitors the Cybersecurity and Infrastructure Security Agency (CISA) Known Exploited Vulnerabilities (KEV) Catalog. When new vulnerabilities are published in the KEV, the bot creates GitHub issues in this repository with detailed information about each vulnerability, helping your team stay informed and take action on emerging security risks.
 
-Features
+## Features
 
 - Automated Monitoring: Checks the CISA KEV Catalog periodically for newly published vulnerabilities.
 - Issue Creation: Creates a new issue in the GitHub repository for each newly discovered vulnerability, providing essential details such as CVE ID, description, vendor, and CISA’s remediation deadline.
