@@ -4,6 +4,7 @@ import time
 from datetime import datetime
 from github import Github, GithubException
 from bs4 import BeautifulSoup
+import JSON
 
 # GitHub and CISA credentials
 GITHUB_TOKEN = os.getenv("CISA_TOKEN")  # Replace with your actual GitHub token
@@ -269,6 +270,43 @@ Please review the vulnerability and apply the recommended patches or mitigations
                 print(f"Error creating issue for {cve_id}: {e}")
             break  # Exit on other errors
 
+# New constant for README file path
+README_FILE = "README.md"
+
+# Function to update the README file
+def update_readme_with_vulnerabilities(vulnerabilities):
+    """Updates the README file with the latest vulnerabilities at the top section."""
+    vulnerability_content = "## Latest Vulnerabilities\n\n"
+    for vulnerability in vulnerabilities:
+        cve_id = vulnerability.get('cveID', 'No CVE ID')
+        date_added = vulnerability.get('dateAdded', 'N/A')
+        description = vulnerability.get('notes', 'No description available')
+        product_list = ', '.join(vulnerability.get('products', []))
+
+        vulnerability_content += f"### {cve_id}\n"
+        vulnerability_content += f"- **Date Added**: {date_added}\n"
+        vulnerability_content += f"- **Description**: {description}\n"
+        vulnerability_content += f"- **Related Products**: {product_list}\n\n"
+    
+    # Append the bot description text at the bottom
+    bot_description = """
+## CISA Bot
+
+CISA Bot is a GitHub bot that automatically monitors the Cybersecurity and Infrastructure Security Agency (CISA) Known Exploited Vulnerabilities (KEV) Catalog. When new vulnerabilities are published in the KEV, the bot creates GitHub issues in this repository with detailed information about each vulnerability, helping your team stay informed and take action on emerging security risks.
+
+### Features
+
+- **Automated Monitoring**: Checks the CISA KEV Catalog periodically for newly published vulnerabilities.
+- **Issue Creation**: Creates a new issue in the GitHub repository for each newly discovered vulnerability, providing essential details such as CVE ID, description, vendor, and CISA’s remediation deadline.
+- **Issue Tracking**: Tags each issue with relevant labels (e.g., CISA-Alert, Vulnerability) to help with tracking and prioritizing vulnerabilities.
+"""
+
+    # Write to README file
+    with open(README_FILE, "w") as readme_file:
+        readme_file.write(vulnerability_content + bot_description)
+
+
+
 def main():
     # Initialize GitHub client and repository
     github_client = Github(GITHUB_TOKEN)
@@ -289,6 +327,10 @@ def main():
             create_github_issue(github_client, repo, vulnerability)
     else:
         print("No vulnerabilities found to create an issue.")
+
+# Call this function after fetching the latest vulnerabilities
+latest_vulnerabilities = fetch_cisa_vulnerabilities()  # Example call
+update_readme_with_vulnerabilities(latest_vulnerabilities)
 
 if __name__ == "__main__":
     main()
