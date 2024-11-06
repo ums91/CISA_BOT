@@ -274,36 +274,45 @@ Please review the vulnerability and apply the recommended patches or mitigations
 README_FILE = "README.md"
 
 # Function to update the README file
-def update_readme_with_vulnerabilities(vulnerabilities):
-    """Updates the README file with the latest vulnerabilities at the top section."""
-    vulnerability_content = "## Latest Vulnerabilities\n\n"
-    for vulnerability in vulnerabilities:
-        cve_id = vulnerability.get('cveID', 'No CVE ID')
-        date_added = vulnerability.get('dateAdded', 'N/A')
-        description = vulnerability.get('notes', 'No description available')
-        product_list = ', '.join(vulnerability.get('products', []))
-
-        vulnerability_content += f"### {cve_id}\n"
-        vulnerability_content += f"- **Date Added**: {date_added}\n"
-        vulnerability_content += f"- **Description**: {description}\n"
-        vulnerability_content += f"- **Related Products**: {product_list}\n\n"
+def update_readme_with_vulnerabilities(vulnerabilities, repo):
+    """Update the README file with the latest vulnerability details or previous ones if no new vulnerabilities found."""
     
-    # Append the bot description text at the bottom
-    bot_description = """
-## CISA Bot
+    # If no new vulnerabilities found, retrieve the latest issue details
+    if not vulnerabilities:
+        print("No new vulnerabilities found today. Fetching last known vulnerability issues for README.")
+        issues = repo.get_issues(state="open", labels=["Vulnerability"])
+        vulnerabilities = [{
+            "cveID": issue.title.split(":")[1].strip().split(" - ")[0],
+            "description": issue.body.split("Description**: ")[1].split("\n")[0],
+            "dateAdded": issue.created_at.date().isoformat()
+        } for issue in issues[:5]]  # Limit to last 5 issues
+
+    # Create the top section for README with latest or previous vulnerabilities
+    vulnerabilities_section = "\n".join([
+        f"- **CVE ID**: {vuln['cveID']}, **Description**: {vuln['description']}, **Date Found**: {vuln['dateAdded']}"
+        for vuln in vulnerabilities
+    ])
+
+    readme_content = f"""
+# Latest Vulnerabilities
+{vulnerabilities_section}
+
+CISA Bot
 
 CISA Bot is a GitHub bot that automatically monitors the Cybersecurity and Infrastructure Security Agency (CISA) Known Exploited Vulnerabilities (KEV) Catalog. When new vulnerabilities are published in the KEV, the bot creates GitHub issues in this repository with detailed information about each vulnerability, helping your team stay informed and take action on emerging security risks.
 
-### Features
+Features
 
-- **Automated Monitoring**: Checks the CISA KEV Catalog periodically for newly published vulnerabilities.
-- **Issue Creation**: Creates a new issue in the GitHub repository for each newly discovered vulnerability, providing essential details such as CVE ID, description, vendor, and CISA’s remediation deadline.
-- **Issue Tracking**: Tags each issue with relevant labels (e.g., CISA-Alert, Vulnerability) to help with tracking and prioritizing vulnerabilities.
+- Automated Monitoring: Checks the CISA KEV Catalog periodically for newly published vulnerabilities.
+- Issue Creation: Creates a new issue in the GitHub repository for each newly discovered vulnerability, providing essential details such as CVE ID, description, vendor, and CISA’s remediation deadline.
+- Issue Tracking: Tags each issue with relevant labels (e.g., CISA-Alert, Vulnerability) to help with tracking and prioritizing vulnerabilities.
 """
-
-    # Write to README file
-    with open(README_FILE, "w") as readme_file:
-        readme_file.write(vulnerability_content + bot_description)
+    try:
+        readme_file = repo.get_readme()
+        repo.update_file(readme_file.path, "Update README with latest vulnerabilities", readme_content, readme_file.sha)
+        print("README updated successfully.")
+    except GithubException as e:
+        print(f"Error updating README: {e}")
 
 
 
@@ -330,7 +339,8 @@ def main():
 
 # Call this function after fetching the latest vulnerabilities
 latest_vulnerabilities = fetch_cisa_vulnerabilities()  # Example call
-update_readme_with_vulnerabilities(latest_vulnerabilities)
+ # Update README with vulnerabilities (either today's or the previous ones if none found today)
+update_readme_with_vulnerabilities(vulnerabilities, repo)
 
 if __name__ == "__main__":
     main()
