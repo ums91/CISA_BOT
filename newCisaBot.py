@@ -7,7 +7,8 @@
 
 import os
 import sys
-from datetime import date, datetime
+from datetime import date
+from datetime import datetime
 import logging
 from jsonpath_ng.ext import parse as jsonpath_parse
 from github import Github
@@ -165,12 +166,16 @@ CISA
         )
         log_message("\t\tCreated GitHub issue", title)
 
+    def create_github_issues(self, new_items):
+        """ create multiple GitHub issues """
+        for item in new_items:
+            self.create_github_issue(item)
+
     def main(self):
         """ main """
         log_message("Looking for new CISA issues to report")
         cisa_list = self.download_cisa_list()
         
-        # Filter vulnerabilities based on the specified date
         cutoff_date = datetime.strptime("2024-10-26", "%Y-%m-%d")
         cisa_list["vulnerabilities"] = [
             item for item in cisa_list["vulnerabilities"]
