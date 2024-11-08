@@ -191,39 +191,48 @@ CISA
         labels = ["Vulnerability", "CISA-Alert", f"security-issue-severity::{cvss_severity}".lower()]
         return description, labels
 
-    def create_github_issue(self, cisa_item):
-        """ create the issue in GitHub """
-        today = date.today()
-        title = f'{today.year}/{today.strftime("%m")} : Internal-CISA : {cisa_item["vendorProject"]} : {cisa_item["product"]} : {cisa_item["cveID"]}'
-        nvd_data = self.get_nvd_data(cisa_item["cveID"])
+def create_github_issue(self, cisa_item):
+    """ create the issue in GitHub """
+    today = date.today()
+    title = f'{today.year}/{today.strftime("%m")} : Internal-CISA : {cisa_item["vendorProject"]} : {cisa_item["product"]} : {cisa_item["cveID"]}'
+    nvd_data = self.get_nvd_data(cisa_item["cveID"])
 
-        description, labels = self.generate_description_and_labels(cisa_item, nvd_data)
+    description, labels = self.generate_description_and_labels(cisa_item, nvd_data)
 
-        issue = self.repo.create_issue(
-            title=title,
-            body=description,
-            labels=labels
-        )
-        log_message("\t\tCreated GitHub issue", title)
+    issue = self.repo.create_issue(
+        title=title,
+        body=description,
+        labels=labels
+    )
+    log_message("\t\tCreated GitHub issue", title)
 
-        # Wait 1 minute and add the issue to the milestone "2024Q2"
-        time.sleep(60)
-        milestone = self.repo.get_milestone_by_title(Constants.MILESTONE_NAME)
+    # Wait 1 minute and add the issue to the milestone "2024Q2"
+    time.sleep(60)
+
+    # Get all milestones and find the one with the correct title
+    milestones = self.repo.get_milestones(state="open")  # You can also use 'state="all"' if you want to include closed milestones
+    milestone = next((m for m in milestones if m.title == Constants.MILESTONE_NAME), None)
+
+    if milestone:
         issue.edit(milestone=milestone)
+        log_message("\t\tAdded issue to milestone", Constants.MILESTONE_NAME)
+    else:
+        log_message(f"\t\tMilestone '{Constants.MILESTONE_NAME}' not found.", "error")
 
-        # Wait 2 minutes and add a comment
-        time.sleep(120)
-        issue.create_comment("This vulnerability is not applicable to the product/application, so closing this issue.")
+    # Wait 2 minutes and add a comment
+    time.sleep(120)
+    issue.create_comment("This vulnerability is not applicable to the product/application, so closing this issue.")
 
-        # Wait another 2 minutes and add the "Remediated_Fixed_Patched" label
-        time.sleep(120)
-        issue.add_labels("Remediated_Fixed_Patched")
+    # Wait another 2 minutes and add the "Remediated_Fixed_Patched" label
+    time.sleep(120)
+    issue.add_labels("Remediated_Fixed_Patched")
 
-        # Wait 3 more minutes and close the issue
-        time.sleep(180)
-        issue.edit(state="closed")
+    # Wait 3 more minutes and close the issue
+    time.sleep(180)
+    issue.edit(state="closed")
 
-        log_complete("Issue closed and updated with comment and label")
+    log_complete("Issue closed and updated with comment and label")
+
 
     def create_github_issues(self, new_items):
         """ create new GitHub issues from the list of new CISA items """
