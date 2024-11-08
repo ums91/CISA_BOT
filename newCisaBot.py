@@ -71,17 +71,18 @@ class Main:
 
         log_message("ERROR: Unable to get CISA feed", "exiting")
         sys.exit(os.EX_DATAERR)
-        def main(self):
+
+    def main(self):
         """ main """
         log_message("Looking for new CISA issues to report")
         cisa_list = self.download_cisa_list()
-        
+
         cutoff_date = datetime.strptime("2024-10-26", "%Y-%m-%d")
         cisa_list["vulnerabilities"] = [
             item for item in cisa_list["vulnerabilities"]
             if datetime.strptime(item["dateAdded"], "%Y-%m-%d") > cutoff_date
         ]
-        
+
         cisa_list["vulnerabilities"] = sorted(cisa_list["vulnerabilities"], key=lambda k: k["dateAdded"], reverse=True)
         log_blank()
 
@@ -150,16 +151,16 @@ class Main:
 
         return cvss_version, cvss_severity, cvss_score, cvss_vector
 
-def generate_description_and_labels(self, cisa_item, nvd_data):
-    """ generate the ticket markdown """
-    try:
-        nvd_description = jsonpath_parse("$.vulnerabilities[0].cve.descriptions[0].value").find(nvd_data)[0].value
-    except IndexError:
-        nvd_description = "No description available at the time of issue creation."
+    def generate_description_and_labels(self, cisa_item, nvd_data):
+        """ generate the ticket markdown """
+        try:
+            nvd_description = jsonpath_parse("$.vulnerabilities[0].cve.descriptions[0].value").find(nvd_data)[0].value
+        except IndexError:
+            nvd_description = "No description available at the time of issue creation."
 
-    cvss_version, cvss_severity, cvss_score, cvss_vector = self.get_cvss_data(nvd_data)
+        cvss_version, cvss_severity, cvss_score, cvss_vector = self.get_cvss_data(nvd_data)
 
-    description = f'''## Summary
+        description = f'''## Summary
 Confirm if {cisa_item["vendorProject"]} {cisa_item["product"]} vulnerability below is applicable to any systems.
 
 ## Reference
@@ -181,9 +182,8 @@ From CISA Known Exploited Vulnerabilities Catalog: https://www.cisa.gov/known-ex
 CISA
 '''
 
-    labels = ["Vulnerability", "CISA-Alert", f"security-issue-severity::{cvss_severity}".lower()]
-    return description, labels
-
+        labels = ["Vulnerability", "CISA-Alert", f"security-issue-severity::{cvss_severity}".lower()]
+        return description, labels
 
     def create_github_issue(self, cisa_item):
         """ create the issue in GitHub """
@@ -204,8 +204,6 @@ CISA
         """ create multiple GitHub issues """
         for item in new_items:
             self.create_github_issue(item)
-
-
 
 if __name__ == "__main__":
     main_instance = Main()
