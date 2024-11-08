@@ -55,22 +55,22 @@ class Main:
         self.repo = self.github.get_repo(Constants.GITHUB_REPO)
 
     def download_cisa_list(self):
-    """ download issues from CISA """
-    log_message("\tDownloading CISA feed")
-    response = requests.get(Constants.CISA_FEED_URL, timeout=REQUEST_TIMEOUT)
+        """ download issues from CISA """
+        log_message("\tDownloading CISA feed")
+        response = requests.get(Constants.CISA_FEED_URL, timeout=REQUEST_TIMEOUT)
 
-    if response.ok:
-        cisa_list = response.json()
-        log_message("\t\tNumber of CISA issues", len(cisa_list["vulnerabilities"]))
-        log_complete("\tDownloading CISA feed")
+        if response.ok:
+            cisa_list = response.json()
+            log_message("\t\tNumber of CISA issues", len(cisa_list["vulnerabilities"]))
+            log_complete("\tDownloading CISA feed")
 
-        for cisa_item in cisa_list["vulnerabilities"]:
-            cisa_item["cisa_item_in_github_list"] = False
+            for cisa_item in cisa_list["vulnerabilities"]:
+                cisa_item["cisa_item_in_github_list"] = False
 
-        return cisa_list
+            return cisa_list
 
-    log_message("ERROR: Unable to get CISA feed", "exiting")
-    sys.exit(os.EX_DATAERR)
+        log_message("ERROR: Unable to get CISA feed", "exiting")
+        sys.exit(os.EX_DATAERR)
 
 
     def download_github_list(self):
