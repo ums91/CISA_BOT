@@ -128,12 +128,14 @@ class Main:
         sys.exit(os.EX_DATAERR)
 
     def get_cvss_data(self, nvd_data):
-        """ parse out the NVD data """
-        cvss_version = "TBD"
-        cvss_severity = "UNKNOWN"
-        cvss_score = ""
-        cvss_vector = "No NVD record available at time of creation"
+    """ parse out the NVD data """
+    cvss_version = "TBD"
+    cvss_severity = "UNKNOWN"
+    cvss_score = ""
+    cvss_vector = "No NVD record available at time of creation"
 
+    # Ensure that there is data in the 'metrics' field
+    try:
         impact = jsonpath_parse("$.vulnerabilities[0].cve.metrics").find(nvd_data)[0].value
         if impact is not None:
             if "cvssMetricV31" in impact:
@@ -148,8 +150,10 @@ class Main:
                 cvss_version = "2"
                 cvss_severity = jsonpath_parse("$.cvssMetricV2[0].baseSeverity").find(impact)[0].value
                 cvss_vector = jsonpath_parse("$.cvssMetricV2[0].cvssData.vectorString").find(impact)[0].value
-
-        return cvss_version, cvss_severity, cvss_score, cvss_vector
+    except (IndexError, KeyError) as e:
+        log_message(f"Error processing CVSS data: {e}. Falling back to default values.")
+    
+    return cvss_version, cvss_severity, cvss_score, cvss_vector
 
     def generate_description_and_labels(self, cisa_item, nvd_data):
         """ generate the ticket markdown """
