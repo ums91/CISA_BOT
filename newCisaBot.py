@@ -194,45 +194,78 @@ CISA
     def create_github_issues(self, new_items):
         """ create GitHub issues for new items """
         log_message("Creating GitHub issues for CISA vulnerabilities")
-    
+
         # Get the current month and year
         current_month_year = datetime.now().strftime("%Y/%m")
+        log_message(f"Current month and year: {current_month_year}")
 
         # Get the milestone by name
         milestone = None
+        log_message(f"Fetching milestone '{Constants.MILESTONE_NAME}'...")
         for m in self.repo.get_milestones(state='open'):
             if m.title == Constants.MILESTONE_NAME:
                 milestone = m
+                log_message(f"Milestone '{Constants.MILESTONE_NAME}' found.")
                 break
 
         if not milestone:
             log_message(f"ERROR: Milestone '{Constants.MILESTONE_NAME}' not found!", "exiting")
             sys.exit(os.EX_DATAERR)
 
+        # Process each CISA item
+        log_message(f"Found {len(new_items)} new CISA issues to create.")
         for cisa_item in new_items:
+            log_message(f"Creating issue for CISA item: {cisa_item['cveID']}")
+
             description, labels = self.generate_description_and_labels(cisa_item, self.get_nvd_data(cisa_item["cveID"]))
         
             # Modify the title to include the current month and year, followed by "Internal-CISA"
             issue_title = f"{current_month_year} : Internal-CISA - {cisa_item['vendorProject']} {cisa_item['product']} - {cisa_item['cveID']}"
-        
+            log_message(f"Issue title: {issue_title}")
+
             # Create the issue with the modified title
-            issue = self.repo.create_issue(
-                title=issue_title,
-                body=description,
-                labels=labels
-            )
+            try:
+                issue = self.repo.create_issue(
+                    title=issue_title,
+                    body=description,
+                    labels=labels
+                )
+                log_message(f"Issue '{issue_title}' created successfully.")
+            except Exception as e:
+                log_message(f"ERROR: Failed to create issue '{issue_title}': {str(e)}")
+                continue
 
             # Wait for 1 minute, then add milestone
+            log_message(f"Waiting 1 minute before adding milestone...")
             time.sleep(60)  # Wait for 1 minute
-            issue.edit(milestone=milestone)
+            try:
+                issue.edit(milestone=milestone)
+                log_message(f"Milestone '{Constants.MILESTONE_NAME}' added to issue '{issue_title}'.")
+            except Exception as e:
+                log_message(f"ERROR: Failed to add milestone to issue '{issue_title}': {str(e)}")
 
             # Add comment, label, and close issue with delays
+            log_message(f"Adding comment and labels to issue '{issue_title}'...")
             time.sleep(60)  # Wait for 1 minute
-            issue.create_comment("This vulnerability is not applicable to any systems.")
+            try:
+                issue.create_comment("This vulnerability is not applicable to any systems.")
+                log_message(f"Comment added to issue '{issue_title}'.")
+            except Exception as e:
+                log_message(f"ERROR: Failed to add comment to issue '{issue_title}': {str(e)}")
+
             time.sleep(120)  # Wait for 2 minutes
-            issue.add_to_labels(Constants.LABEL_REMEDIATED)  # Fixed method to add label
+            try:
+                issue.add_to_labels(Constants.LABEL_REMEDIATED)
+                log_message(f"Label '{Constants.LABEL_REMEDIATED}' added to issue '{issue_title}'.")
+            except Exception as e:
+                log_message(f"ERROR: Failed to add label to issue '{issue_title}': {str(e)}")
+
             time.sleep(120)  # Wait for 2 minutes
-            issue.edit(state="closed")
+            try:
+                issue.edit(state="closed")
+                log_message(f"Issue '{issue_title}' closed.")
+            except Exception as e:
+                log_message(f"ERROR: Failed to close issue '{issue_title}': {str(e)}")
 
         log_complete("GitHub issues creation completed")
 
