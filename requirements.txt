@@ -1,0 +1,4 @@
+PyGithub
+requests
+ratelimit
+jsonpath-ng
