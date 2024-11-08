@@ -71,6 +71,35 @@ class Main:
 
         log_message("ERROR: Unable to get CISA feed", "exiting")
         sys.exit(os.EX_DATAERR)
+        def main(self):
+        """ main """
+        log_message("Looking for new CISA issues to report")
+        cisa_list = self.download_cisa_list()
+        
+        cutoff_date = datetime.strptime("2024-10-26", "%Y-%m-%d")
+        cisa_list["vulnerabilities"] = [
+            item for item in cisa_list["vulnerabilities"]
+            if datetime.strptime(item["dateAdded"], "%Y-%m-%d") > cutoff_date
+        ]
+        
+        cisa_list["vulnerabilities"] = sorted(cisa_list["vulnerabilities"], key=lambda k: k["dateAdded"], reverse=True)
+        log_blank()
+
+        github_list = self.download_github_list()
+        log_blank()
+
+        log_message("\tComparing CISA and GitHub lists")
+        for github_item in github_list:
+            for cisa_item in cisa_list["vulnerabilities"]:
+                if "Internal-CISA".lower() in github_item.title.lower() and cisa_item["cveID"].lower() in github_item.title:
+                    cisa_item["cisa_item_in_github_list"] = True
+                    break
+
+        new_items = [item for item in cisa_list["vulnerabilities"] if not item["cisa_item_in_github_list"]]
+        log_message("\t\tNumber of new CISA issues", len(new_items))
+
+        self.create_github_issues(new_items)
+        log_complete("Completed processing CISA issues")    
 
     def download_github_list(self):
         """ download the GitHub issues list """
@@ -176,35 +205,7 @@ CISA
         for item in new_items:
             self.create_github_issue(item)
 
-    def main(self):
-        """ main """
-        log_message("Looking for new CISA issues to report")
-        cisa_list = self.download_cisa_list()
-        
-        cutoff_date = datetime.strptime("2024-10-26", "%Y-%m-%d")
-        cisa_list["vulnerabilities"] = [
-            item for item in cisa_list["vulnerabilities"]
-            if datetime.strptime(item["dateAdded"], "%Y-%m-%d") > cutoff_date
-        ]
-        
-        cisa_list["vulnerabilities"] = sorted(cisa_list["vulnerabilities"], key=lambda k: k["dateAdded"], reverse=True)
-        log_blank()
 
-        github_list = self.download_github_list()
-        log_blank()
-
-        log_message("\tComparing CISA and GitHub lists")
-        for github_item in github_list:
-            for cisa_item in cisa_list["vulnerabilities"]:
-                if "Internal-CISA".lower() in github_item.title.lower() and cisa_item["cveID"].lower() in github_item.title:
-                    cisa_item["cisa_item_in_github_list"] = True
-                    break
-
-        new_items = [item for item in cisa_list["vulnerabilities"] if not item["cisa_item_in_github_list"]]
-        log_message("\t\tNumber of new CISA issues", len(new_items))
-
-        self.create_github_issues(new_items)
-        log_complete("Completed processing CISA issues")
 
 if __name__ == "__main__":
     main_instance = Main()
