@@ -27,5 +27,6 @@ jobs:
       - name: Run CISA Bot script
         env:
           GITHUB_TOKEN: ${{ secrets.CISA_TOKEN }}
+          CISA_TOKEN: ${{ secrets.CISA_TOKEN }}
         run: |
           python newCisaBot.py
