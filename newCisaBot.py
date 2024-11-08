@@ -8,6 +8,7 @@
 import os
 import sys
 from datetime import date
+from datetime import datetime
 import logging
 from jsonpath_ng.ext import parse as jsonpath_parse
 from github import Github
