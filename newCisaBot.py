@@ -271,6 +271,8 @@ CISA
                 log_message(f"ERROR: Failed to close issue '{issue_title}': {str(e)}")
 
         log_complete("GitHub issues creation completed")
+        # Update the README file after all issues have been created
+        self.update_readme(new_items)
 
     def update_readme(self, new_items):
         """ update README file with the latest vulnerabilities """
