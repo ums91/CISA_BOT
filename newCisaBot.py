@@ -287,19 +287,24 @@ CISA
         readme = self.repo.get_contents(Constants.README_FILE)
         readme_content = readme.decoded_content.decode("utf-8")
 
-        # Append the new vulnerabilities to the README content
-        new_vulnerabilities = "\n".join([
-            f"- **{item['cveID']}**: {item.get('title', f'{item.get('vendorProject', 'Unknown Vendor')} {item.get('product', 'Unknown Product')}')}" 
-            for item in new_items
-        ])
+        # Filter out vulnerabilities that are already in the README
+        new_vulnerabilities = []
+        for item in new_items:
+            vulnerability_entry = f"- **{item['cveID']}**: {item.get('title', f'{item.get('vendorProject', 'Unknown Vendor')} {item.get('product', 'Unknown Product')}')}"
+            if vulnerability_entry not in readme_content:
+                new_vulnerabilities.append(vulnerability_entry)
 
+        # If there are no new vulnerabilities to add, skip the update
+        if not new_vulnerabilities:
+            log_message("No new vulnerabilities to update in README.")
+            return
 
-        # Replace the existing vulnerabilities section with the new ones
-        updated_readme_content = readme_content.replace("## New Vulnerabilities", f"## New Vulnerabilities\n{new_vulnerabilities}")
+        # Append the filtered new vulnerabilities to the README content
+        new_vulnerabilities_content = "\n".join(new_vulnerabilities)
+        updated_readme_content = readme_content.replace("## New Vulnerabilities", f"## New Vulnerabilities\n{new_vulnerabilities_content}")
 
         # Commit the updated README content
         self.repo.update_file(readme.path, "Updating README with new vulnerabilities", updated_readme_content, readme.sha)
-
         log_complete("README file updated")
 
 
