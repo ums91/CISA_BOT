@@ -72,8 +72,7 @@ class Main:
         log_message("ERROR: Unable to get CISA feed", "exiting")
         sys.exit(os.EX_DATAERR)
 
-    # other methods...
-
+    # other methods (like download_github_list, main, etc.) should also be defined here
 
 
     def download_github_list(self):
