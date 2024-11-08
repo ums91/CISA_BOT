@@ -228,10 +228,10 @@ CISA
 
             # Add comment, label, and close issue with delays
             time.sleep(60)  # Wait for 1 minute
-            issue.create_comment("This vulnerability is not applicable to the product/application, so closing this issue.")
+            issue.create_comment("This vulnerability is not applicable to any systems.")
             time.sleep(120)  # Wait for 2 minutes
             issue.add_to_labels(Constants.LABEL_REMEDIATED)  # Fixed method to add label
-            time.sleep(180)  # Wait for 3 minutes
+            time.sleep(120)  # Wait for 2 minutes
             issue.edit(state="closed")
 
         log_complete("GitHub issues creation completed")
