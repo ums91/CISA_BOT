@@ -207,5 +207,5 @@ CISA
         log_complete("Completed processing CISA issues")
 
 if __name__ == "__main__":
-    main = Main()
-    main.main()
+    main_instance = Main()
+    main_instance.main()
