@@ -76,13 +76,13 @@ class Main:
         """ main """
         log_message("Looking for new CISA issues to report")
         cisa_list = self.download_cisa_list()
-
+        
         cutoff_date = datetime.strptime("2024-10-26", "%Y-%m-%d")
         cisa_list["vulnerabilities"] = [
             item for item in cisa_list["vulnerabilities"]
             if datetime.strptime(item["dateAdded"], "%Y-%m-%d") > cutoff_date
         ]
-
+        
         cisa_list["vulnerabilities"] = sorted(cisa_list["vulnerabilities"], key=lambda k: k["dateAdded"], reverse=True)
         log_blank()
 
@@ -128,32 +128,32 @@ class Main:
         sys.exit(os.EX_DATAERR)
 
     def get_cvss_data(self, nvd_data):
-    """ parse out the NVD data """
-    cvss_version = "TBD"
-    cvss_severity = "UNKNOWN"
-    cvss_score = ""
-    cvss_vector = "No NVD record available at time of creation"
+        """ parse out the NVD data """
+        cvss_version = "TBD"
+        cvss_severity = "UNKNOWN"
+        cvss_score = ""
+        cvss_vector = "No NVD record available at time of creation"
 
-    # Ensure that there is data in the 'metrics' field
-    try:
-        impact = jsonpath_parse("$.vulnerabilities[0].cve.metrics").find(nvd_data)[0].value
-        if impact is not None:
-            if "cvssMetricV31" in impact:
-                cvss_version = "3.1"
-                cvss_severity = jsonpath_parse("$.cvssMetricV31[0].cvssData.baseSeverity").find(impact)[0].value
-                cvss_vector = jsonpath_parse("$.cvssMetricV31[0].cvssData.vectorString").find(impact)[0].value
-            elif "cvssMetricV30" in impact:
-                cvss_version = "3.0"
-                cvss_severity = jsonpath_parse("$.cvssMetricV30[0].cvssData.baseSeverity").find(impact)[0].value
-                cvss_vector = jsonpath_parse("$.cvssMetricV30[0].cvssData.vectorString").find(impact)[0].value
-            elif "cvssMetricV2" in impact:
-                cvss_version = "2"
-                cvss_severity = jsonpath_parse("$.cvssMetricV2[0].baseSeverity").find(impact)[0].value
-                cvss_vector = jsonpath_parse("$.cvssMetricV2[0].cvssData.vectorString").find(impact)[0].value
-    except (IndexError, KeyError) as e:
-        log_message(f"Error processing CVSS data: {e}. Falling back to default values.")
-    
-    return cvss_version, cvss_severity, cvss_score, cvss_vector
+        # Ensure that there is data in the 'metrics' field
+        try:
+            impact = jsonpath_parse("$.vulnerabilities[0].cve.metrics").find(nvd_data)[0].value
+            if impact is not None:
+                if "cvssMetricV31" in impact:
+                    cvss_version = "3.1"
+                    cvss_severity = jsonpath_parse("$.cvssMetricV31[0].cvssData.baseSeverity").find(impact)[0].value
+                    cvss_vector = jsonpath_parse("$.cvssMetricV31[0].cvssData.vectorString").find(impact)[0].value
+                elif "cvssMetricV30" in impact:
+                    cvss_version = "3.0"
+                    cvss_severity = jsonpath_parse("$.cvssMetricV30[0].cvssData.baseSeverity").find(impact)[0].value
+                    cvss_vector = jsonpath_parse("$.cvssMetricV30[0].cvssData.vectorString").find(impact)[0].value
+                elif "cvssMetricV2" in impact:
+                    cvss_version = "2"
+                    cvss_severity = jsonpath_parse("$.cvssMetricV2[0].baseSeverity").find(impact)[0].value
+                    cvss_vector = jsonpath_parse("$.cvssMetricV2[0].cvssData.vectorString").find(impact)[0].value
+        except (IndexError, KeyError) as e:
+            log_message(f"Error processing CVSS data: {e}. Falling back to default values.")
+        
+        return cvss_version, cvss_severity, cvss_score, cvss_vector
 
     def generate_description_and_labels(self, cisa_item, nvd_data):
         """ generate the ticket markdown """
@@ -208,6 +208,7 @@ CISA
         """ create multiple GitHub issues """
         for item in new_items:
             self.create_github_issue(item)
+
 
 if __name__ == "__main__":
     main_instance = Main()
