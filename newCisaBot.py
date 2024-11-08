@@ -192,24 +192,24 @@ CISA
         return description, labels
 
     def create_github_issues(self, new_items):
-    """ create GitHub issues for new items """
-    log_message("Creating GitHub issues for CISA vulnerabilities")
+        """ create GitHub issues for new items """
+        log_message("Creating GitHub issues for CISA vulnerabilities")
     
-    # Get the current month and year
-    current_month_year = datetime.now().strftime("%Y/%m")
+        # Get the current month and year
+        current_month_year = datetime.now().strftime("%Y/%m")
 
-    # Get the milestone by name
-    milestone = None
-    for m in self.repo.get_milestones(state='open'):
+        # Get the milestone by name
+        milestone = None
+        for m in self.repo.get_milestones(state='open'):
         if m.title == Constants.MILESTONE_NAME:
             milestone = m
             break
 
-    if not milestone:
+        if not milestone:
         log_message(f"ERROR: Milestone '{Constants.MILESTONE_NAME}' not found!", "exiting")
         sys.exit(os.EX_DATAERR)
 
-    for cisa_item in new_items:
+        for cisa_item in new_items:
         description, labels = self.generate_description_and_labels(cisa_item, self.get_nvd_data(cisa_item["cveID"]))
         
         # Modify the title to include the current month and year, followed by "Internal-CISA"
