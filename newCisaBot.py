@@ -48,6 +48,7 @@ class Constants:
     MINUTE = 60
     MILESTONE_NAME = "2024Q2"
     LABEL_REMEDIATED = "Remediated_Fixed_Patched"
+    README_FILE = "README.md"
 
 class Main:
     """ main """
@@ -245,22 +246,24 @@ CISA
                 log_message(f"ERROR: Failed to add milestone to issue '{issue_title}': {str(e)}")
 
             # Add comment, label, and close issue with delays
-            log_message(f"Adding comment and labels to issue '{issue_title}'...")
-            time.sleep(60)  # Wait for 1 minute
+            log_message(f"Waiting 2 minutes before Adding comment to issue '{issue_title}'...")
+            time.sleep(120)  # Wait for 2 minute
             try:
                 issue.create_comment("This vulnerability is not applicable to any systems.")
                 log_message(f"Comment added to issue '{issue_title}'.")
             except Exception as e:
                 log_message(f"ERROR: Failed to add comment to issue '{issue_title}': {str(e)}")
 
-            time.sleep(120)  # Wait for 2 minutes
+            log_message(f"Waiting 1 minute before Adding Label to issue '{issue_title}'...")
+            time.sleep(60)  # Wait for 1 minutes
             try:
                 issue.add_to_labels(Constants.LABEL_REMEDIATED)
                 log_message(f"Label '{Constants.LABEL_REMEDIATED}' added to issue '{issue_title}'.")
             except Exception as e:
                 log_message(f"ERROR: Failed to add label to issue '{issue_title}': {str(e)}")
 
-            time.sleep(120)  # Wait for 2 minutes
+            log_message(f"Waiting 1 minute before closing the issue '{issue_title}'...")
+            time.sleep(60)  # Wait for 1 minutes
             try:
                 issue.edit(state="closed")
                 log_message(f"Issue '{issue_title}' closed.")
@@ -268,6 +271,23 @@ CISA
                 log_message(f"ERROR: Failed to close issue '{issue_title}': {str(e)}")
 
         log_complete("GitHub issues creation completed")
+
+    def update_readme(self, new_items):
+        """ update README file with the latest vulnerabilities """
+        log_message("Updating README with latest vulnerabilities")
+        readme = self.repo.get_contents(Constants.README_FILE)
+        readme_content = readme.decoded_content.decode("utf-8")
+
+        # Append the new vulnerabilities to the README content
+        new_vulnerabilities = "\n".join([f"- **{item['cveID']}**: {item['title']}" for item in new_items])
+
+        # Replace the existing vulnerabilities section with the new ones
+        updated_readme_content = readme_content.replace("## New Vulnerabilities", f"## New Vulnerabilities\n{new_vulnerabilities}")
+
+        # Commit the updated README content
+        self.repo.update_file(readme.path, "Updating README with new vulnerabilities", updated_readme_content, readme.sha)
+
+        log_complete("README file updated")
 
 
 if __name__ == "__main__":
