@@ -121,12 +121,16 @@ class Main:
 
         return cvss_version, cvss_severity, cvss_score, cvss_vector
 
-    def generate_description_and_labels(self, cisa_item, nvd_data):
-        """ generate the ticket markdown """
+def generate_description_and_labels(self, cisa_item, nvd_data):
+    """ generate the ticket markdown """
+    try:
         nvd_description = jsonpath_parse("$.vulnerabilities[0].cve.descriptions[0].value").find(nvd_data)[0].value
-        cvss_version, cvss_severity, cvss_score, cvss_vector = self.get_cvss_data(nvd_data)
+    except IndexError:
+        nvd_description = "No description available at the time of issue creation."
 
-        description = f'''## Summary
+    cvss_version, cvss_severity, cvss_score, cvss_vector = self.get_cvss_data(nvd_data)
+
+    description = f'''## Summary
 Confirm if {cisa_item["vendorProject"]} {cisa_item["product"]} vulnerability below is applicable to any systems.
 
 ## Reference
@@ -148,8 +152,9 @@ From CISA Known Exploited Vulnerabilities Catalog: https://www.cisa.gov/known-ex
 CISA
 '''
 
-        labels = ["Vulnerability", "CISA-Alert", f"security-issue-severity::{cvss_severity}".lower()]
-        return description, labels
+    labels = ["Vulnerability", "CISA-Alert", f"security-issue-severity::{cvss_severity}".lower()]
+    return description, labels
+
 
     def create_github_issue(self, cisa_item):
         """ create the issue in GitHub """
