@@ -165,10 +165,26 @@ CISA
         )
         log_message("\t\tCreated GitHub issue", title)
 
+    
+from datetime import datetime
+
+class Main:
+    """ main """
+
+    # (other methods remain unchanged)
+
     def main(self):
         """ main """
         log_message("Looking for new CISA issues to report")
         cisa_list = self.download_cisa_list()
+        
+        # Filter vulnerabilities based on the specified date
+        cutoff_date = datetime.strptime("2024-10-26", "%Y-%m-%d")
+        cisa_list["vulnerabilities"] = [
+            item for item in cisa_list["vulnerabilities"]
+            if datetime.strptime(item["dateAdded"], "%Y-%m-%d") > cutoff_date
+        ]
+        
         cisa_list["vulnerabilities"] = sorted(cisa_list["vulnerabilities"], key=lambda k: k["dateAdded"], reverse=True)
         log_blank()
 
