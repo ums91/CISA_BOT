@@ -1,33 +1,31 @@
-name: CISA Issue Creation Bot
+name: Run CISA Bot
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'  # Runs daily at midnight UTC
-  push:
-    branches:
-      - main
-  workflow_dispatch:  # Adds a manual "Run" button in the GitHub Actions interface
+    - cron: '0 0 * * *'  # Runs daily at midnight
 
 jobs:
-  create_cisa_issues:
+  run-cisa-bot:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests jsonpath-ng ratelimit
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          # Verify installation
+          pip list | grep PyGithub  # Check if PyGithub is installed
 
-    - name: Run CISA Issue Creation Bot
-      env:
-        GITHUB_TOKEN: ${{ secrets.CISA_TOKEN }}
-      run: |
-        python newCisaBot.py
+      - name: Run CISA Bot script
+        env:
+          GITHUB_TOKEN: ${{ secrets.CISA_TOKEN }}
+        run: |
+          python newCisaBot.py
