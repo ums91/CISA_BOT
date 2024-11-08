@@ -7,8 +7,7 @@
 
 import os
 import sys
-from datetime import date
-from datetime import datetime
+from datetime import date, datetime
 import logging
 from jsonpath_ng.ext import parse as jsonpath_parse
 from github import Github
@@ -71,9 +70,6 @@ class Main:
 
         log_message("ERROR: Unable to get CISA feed", "exiting")
         sys.exit(os.EX_DATAERR)
-
-    # other methods (like download_github_list, main, etc.) should also be defined here
-
 
     def download_github_list(self):
         """ download the GitHub issues list """
@@ -168,14 +164,6 @@ CISA
             labels=labels
         )
         log_message("\t\tCreated GitHub issue", title)
-
-    
-from datetime import datetime
-
-class Main:
-    """ main """
-
-    # (other methods remain unchanged)
 
     def main(self):
         """ main """
