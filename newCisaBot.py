@@ -281,7 +281,11 @@ CISA
         readme_content = readme.decoded_content.decode("utf-8")
 
         # Append the new vulnerabilities to the README content
-        new_vulnerabilities = "\n".join([f"- **{item['cveID']}**: {item['title']}" for item in new_items])
+        new_vulnerabilities = "\n".join([
+            f"- **{item['cveID']}**: {item.get('title', f'{item.get('vendorProject', 'Unknown Vendor')} {item.get('product', 'Unknown Product')}')}" 
+            for item in new_items
+        ])
+
 
         # Replace the existing vulnerabilities section with the new ones
         updated_readme_content = readme_content.replace("## New Vulnerabilities", f"## New Vulnerabilities\n{new_vulnerabilities}")
