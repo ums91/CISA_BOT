@@ -7,6 +7,7 @@
 
 import os
 import sys
+import time
 from datetime import date
 from datetime import datetime
 import logging
@@ -46,6 +47,7 @@ class Constants:
     NVD_API_TOKEN = "8ecc1512-a5f6-4b94-a9ae-b20d0467680f"
     RATE = 25
     MINUTE = 60
+    MILESTONE_NAME = "2024Q2"
 
 class Main:
     """ main """
@@ -204,12 +206,29 @@ CISA
         )
         log_message("\t\tCreated GitHub issue", title)
 
-    def create_github_issues(self, new_items):
-        """ create multiple GitHub issues """
-        for item in new_items:
-            self.create_github_issue(item)
+        # Wait 1 minute and add the issue to the milestone "2024Q2"
+        time.sleep(60)
+        milestone = self.repo.get_milestone_by_title(Constants.MILESTONE_NAME)
+        issue.edit(milestone=milestone)
 
+        # Wait 2 minutes and add a comment
+        time.sleep(120)
+        issue.create_comment("This vulnerability is not applicable to the product/application, so closing this issue.")
+
+        # Wait another 2 minutes and add the "Remediated_Fixed_Patched" label
+        time.sleep(120)
+        issue.add_labels("Remediated_Fixed_Patched")
+
+        # Wait 3 more minutes and close the issue
+        time.sleep(180)
+        issue.edit(state="closed")
+
+        log_complete("Issue closed and updated with comment and label")
+
+    def create_github_issues(self, new_items):
+        """ create new GitHub issues from the list of new CISA items """
+        for cisa_item in new_items:
+            self.create_github_issue(cisa_item)
 
 if __name__ == "__main__":
-    main_instance = Main()
-    main_instance.main()
+    Main().main()
