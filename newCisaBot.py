@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-""" collect issues published by CISA and create GitHub issues for them """
+""" Collect issues published by CISA and create GitHub issues for them """
 
 # pylint: disable=trailing-whitespace
 # pylint: disable=line-too-long
@@ -8,8 +8,7 @@
 import os
 import sys
 import time
-from datetime import date
-from datetime import datetime
+from datetime import date, datetime
 import logging
 from jsonpath_ng.ext import parse as jsonpath_parse
 from github import Github
@@ -191,53 +190,23 @@ CISA
         labels = ["Vulnerability", "CISA-Alert", f"security-issue-severity::{cvss_severity}".lower()]
         return description, labels
 
-def create_github_issue(self, cisa_item):
-    """ create the issue in GitHub """
-    today = date.today()
-    title = f'{today.year}/{today.strftime("%m")} : Internal-CISA : {cisa_item["vendorProject"]} : {cisa_item["product"]} : {cisa_item["cveID"]}'
-    nvd_data = self.get_nvd_data(cisa_item["cveID"])
+    def create_github_issue(self, cisa_item):
+        """ create the issue in GitHub """
+        today = date.today()
+        title = f'{today.year}/{today.strftime("%m")} : Internal-CISA : {cisa_item["vendorProject"]} : {cisa_item["product"]} : {cisa_item["cveID"]}'
+        description, labels = self.generate_description_and_labels(cisa_item, self.get_nvd_data(cisa_item["cveID"]))
 
-    description, labels = self.generate_description_and_labels(cisa_item, nvd_data)
+        log_message(f"Creating GitHub issue for {cisa_item['cveID']}")
 
-    issue = self.repo.create_issue(
-        title=title,
-        body=description,
-        labels=labels
-    )
-    log_message("\t\tCreated GitHub issue", title)
+        self.repo.create_issue(title=title, body=description, labels=labels)
 
-    # Wait 1 minute and add the issue to the milestone "2024Q2"
-    time.sleep(60)
-
-    # Get all milestones and find the one with the correct title
-    milestones = self.repo.get_milestones(state="open")  # You can also use 'state="all"' if you want to include closed milestones
-    milestone = next((m for m in milestones if m.title == Constants.MILESTONE_NAME), None)
-
-    if milestone:
-        issue.edit(milestone=milestone)
-        log_message("\t\tAdded issue to milestone", Constants.MILESTONE_NAME)
-    else:
-        log_message(f"\t\tMilestone '{Constants.MILESTONE_NAME}' not found.", "error")
-
-    # Wait 2 minutes and add a comment
-    time.sleep(120)
-    issue.create_comment("This vulnerability is not applicable to the product/application, so closing this issue.")
-
-    # Wait another 2 minutes and add the "Remediated_Fixed_Patched" label
-    time.sleep(120)
-    issue.add_labels("Remediated_Fixed_Patched")
-
-    # Wait 3 more minutes and close the issue
-    time.sleep(180)
-    issue.edit(state="closed")
-
-    log_complete("Issue closed and updated with comment and label")
-
+        log_message(f"Issue created for {cisa_item['cveID']}", "complete")
 
     def create_github_issues(self, new_items):
-        """ create new GitHub issues from the list of new CISA items """
+        """ create GitHub issues for all new vulnerabilities """
         for cisa_item in new_items:
             self.create_github_issue(cisa_item)
+            time.sleep(1)
 
 if __name__ == "__main__":
     Main().main()
