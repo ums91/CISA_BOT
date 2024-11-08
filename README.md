@@ -1,15 +1,5 @@
 
-# Latest Vulnerabilities
-- **CVE ID**: CVE-2024-37383, **Description**: Roundcube Webmail before 1.5.7 and 1.6.x before 1.6.7 allows XSS via SVG animate attributes.. 
- **Date Found**: 2024-10-31
-- **CVE ID**: CVE-2024-37383, **Description**: Roundcube Webmail before 1.5.7 and 1.6.x before 1.6.7 allows XSS via SVG animate attributes.. 
- **Date Found**: 2024-10-31
-- **CVE ID**: CVE-2024-20481, **Description**: No Description Available. 
- **Date Found**: 2024-10-30
-- **CVE ID**: CVE-2024-37383, **Description**: No Description Available. 
- **Date Found**: 2024-10-30
-- **CVE ID**: CVE-2024-37383, **Description**: No Description Available. 
- **Date Found**: 2024-10-30
+## New Vulnerabilities
 
 # CISA Bot
 
