@@ -48,7 +48,6 @@ class Constants:
     MINUTE = 60
     MILESTONE_NAME = "2024Q2"
     LABEL_REMEDIATED = "Remediated_Fixed_Patched"
-    COMMENT_TEXT = "This vulnerability is not applicable to the product/application, so closing this issue."
 
 class Main:
     """ main """
@@ -56,6 +55,16 @@ class Main:
     def __init__(self):
         self.github = Github(os.getenv("GITHUB_TOKEN"))
         self.repo = self.github.get_repo(Constants.GITHUB_REPO)
+        self.milestone = self.get_milestone()
+
+    def get_milestone(self):
+        """ Get the milestone object for "2024Q2" """
+        milestones = self.repo.get_milestones(state="open")
+        for milestone in milestones:
+            if milestone.title == Constants.MILESTONE_NAME:
+                return milestone
+        log_message(f"Milestone {Constants.MILESTONE_NAME} not found", "exiting")
+        sys.exit(os.EX_DATAERR)
 
     def download_cisa_list(self):
         """ download issues from CISA """
@@ -79,13 +88,13 @@ class Main:
         """ main """
         log_message("Looking for new CISA issues to report")
         cisa_list = self.download_cisa_list()
-
+        
         cutoff_date = datetime.strptime("2024-10-26", "%Y-%m-%d")
         cisa_list["vulnerabilities"] = [
             item for item in cisa_list["vulnerabilities"]
             if datetime.strptime(item["dateAdded"], "%Y-%m-%d") > cutoff_date
         ]
-
+        
         cisa_list["vulnerabilities"] = sorted(cisa_list["vulnerabilities"], key=lambda k: k["dateAdded"], reverse=True)
         log_blank()
 
@@ -103,7 +112,7 @@ class Main:
         log_message("\t\tNumber of new CISA issues", len(new_items))
 
         self.create_github_issues(new_items)
-        log_complete("Completed processing CISA issues")
+        log_complete("Completed processing CISA issues")    
 
     def download_github_list(self):
         """ download the GitHub issues list """
@@ -177,52 +186,38 @@ From CISA Known Exploited Vulnerabilities Catalog: https://www.cisa.gov/known-ex
 [{cisa_item["cveID"]}](https://nvd.nist.gov/vuln/detail/{cisa_item["cveID"]})
 
 ## Severity
-
-{cvss_severity} - CVSS v{cvss_version} {cvss_score} - ({cvss_vector})
-
-## Detailed description of the vulnerability
+Severity: {cvss_severity} (CVSS {cvss_version})  **[{cvss_score}]**   
+Vector: {cvss_vector}   
 
 {nvd_description}
 
-## Reporter
-
-CISA
+## Mitigation
+{cisa_item["cveID"]} is currently being exploited in the wild and is a high-priority vulnerability.
 '''
-
-        labels = ["Vulnerability", "CISA-Alert", f"security-issue-severity::{cvss_severity}".lower()]
+        labels = ["Vulnerability", "CISA-Alert"]
         return description, labels
 
-    def create_github_issue(self, cisa_item):
-        """ create the issue in GitHub """
-        today = date.today()
-        title = f'{today.year}/{today.strftime("%m")} : Internal-CISA : {cisa_item["vendorProject"]} : {cisa_item["product"]} : {cisa_item["cveID"]}'
-        description, labels = self.generate_description_and_labels(cisa_item, self.get_nvd_data(cisa_item["cveID"]))
-
-        issue = self.repo.create_issue(
-            title=title,
-            body=description,
-            labels=labels
-        )
-
-        # Adding the milestone and comment after waiting
-        time.sleep(60)  # Wait for 1 minute before adding to milestone
-        issue.edit(milestone=self.repo.get_milestone_by_name(Constants.MILESTONE_NAME))
-
-        time.sleep(120)  # Wait for 2 minutes before adding comment
-        issue.create_comment(Constants.COMMENT_TEXT)
-
-        time.sleep(120)  # Wait for another 2 minutes before adding label
-        issue.add_labels(Constants.LABEL_REMEDIATED)
-
-        time.sleep(180)  # Wait for 3 minutes before closing the issue
-        issue.edit(state='closed')
-
-        log_message(f"Created issue for {cisa_item['cveID']}", "done")
-
     def create_github_issues(self, new_items):
-        """ create all new GitHub issues """
+        """ create GitHub issues for new items """
+        log_message("Creating GitHub issues for CISA vulnerabilities")
         for cisa_item in new_items:
-            self.create_github_issue(cisa_item)
+            description, labels = self.generate_description_and_labels(cisa_item, self.get_nvd_data(cisa_item["cveID"]))
+            issue = self.repo.create_issue(
+                title=f"{cisa_item['vendorProject']} {cisa_item['product']} - {cisa_item['cveID']}",
+                body=description,
+                labels=labels,
+                milestone=self.milestone
+            )
 
-if __name__ == '__main__':
+            # Add comment, label, and close issue with delays
+            time.sleep(60)  # Wait for 1 minute
+            issue.create_comment("This vulnerability is not applicable to the product/application, so closing this issue.")
+            time.sleep(120)  # Wait for 2 minutes
+            issue.add_labels(Constants.LABEL_REMEDIATED)
+            time.sleep(180)  # Wait for 3 minutes
+            issue.edit(state="closed")
+
+        log_complete("GitHub issues creation completed")
+
+if __name__ == "__main__":
     Main().main()
