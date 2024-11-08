@@ -201,40 +201,40 @@ CISA
         # Get the milestone by name
         milestone = None
         for m in self.repo.get_milestones(state='open'):
-        if m.title == Constants.MILESTONE_NAME:
-            milestone = m
-            break
+            if m.title == Constants.MILESTONE_NAME:
+                milestone = m
+                break
 
         if not milestone:
-        log_message(f"ERROR: Milestone '{Constants.MILESTONE_NAME}' not found!", "exiting")
-        sys.exit(os.EX_DATAERR)
+            log_message(f"ERROR: Milestone '{Constants.MILESTONE_NAME}' not found!", "exiting")
+            sys.exit(os.EX_DATAERR)
 
         for cisa_item in new_items:
-        description, labels = self.generate_description_and_labels(cisa_item, self.get_nvd_data(cisa_item["cveID"]))
+            description, labels = self.generate_description_and_labels(cisa_item, self.get_nvd_data(cisa_item["cveID"]))
         
-        # Modify the title to include the current month and year, followed by "Internal-CISA"
-        issue_title = f"{current_month_year} : Internal-CISA - {cisa_item['vendorProject']} {cisa_item['product']} - {cisa_item['cveID']}"
+            # Modify the title to include the current month and year, followed by "Internal-CISA"
+            issue_title = f"{current_month_year} : Internal-CISA - {cisa_item['vendorProject']} {cisa_item['product']} - {cisa_item['cveID']}"
         
-        # Create the issue with the modified title
-        issue = self.repo.create_issue(
-            title=issue_title,
-            body=description,
-            labels=labels
-        )
+            # Create the issue with the modified title
+            issue = self.repo.create_issue(
+                title=issue_title,
+                body=description,
+                labels=labels
+            )
 
-        # Wait for 1 minute, then add milestone
-        time.sleep(60)  # Wait for 1 minute
-        issue.edit(milestone=milestone)
+            # Wait for 1 minute, then add milestone
+            time.sleep(60)  # Wait for 1 minute
+            issue.edit(milestone=milestone)
 
-        # Add comment, label, and close issue with delays
-        time.sleep(60)  # Wait for 1 minute
-        issue.create_comment("This vulnerability is not applicable to the product/application, so closing this issue.")
-        time.sleep(120)  # Wait for 2 minutes
-        issue.add_labels(Constants.LABEL_REMEDIATED)
-        time.sleep(180)  # Wait for 3 minutes
-        issue.edit(state="closed")
+            # Add comment, label, and close issue with delays
+            time.sleep(60)  # Wait for 1 minute
+            issue.create_comment("This vulnerability is not applicable to the product/application, so closing this issue.")
+            time.sleep(120)  # Wait for 2 minutes
+            issue.add_labels(Constants.LABEL_REMEDIATED)
+            time.sleep(180)  # Wait for 3 minutes
+            issue.edit(state="closed")
 
-    log_complete("GitHub issues creation completed")
+        log_complete("GitHub issues creation completed")
 
 
 if __name__ == "__main__":
