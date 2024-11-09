@@ -1,23 +1,5 @@
 
 ## New Vulnerabilities
-- **CVE-2019-16278**: Nostromo nhttpd
-- **CVE-2024-51567**: CyberPersons CyberPanel
-- **CVE-2024-43093**: Android Framework
-- **CVE-2024-5910**: Palo Alto Expedition
-- **CVE-2024-8956**: PTZOptics PT30X-SDI/NDI Cameras
-- **CVE-2024-8957**: PTZOptics PT30X-SDI/NDI Cameras
-- **CVE-2019-16278**: Nostromo nhttpd
-- **CVE-2024-51567**: CyberPersons CyberPanel
-- **CVE-2024-43093**: Android Framework
-- **CVE-2024-5910**: Palo Alto Expedition
-- **CVE-2024-8956**: PTZOptics PT30X-SDI/NDI Cameras
-- **CVE-2024-8957**: PTZOptics PT30X-SDI/NDI Cameras
-- **CVE-2019-16278**: Nostromo nhttpd
-- **CVE-2024-51567**: CyberPersons CyberPanel
-- **CVE-2024-43093**: Android Framework
-- **CVE-2024-5910**: Palo Alto Expedition
-- **CVE-2024-8956**: PTZOptics PT30X-SDI/NDI Cameras
-- **CVE-2024-8957**: PTZOptics PT30X-SDI/NDI Cameras
 
 # CISA Bot
 
