@@ -43,7 +43,7 @@ class Constants:
     GITHUB_REPO = "ums91/CISA_BOT"
     CISA_FEED_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
     NVD_API_URL = "https://services.nvd.nist.gov/rest/json/cves/2.0?cveID="
-    NVD_API_TOKEN = "8ecc1512-a5f6-4b94-a9ae-b20d0467680f"
+    NVD_API_TOKEN = "dededdac-a990-43bc-bce6-306b49c66971"
     RATE = 25
     MINUTE = 60
     MILESTONE_NAME = "2024Q2"
