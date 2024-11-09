@@ -221,7 +221,7 @@ CISA
             log_message(f"Checking if issue '{issue_title}' already exists...")
     
             # Check if an issue with the same title exists (open or closed)
-            existing_issues = self.repo.get_issues(state="all", labels=[""security-issue-source::internally-reported-cisa","security-issue-type::vulnerability", "CISA-Alert""])
+            existing_issues = self.repo.get_issues(state="all", labels=["security-issue-source::internally-reported-cisa","security-issue-type::vulnerability", "CISA-Alert"])
             if any(issue.title == issue_title for issue in existing_issues):
                 log_message(f"Issue '{issue_title}' already exists. Skipping creation.")
                 continue
