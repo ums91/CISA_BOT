@@ -108,7 +108,7 @@ class Main:
     def download_github_list(self):
         """ download the GitHub issues list """
         log_message("\tDownloading GitHub issue list")
-        github_list = self.repo.get_issues(state="all", labels=["Vulnerability", "CISA-Alert"])
+        github_list = self.repo.get_issues(state="all", labels=["security-issue-source::internally-reported-cisa","security-issue-type::vulnerability", "CISA-Alert"])
         log_message("\t\tNumber of GitHub issues", github_list.totalCount)
         log_complete("\tDownloading GitHub issue list")
         return github_list
@@ -189,7 +189,7 @@ From CISA Known Exploited Vulnerabilities Catalog: https://www.cisa.gov/known-ex
 CISA
 '''
 
-        labels = ["Vulnerability", "CISA-Alert", f"security-issue-severity::{cvss_severity}".lower()]
+        labels = ["security-issue-source::internally-reported-cisa","security-issue-type::vulnerability", "CISA-Alert", f"security-issue-severity::{cvss_severity}".lower()]
         return description, labels
 
     def create_github_issues(self, new_items):
@@ -221,7 +221,7 @@ CISA
             log_message(f"Checking if issue '{issue_title}' already exists...")
     
             # Check if an issue with the same title exists (open or closed)
-            existing_issues = self.repo.get_issues(state="all", labels=["Vulnerability", "CISA-Alert"])
+            existing_issues = self.repo.get_issues(state="all", labels=[""security-issue-source::internally-reported-cisa","security-issue-type::vulnerability", "CISA-Alert""])
             if any(issue.title == issue_title for issue in existing_issues):
                 log_message(f"Issue '{issue_title}' already exists. Skipping creation.")
                 continue
