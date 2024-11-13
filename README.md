@@ -1,5 +1,10 @@
 
 ## New Vulnerabilities
+- **CVE-2021-26086**: Atlassian Jira Server and Data Center
+- **CVE-2014-2120**: Cisco Adaptive Security Appliance (ASA)
+- **CVE-2021-41277**: Metabase Metabase
+- **CVE-2024-43451**: Microsoft Windows
+- **CVE-2024-49039**: Microsoft Windows
 - **CVE-2019-16278**: Nostromo nhttpd
 - **CVE-2024-51567**: CyberPersons CyberPanel
 - **CVE-2024-43093**: Android Framework
