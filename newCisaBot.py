@@ -301,7 +301,7 @@ CISA
             return
 
         # Append the filtered new vulnerabilities to the README content
-        new_vulnerabilities_content = "\n".join(new_vulnerabilities)
+        new_vulnerabilities_content = "\n".join(new_vulnerabilities[:6])
         updated_readme_content = readme_content.replace("## New Vulnerabilities", f"## New Vulnerabilities\n{new_vulnerabilities_content}")
 
         # Commit the updated README content
