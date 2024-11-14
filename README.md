@@ -1,5 +1,23 @@
 
 ## New Vulnerabilities
+- **CVE-2024-9465**: (Palo Alto Networks Expedition SQL Injection Vulnerability) -
+Vendor Project: Palo Alto Networks - 
+Product: Expedition
+- **CVE-2024-9463**: (Palo Alto Networks Expedition OS Command Injection Vulnerability) -
+Vendor Project: Palo Alto Networks - 
+Product: Expedition
+- **CVE-2024-43093**: (Android Framework Privilege Escalation Vulnerability) -
+Vendor Project: Android - 
+Product: Framework
+- **CVE-2024-5910**: (Palo Alto Networks Expedition Missing Authentication Vulnerability) -
+Vendor Project: Palo Alto Networks - 
+Product: Expedition
+- **CVE-2024-8956**: (PTZOptics PT30X-SDI/NDI Cameras Authentication Bypass Vulnerability) -
+Vendor Project: PTZOptics - 
+Product: PT30X-SDI/NDI Cameras
+- **CVE-2024-8957**: (PTZOptics PT30X-SDI/NDI Cameras OS Command Injection Vulnerability) -
+Vendor Project: PTZOptics - 
+Product: PT30X-SDI/NDI Cameras
 - **CVE-2014-2120**: (Cisco Adaptive Security Appliance (ASA) Cross-Site Scripting (XSS) Vulnerability) -
 Vendor Project: Cisco - 
 Product: Adaptive Security Appliance (ASA)
