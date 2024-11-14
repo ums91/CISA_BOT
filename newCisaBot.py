@@ -168,6 +168,7 @@ class Main:
         cvss_version, cvss_severity, cvss_score, cvss_vector = self.get_cvss_data(nvd_data)
 
         description = f'''## Summary
+###Vulnerability Name: {cisa_item["vulnerabilityName"]}     
 Confirm if {cisa_item["vendorProject"]} {cisa_item["product"]} impacted with {cisa_item["vulnerabilityName"]} - below is applicable to any systems.
 
 ## Reference
