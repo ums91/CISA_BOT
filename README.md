@@ -1,5 +1,6 @@
 
 ## New Vulnerabilities
+- **CVE-2024-5910**: Palo Alto Networks Expedition
 - **CVE-2021-26086**: Atlassian Jira Server and Data Center
 - **CVE-2014-2120**: Cisco Adaptive Security Appliance (ASA)
 - **CVE-2021-41277**: Metabase Metabase
