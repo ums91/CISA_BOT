@@ -291,8 +291,8 @@ CISA
         # Filter out vulnerabilities that are already in the README
         new_vulnerabilities = []
         for item in new_items:
-            vulnerability_entry = f"- **{item['cveID']}**: ({item['vulnerabilityName']}) 
-            Vendor Project: {item.get('title', f'{item.get('vendorProject', 'Unknown Vendor')}\n
+            vulnerability_entry = f"- **{item['cveID']}**: ({item['vulnerabilityName']}) -
+            Vendor Project: {item.get('title', f'{item.get('vendorProject', 'Unknown Vendor')} - \n
             Product: {item.get('product', 'Unknown Product')}')}"\n
             if vulnerability_entry not in readme_content:
                 new_vulnerabilities.append(vulnerability_entry)
