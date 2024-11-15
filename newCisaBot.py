@@ -1,5 +1,4 @@
 
-""" Collect issues published by CISA and create GitHub issues for them """
 import os
 import sys
 import time
