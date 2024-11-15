@@ -1,10 +1,5 @@
-#! /usr/bin/env python3
 
 """ Collect issues published by CISA and create GitHub issues for them """
-
-# pylint: disable=trailing-whitespace
-# pylint: disable=line-too-long
-
 import os
 import sys
 import time
