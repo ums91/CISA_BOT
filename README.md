@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2024-9474**: (Palo Alto Networks PAN-OS Management Interface OS Command Injection Vulnerability) -
+Vendor Project: Palo Alto Networks - 
+Product: PAN-OS
+- **CVE-2024-0012**: (Palo Alto Networks PAN-OS Management Interface Authentication Bypass Vulnerability) -
+Vendor Project: Palo Alto Networks - 
+Product: PAN-OS
+- **CVE-2024-1212**: (Progress Kemp LoadMaster OS Command Injection Vulnerability) -
+Vendor Project: Progress - 
+Product: Kemp LoadMaster
 - **CVE-2024-9465**: (Palo Alto Networks Expedition SQL Injection Vulnerability) -
 Vendor Project: Palo Alto Networks - 
 Product: Expedition
