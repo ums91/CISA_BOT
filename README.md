@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2024-38813**: (VMware vCenter Server Privilege Escalation Vulnerability) -
+Vendor Project: VMware - 
+Product: vCenter Server
+- **CVE-2024-38812**: (VMware vCenter Server Heap-Based Buffer Overflow Vulnerability) -
+Vendor Project: VMware - 
+Product: vCenter Server
 - **CVE-2024-9474**: (Palo Alto Networks PAN-OS Management Interface OS Command Injection Vulnerability) -
 Vendor Project: Palo Alto Networks - 
 Product: PAN-OS
