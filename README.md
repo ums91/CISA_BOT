@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2024-21287**: (Oracle Agile Product Lifecycle Management (PLM) Incorrect Authorization Vulnerability) -
+Vendor Project: Oracle - 
+Product: Agile Product Lifecycle Management (PLM)
+- **CVE-2024-44309**: (Apple Multiple Products Cross-Site Scripting (XSS) Vulnerability) -
+Vendor Project: Apple - 
+Product: Multiple Products
+- **CVE-2024-44308**: (Apple Multiple Products Code Execution Vulnerability) -
+Vendor Project: Apple - 
+Product: Multiple Products
 - **CVE-2024-38813**: (VMware vCenter Server Privilege Escalation Vulnerability) -
 Vendor Project: VMware - 
 Product: vCenter Server
