@@ -181,7 +181,7 @@ From CISA Known Exploited Vulnerabilities Catalog: https://www.cisa.gov/known-ex
 
 ## Reporter
 
-CISA
+CISA - CYBERSECURITY & INFRASTRUCTURE SECURITY AGENCY
 '''
 
         labels = ["security-issue-source::internally-reported-cisa","security-issue-type::vulnerability", "CISA-Alert", f"security-issue-severity::{cvss_severity}".lower()]
