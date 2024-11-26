@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2023-28461**: (Array Networks AG and vxAG ArrayOS Missing Authentication for Critical Function Vulnerability) -
+Vendor Project: Array Networks  - 
+Product: AG/vxAG ArrayOS
 - **CVE-2024-21287**: (Oracle Agile Product Lifecycle Management (PLM) Incorrect Authorization Vulnerability) -
 Vendor Project: Oracle - 
 Product: Agile Product Lifecycle Management (PLM)
