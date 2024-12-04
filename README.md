@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-51378**: (CyberPanel Incorrect Default Permissions Vulnerability) -
+Vendor Project: CyberPersons - 
+Product: CyberPanel
 - **CVE-2024-11667**: (Zyxel Multiple Firewalls Path Traversal Vulnerability) -
 Vendor Project: Zyxel - 
 Product: Multiple Firewalls
