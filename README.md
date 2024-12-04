@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2024-11667**: (Zyxel Multiple Firewalls Path Traversal Vulnerability) -
+Vendor Project: Zyxel - 
+Product: Multiple Firewalls
+- **CVE-2024-11680**: (ProjectSend Improper Authentication Vulnerability) -
+Vendor Project: ProjectSend - 
+Product: ProjectSend
+- **CVE-2023-45727**: (North Grid Proself Improper Restriction of XML External Entity (XEE) Reference Vulnerability) -
+Vendor Project: North Grid - 
+Product: Proself
 - **CVE-2023-28461**: (Array Networks AG and vxAG ArrayOS Missing Authentication for Critical Function Vulnerability) -
 Vendor Project: Array Networks  - 
 Product: AG/vxAG ArrayOS
