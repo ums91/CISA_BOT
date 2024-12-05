@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2023-45727**: (North Grid Proself Improper Restriction of XML External Entity (XXE) Reference Vulnerability) -
+Vendor Project: North Grid - 
+Product: Proself
 - **CVE-2024-51378**: (CyberPanel Incorrect Default Permissions Vulnerability) -
 Vendor Project: CyberPersons - 
 Product: CyberPanel
