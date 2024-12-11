@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-49138**: (Microsoft Windows Common Log File System (CLFS) Driver Heap-Based Buffer Overflow Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
 - **CVE-2023-45727**: (North Grid Proself Improper Restriction of XML External Entity (XXE) Reference Vulnerability) -
 Vendor Project: North Grid - 
 Product: Proself
