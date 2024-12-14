@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-50623**: (Cleo Multiple Products Unrestricted File Upload Vulnerability) -
+Vendor Project: Cleo - 
+Product: Multiple Products
 - **CVE-2024-49138**: (Microsoft Windows Common Log File System (CLFS) Driver Heap-Based Buffer Overflow Vulnerability) -
 Vendor Project: Microsoft - 
 Product: Windows
