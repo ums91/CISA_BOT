@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2024-35250**: (Microsoft Windows Kernel-Mode Driver Untrusted Pointer Dereference Vulnerability ) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2024-20767**: (Adobe ColdFusion Improper Access Control Vulnerability) -
+Vendor Project: Adobe - 
+Product: ColdFusion
 - **CVE-2024-50623**: (Cleo Multiple Products Unrestricted File Upload Vulnerability) -
 Vendor Project: Cleo - 
 Product: Multiple Products
