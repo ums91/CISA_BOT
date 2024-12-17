@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-55956**: (Cleo Multiple Products Unauthenticated File Upload Vulnerability) -
+Vendor Project: Cleo - 
+Product: Multiple Products
 - **CVE-2024-35250**: (Microsoft Windows Kernel-Mode Driver Untrusted Pointer Dereference Vulnerability ) -
 Vendor Project: Microsoft - 
 Product: Windows
