@@ -1,5 +1,17 @@
 
 ## New Vulnerabilities
+- **CVE-2021-40407**: (Reolink RLC-410W IP Camera OS Command Injection Vulnerability ) -
+Vendor Project: Reolink - 
+Product: RLC-410W IP Camera
+- **CVE-2019-11001**: (Reolink Multiple IP Cameras OS Command Injection Vulnerability) -
+Vendor Project: Reolink - 
+Product: Multiple IP Cameras
+- **CVE-2022-23227**: (NUUO NVRmini 2 Devices Missing Authentication Vulnerability ) -
+Vendor Project: NUUO - 
+Product: NVRmini2 Devices
+- **CVE-2018-14933**: (NUUO NVRmini Devices OS Command Injection Vulnerability ) -
+Vendor Project: NUUO - 
+Product: NVRmini Devices
 - **CVE-2024-55956**: (Cleo Multiple Products Unauthenticated File Upload Vulnerability) -
 Vendor Project: Cleo - 
 Product: Multiple Products
