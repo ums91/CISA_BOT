@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-12356**: (BeyondTrust Privileged Remote Access (PRA) and Remote Support (RS) Command Injection Vulnerability ) -
+Vendor Project: BeyondTrust - 
+Product: Privileged Remote Access (PRA) and Remote Support (RS) 
 - **CVE-2021-40407**: (Reolink RLC-410W IP Camera OS Command Injection Vulnerability ) -
 Vendor Project: Reolink - 
 Product: RLC-410W IP Camera
