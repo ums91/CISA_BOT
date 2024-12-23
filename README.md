@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2021-44207**: (Acclaim Systems USAHERDS Use of Hard-Coded Credentials Vulnerability ) -
+Vendor Project: Acclaim Systems - 
+Product: USAHERDS
 - **CVE-2024-12356**: (BeyondTrust Privileged Remote Access (PRA) and Remote Support (RS) Command Injection Vulnerability ) -
 Vendor Project: BeyondTrust - 
 Product: Privileged Remote Access (PRA) and Remote Support (RS) 
