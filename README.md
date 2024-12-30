@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-3393**: (Palo Alto Networks PAN-OS Malformed DNS Packet Vulnerability) -
+Vendor Project: Palo Alto Networks - 
+Product: PAN-OS
 - **CVE-2021-44207**: (Acclaim Systems USAHERDS Use of Hard-Coded Credentials Vulnerability ) -
 Vendor Project: Acclaim Systems - 
 Product: USAHERDS
