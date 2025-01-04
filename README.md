@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-3393**: (Palo Alto Networks PAN-OS Malicious DNS Packet Vulnerability) -
+Vendor Project: Palo Alto Networks - 
+Product: PAN-OS
 - **CVE-2022-23227**: (NUUO NVRmini2 Devices Missing Authentication Vulnerability ) -
 Vendor Project: NUUO - 
 Product: NVRmini2 Devices
