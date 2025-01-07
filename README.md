@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2020-2883**: (Oracle WebLogic Server Unspecified Vulnerability) -
+Vendor Project: Oracle - 
+Product: WebLogic Server
+- **CVE-2024-55550**: (Mitel MiCollab Path Traversal Vulnerability) -
+Vendor Project: Mitel - 
+Product: MiCollab
+- **CVE-2024-41713**: (Mitel MiCollab Path Traversal Vulnerability) -
+Vendor Project: Mitel - 
+Product: MiCollab
 - **CVE-2024-3393**: (Palo Alto Networks PAN-OS Malicious DNS Packet Vulnerability) -
 Vendor Project: Palo Alto Networks - 
 Product: PAN-OS
