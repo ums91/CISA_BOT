@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-0282**: (Ivanti Connect Secure, Policy Secure, and ZTA Gateways Stack-Based Buffer Overflow Vulnerability) -
+Vendor Project: Ivanti - 
+Product: Connect Secure, Policy Secure, and ZTA Gateways
 - **CVE-2020-2883**: (Oracle WebLogic Server Unspecified Vulnerability) -
 Vendor Project: Oracle - 
 Product: WebLogic Server
