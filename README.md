@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2023-48365**: (Qlik Sense HTTP Tunneling Vulnerability) -
+Vendor Project: Qlik - 
+Product: Sense
+- **CVE-2024-12686**: (BeyondTrust Privileged Remote Access (PRA) and Remote Support (RS) OS Command Injection Vulnerability) -
+Vendor Project: BeyondTrust - 
+Product: Privileged Remote Access (PRA) and Remote Support (RS)
 - **CVE-2025-0282**: (Ivanti Connect Secure, Policy Secure, and ZTA Gateways Stack-Based Buffer Overflow Vulnerability) -
 Vendor Project: Ivanti - 
 Product: Connect Secure, Policy Secure, and ZTA Gateways
