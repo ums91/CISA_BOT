@@ -1,5 +1,17 @@
 
 ## New Vulnerabilities
+- **CVE-2025-21335**: (Microsoft Windows Hyper-V NT Kernel Integration VSP Use-After-Free Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-21334**: (Microsoft Windows Hyper-V NT Kernel Integration VSP Use-After-Free Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-21333**: (Microsoft Windows Hyper-V NT Kernel Integration VSP Heap-based Buffer Overflow Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2024-55591**: (Fortinet FortiOS Authorization Bypass Vulnerability) -
+Vendor Project: Fortinet - 
+Product: FortiOS
 - **CVE-2023-48365**: (Qlik Sense HTTP Tunneling Vulnerability) -
 Vendor Project: Qlik - 
 Product: Sense
