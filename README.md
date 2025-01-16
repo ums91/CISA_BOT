@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-50603**: (Aviatrix Controllers OS Command Injection Vulnerability) -
+Vendor Project: Aviatrix - 
+Product: Controllers
 - **CVE-2025-21335**: (Microsoft Windows Hyper-V NT Kernel Integration VSP Use-After-Free Vulnerability) -
 Vendor Project: Microsoft - 
 Product: Windows
