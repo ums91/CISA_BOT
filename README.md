@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-55591**: (Fortinet FortiOS and FortiProxy Authentication Bypass Vulnerability) -
+Vendor Project: Fortinet - 
+Product: FortiOS and FortiProxy
 - **CVE-2024-50603**: (Aviatrix Controllers OS Command Injection Vulnerability) -
 Vendor Project: Aviatrix - 
 Product: Controllers
