@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2020-11023**: (JQuery Cross-Site Scripting (XSS) Vulnerability) -
+Vendor Project: JQuery - 
+Product: JQuery
 - **CVE-2024-55591**: (Fortinet FortiOS and FortiProxy Authentication Bypass Vulnerability) -
 Vendor Project: Fortinet - 
 Product: FortiOS and FortiProxy
