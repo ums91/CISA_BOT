@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-23006**: (SonicWall SMA1000 Appliances Deserialization Vulnerability) -
+Vendor Project: SonicWall - 
+Product: SMA1000 Appliances
 - **CVE-2020-11023**: (JQuery Cross-Site Scripting (XSS) Vulnerability) -
 Vendor Project: JQuery - 
 Product: JQuery
