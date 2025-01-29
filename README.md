@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-24085**: (Apple Multiple Products Use-After-Free Vulnerability) -
+Vendor Project: Apple - 
+Product: Multiple Products
 - **CVE-2025-23006**: (SonicWall SMA1000 Appliances Deserialization Vulnerability) -
 Vendor Project: SonicWall - 
 Product: SMA1000 Appliances
