@@ -1,5 +1,17 @@
 
 ## New Vulnerabilities
+- **CVE-2018-19410**: (Paessler PRTG Network Monitor Local File Inclusion Vulnerability) -
+Vendor Project: Paessler - 
+Product: PTRG Network Monitor
+- **CVE-2018-9276**: (Paessler PRTG Network Monitor OS Command Injection Vulnerability) -
+Vendor Project: Paessler - 
+Product: PRTG Network Monitor
+- **CVE-2024-29059**: (Microsoft .NET Framework Information Disclosure Vulnerability) -
+Vendor Project: Microsoft - 
+Product: .NET Framework
+- **CVE-2024-45195**: (Apache OFBiz Forced Browsing Vulnerability) -
+Vendor Project: Apache - 
+Product: OFBiz
 - **CVE-2025-24085**: (Apple Multiple Products Use-After-Free Vulnerability) -
 Vendor Project: Apple - 
 Product: Multiple Products
