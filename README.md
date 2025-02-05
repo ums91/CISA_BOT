@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-53104**: (Linux Kernel Out-of-Bounds Write Vulnerability) -
+Vendor Project: Linux - 
+Product: Kernel
 - **CVE-2018-19410**: (Paessler PRTG Network Monitor Local File Inclusion Vulnerability) -
 Vendor Project: Paessler - 
 Product: PTRG Network Monitor
