@@ -1,5 +1,20 @@
 
 ## New Vulnerabilities
+- **CVE-2020-15069**: (Sophos XG Firewall Buffer Overflow Vulnerability) -
+Vendor Project: Sophos - 
+Product: XG Firewall
+- **CVE-2020-29574**: (CyberoamOS (CROS) SQL Injection Vulnerability) -
+Vendor Project: Sophos - 
+Product: CyberoamOS
+- **CVE-2024-21413**: (Microsoft Outlook Improper Input Validation Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Office Outlook
+- **CVE-2022-23748**: (Dante Discovery Process Control Vulnerability) -
+Vendor Project: Audinate - 
+Product: Dante Discovery
+- **CVE-2025-0411**: (7-Zip Mark of the Web Bypass Vulnerability) -
+Vendor Project: 7-Zip - 
+Product: 7-Zip
 - **CVE-2024-53104**: (Linux Kernel Out-of-Bounds Write Vulnerability) -
 Vendor Project: Linux - 
 Product: Kernel
