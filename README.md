@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-0994**: (Trimble Cityworks Deserialization Vulnerability) -
+Vendor Project: Trimble - 
+Product: Cityworks
 - **CVE-2020-15069**: (Sophos XG Firewall Buffer Overflow Vulnerability) -
 Vendor Project: Sophos - 
 Product: XG Firewall
