@@ -1,5 +1,17 @@
 
 ## New Vulnerabilities
+- **CVE-2024-40891**: (Zyxel DSL CPE OS Command Injection Vulnerability) -
+Vendor Project: Zyxel - 
+Product: DSL CPE Devices
+- **CVE-2024-40890**: (Zyxel DSL CPE OS Command Injection Vulnerability) -
+Vendor Project: Zyxel - 
+Product: DSL CPE Devices
+- **CVE-2025-21418**: (Microsoft Windows Ancillary Function Driver for WinSock Heap-Based Buffer Overflow Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-21391**: (Microsoft Windows Storage Link Following Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
 - **CVE-2025-0994**: (Trimble Cityworks Deserialization Vulnerability) -
 Vendor Project: Trimble - 
 Product: Cityworks
