@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2025-24200**: (Apple iOS and iPadOS Incorrect Authorization Vulnerability) -
+Vendor Project: Apple - 
+Product: iOS and iPadOS
+- **CVE-2024-41710**: (Mitel SIP Phones Argument Injection Vulnerability) -
+Vendor Project: Mitel - 
+Product: SIP Phones
 - **CVE-2024-40891**: (Zyxel DSL CPE OS Command Injection Vulnerability) -
 Vendor Project: Zyxel - 
 Product: DSL CPE Devices
