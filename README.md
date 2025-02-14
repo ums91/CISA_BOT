@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-57727**: (SimpleHelp Path Traversal Vulnerability) -
+Vendor Project: SimpleHelp  - 
+Product: SimpleHelp
 - **CVE-2025-24200**: (Apple iOS and iPadOS Incorrect Authorization Vulnerability) -
 Vendor Project: Apple - 
 Product: iOS and iPadOS
