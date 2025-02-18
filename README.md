@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2018-19410**: (Paessler PRTG Network Monitor Local File Inclusion Vulnerability) -
+Vendor Project: Paessler - 
+Product: PRTG Network Monitor
 - **CVE-2024-57727**: (SimpleHelp Path Traversal Vulnerability) -
 Vendor Project: SimpleHelp  - 
 Product: SimpleHelp
