@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2025-0108**: (Palo Alto PAN-OS Authentication Bypass Vulnerability) -
+Vendor Project: Palo Alto - 
+Product: PAN-OS
+- **CVE-2024-53704**: (SonicWall SonicOS SSLVPN Improper Authentication Vulnerability) -
+Vendor Project: SonicWall - 
+Product: SonicOS
 - **CVE-2018-19410**: (Paessler PRTG Network Monitor Local File Inclusion Vulnerability) -
 Vendor Project: Paessler - 
 Product: PRTG Network Monitor
