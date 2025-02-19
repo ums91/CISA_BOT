@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-0108**: (Palo Alto Networks PAN-OS Authentication Bypass Vulnerability) -
+Vendor Project: Palo Alto Networks - 
+Product: PAN-OS
 - **CVE-2025-0108**: (Palo Alto PAN-OS Authentication Bypass Vulnerability) -
 Vendor Project: Palo Alto - 
 Product: PAN-OS
