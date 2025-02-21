@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-24989**: (Microsoft Power Pages Improper Access Control Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Power Pages
 - **CVE-2025-0111**: (Palo Alto Networks PAN-OS File Read Vulnerability) -
 Vendor Project: Palo Alto Networks - 
 Product: PAN-OS
