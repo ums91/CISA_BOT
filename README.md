@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2025-0111**: (Palo Alto Networks PAN-OS File Read Vulnerability) -
+Vendor Project: Palo Alto Networks - 
+Product: PAN-OS
+- **CVE-2025-23209**: (Craft CMS Code Injection Vulnerability) -
+Vendor Project: Craft CMS - 
+Product: Craft CMS
 - **CVE-2025-0108**: (Palo Alto Networks PAN-OS Authentication Bypass Vulnerability) -
 Vendor Project: Palo Alto Networks - 
 Product: PAN-OS
