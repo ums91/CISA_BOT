@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2024-20953**: (Oracle Agile Product Lifecycle Management (PLM) Deserialization Vulnerability) -
+Vendor Project: Oracle - 
+Product: Agile Product Lifecycle Management (PLM)
+- **CVE-2017-3066**: (Adobe ColdFusion Deserialization Vulnerability) -
+Vendor Project: Adobe - 
+Product: ColdFusion
 - **CVE-2025-24989**: (Microsoft Power Pages Improper Access Control Vulnerability) -
 Vendor Project: Microsoft - 
 Product: Power Pages
