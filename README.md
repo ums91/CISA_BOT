@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2023-34192**: (Synacor Zimbra Collaboration Suite (ZCS) Cross-Site Scripting (XSS) Vulnerability) -
+Vendor Project: Synacor - 
+Product: Zimbra Collaboration Suite (ZCS)
+- **CVE-2024-49035**: (Microsoft Partner Center Improper Access Control Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Partner Center
 - **CVE-2024-20953**: (Oracle Agile Product Lifecycle Management (PLM) Deserialization Vulnerability) -
 Vendor Project: Oracle - 
 Product: Agile Product Lifecycle Management (PLM)
