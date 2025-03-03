@@ -1,5 +1,20 @@
 
 ## New Vulnerabilities
+- **CVE-2024-4885**: (Progress WhatsUp Gold Path Traversal Vulnerability) -
+Vendor Project: Progress - 
+Product: WhatsUp Gold
+- **CVE-2018-8639**: (Microsoft Windows Win32k Improper Resource Shutdown or Release Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2022-43769**: (Hitachi Vantara Pentaho BA Server Special Element Injection Vulnerability) -
+Vendor Project: Hitachi Vantara - 
+Product: Pentaho Business Analytics (BA) Server
+- **CVE-2022-43939**: (Hitachi Vantara Pentaho BA Server Authorization Bypass Vulnerability) -
+Vendor Project: Hitachi Vantara - 
+Product: Pentaho Business Analytics (BA) Server
+- **CVE-2023-20118**: (Cisco Small Business RV Series Routers Command Injection Vulnerability) -
+Vendor Project: Cisco - 
+Product: Small Business RV Series Routers
 - **CVE-2023-34192**: (Synacor Zimbra Collaboration Suite (ZCS) Cross-Site Scripting (XSS) Vulnerability) -
 Vendor Project: Synacor - 
 Product: Zimbra Collaboration Suite (ZCS)
