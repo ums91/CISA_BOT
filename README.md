@@ -1,5 +1,17 @@
 
 ## New Vulnerabilities
+- **CVE-2025-22226**: (VMware ESXi, Workstation, and Fusion Information Disclosure Vulnerability) -
+Vendor Project: VMware - 
+Product: ESXi, Workstation, and Fusion
+- **CVE-2025-22225**: (VMware ESXi Arbitrary Write Vulnerability) -
+Vendor Project: VMware - 
+Product: ESXi
+- **CVE-2025-22224**: (VMware ESXi and Workstation TOCTOU Race Condition Vulnerability) -
+Vendor Project: VMware - 
+Product: ESXi and Workstation
+- **CVE-2024-50302**: (Linux Kernel Use of Uninitialized Resource Vulnerability) -
+Vendor Project: Linux - 
+Product: Kernel
 - **CVE-2024-4885**: (Progress WhatsUp Gold Path Traversal Vulnerability) -
 Vendor Project: Progress - 
 Product: WhatsUp Gold
