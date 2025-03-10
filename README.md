@@ -1,5 +1,20 @@
 
 ## New Vulnerabilities
+- **CVE-2024-13161**: (Ivanti Endpoint Manager (EPM) Absolute Path Traversal Vulnerability) -
+Vendor Project: Ivanti - 
+Product: Endpoint Manager (EPM)
+- **CVE-2024-13160**: (Ivanti Endpoint Manager (EPM) Absolute Path Traversal Vulnerability) -
+Vendor Project: Ivanti - 
+Product: Endpoint Manager (EPM)
+- **CVE-2024-13159**: (Ivanti Endpoint Manager (EPM) Absolute Path Traversal Vulnerability) -
+Vendor Project: Ivanti - 
+Product: Endpoint Manager (EPM)
+- **CVE-2024-57968**: (Advantive VeraCore Unrestricted File Upload Vulnerability) -
+Vendor Project: Advantive - 
+Product: VeraCore
+- **CVE-2025-25181**: ( Advantive VeraCore SQL Injection Vulnerability) -
+Vendor Project: Advantive - 
+Product: VeraCore
 - **CVE-2025-22226**: (VMware ESXi, Workstation, and Fusion Information Disclosure Vulnerability) -
 Vendor Project: VMware - 
 Product: ESXi, Workstation, and Fusion
