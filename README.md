@@ -1,5 +1,23 @@
 
 ## New Vulnerabilities
+- **CVE-2025-24993**: (Microsoft Windows NTFS Heap-Based Buffer Overflow Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-24991**: (Microsoft Windows NTFS Out-Of-Bounds Read Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-24985**: (Microsoft Windows Fast FAT File System Driver Integer Overflow Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-24984**: (Microsoft Windows NTFS Information Disclosure Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-24983**: (Microsoft Windows Win32k Use-After-Free Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-26633**: (Microsoft Windows Management Console (MMC) Improper Neutralization Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
 - **CVE-2024-13161**: (Ivanti Endpoint Manager (EPM) Absolute Path Traversal Vulnerability) -
 Vendor Project: Ivanti - 
 Product: Endpoint Manager (EPM)
