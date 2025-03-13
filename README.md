@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2025-21590**: (Juniper Junos OS Improper Isolation or Compartmentalization Vulnerability) -
+Vendor Project: Juniper - 
+Product: Junos OS
+- **CVE-2025-24201**: (Apple Multiple Products WebKit Out-of-Bounds Write Vulnerability) -
+Vendor Project: Apple - 
+Product: Multiple Products
 - **CVE-2025-24993**: (Microsoft Windows NTFS Heap-Based Buffer Overflow Vulnerability) -
 Vendor Project: Microsoft - 
 Product: Windows
