@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2025-30066**: (tj-actions/changed-files GitHub Action Embedded Malicious Code Vulnerability) -
+Vendor Project: tj-actions - 
+Product: changed-files GitHub Action
+- **CVE-2025-24472**: (Fortinet FortiOS and FortiProxy Authentication Bypass Vulnerability) -
+Vendor Project: Fortinet - 
+Product: FortiOS and FortiProxy
 - **CVE-2025-21590**: (Juniper Junos OS Improper Isolation or Compartmentalization Vulnerability) -
 Vendor Project: Juniper - 
 Product: Junos OS
