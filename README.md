@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2017-12637**: (SAP NetWeaver Directory Traversal Vulnerability) -
+Vendor Project: SAP - 
+Product: NetWeaver
+- **CVE-2024-48248**: (NAKIVO Backup and Replication Absolute Path Traversal Vulnerability) -
+Vendor Project: NAKIVO - 
+Product: Backup and Replication
+- **CVE-2025-1316**: (Edimax IC-7100 IP Camera OS Command Injection Vulnerability) -
+Vendor Project: Edimax - 
+Product: IC-7100 IP Camera
 - **CVE-2025-30066**: (tj-actions/changed-files GitHub Action Embedded Malicious Code Vulnerability) -
 Vendor Project: tj-actions - 
 Product: changed-files GitHub Action
