@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-30154**: (reviewdog/action-setup GitHub Action Embedded Malicious Code Vulnerability) -
+Vendor Project: reviewdog - 
+Product: action-setup GitHub Action
 - **CVE-2017-12637**: (SAP NetWeaver Directory Traversal Vulnerability) -
 Vendor Project: SAP - 
 Product: NetWeaver
