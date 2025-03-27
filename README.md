@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2019-9875**: (Sitecore CMS and Experience Platform (XP) Deserialization Vulnerability) -
+Vendor Project: Sitecore - 
+Product: CMS and Experience Platform (XP)
+- **CVE-2019-9874**: (Sitecore CMS and Experience Platform (XP) Deserialization Vulnerability) -
+Vendor Project: Sitecore - 
+Product: CMS and Experience Platform (XP)
 - **CVE-2025-30154**: (reviewdog/action-setup GitHub Action Embedded Malicious Code Vulnerability) -
 Vendor Project: reviewdog - 
 Product: action-setup GitHub Action
