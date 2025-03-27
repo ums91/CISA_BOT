@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-2783**: (Google Chromium Mojo Sandbox Escape Vulnerability) -
+Vendor Project: Google - 
+Product: Chromium Mojo
 - **CVE-2019-9875**: (Sitecore CMS and Experience Platform (XP) Deserialization Vulnerability) -
 Vendor Project: Sitecore - 
 Product: CMS and Experience Platform (XP)
