@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2024-20439**: (Cisco Smart Licensing Utility Static Credential Vulnerability) -
+Vendor Project: Cisco - 
+Product: Smart Licensing Utility
 - **CVE-2025-2783**: (Google Chromium Mojo Sandbox Escape Vulnerability) -
 Vendor Project: Google - 
 Product: Chromium Mojo
