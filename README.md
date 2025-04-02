@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-24813**: (Apache Tomcat Path Equivalence Vulnerability) -
+Vendor Project: Apache - 
+Product: Tomcat
 - **CVE-2024-20439**: (Cisco Smart Licensing Utility Static Credential Vulnerability) -
 Vendor Project: Cisco - 
 Product: Smart Licensing Utility
