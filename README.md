@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-22457**: (Ivanti Connect Secure, Policy Secure and ZTA Gateways Stack-Based Buffer Overflow Vulnerability) -
+Vendor Project: Ivanti - 
+Product: Connect Secure, Policy Secure and ZTA Gateways
 - **CVE-2025-24813**: (Apache Tomcat Path Equivalence Vulnerability) -
 Vendor Project: Apache - 
 Product: Tomcat
