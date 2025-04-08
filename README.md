@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-31161**: (CrushFTP Authentication Bypass Vulnerability) -
+Vendor Project: CrushFTP - 
+Product: CrushFTP
 - **CVE-2025-22457**: (Ivanti Connect Secure, Policy Secure and ZTA Gateways Stack-Based Buffer Overflow Vulnerability) -
 Vendor Project: Ivanti - 
 Product: Connect Secure, Policy Secure and ZTA Gateways
