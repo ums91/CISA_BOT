@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2025-29824**: (Microsoft Windows Common Log File System (CLFS) Driver Use-After-Free Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-30406**: (Gladinet CentreStack Use of Hard-coded Cryptographic Key Vulnerability) -
+Vendor Project: Gladinet - 
+Product: CentreStack
 - **CVE-2025-31161**: (CrushFTP Authentication Bypass Vulnerability) -
 Vendor Project: CrushFTP - 
 Product: CrushFTP
