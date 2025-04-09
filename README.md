@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2024-53150**: (Linux Kernel Out-of-Bounds Read Vulnerability) -
+Vendor Project: Linux - 
+Product: Kernel
+- **CVE-2024-53197**: (Linux Kernel Out-of-Bounds Access Vulnerability) -
+Vendor Project: Linux - 
+Product: Kernel
 - **CVE-2025-29824**: (Microsoft Windows Common Log File System (CLFS) Driver Use-After-Free Vulnerability) -
 Vendor Project: Microsoft - 
 Product: Windows
