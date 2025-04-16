@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2021-20035**: (SonicWall SMA100 Appliances OS Command Injection Vulnerability) -
+Vendor Project: SonicWall - 
+Product: SMA100 Appliances
 - **CVE-2024-53150**: (Linux Kernel Out-of-Bounds Read Vulnerability) -
 Vendor Project: Linux - 
 Product: Kernel
