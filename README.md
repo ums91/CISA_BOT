@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2025-24054**: (Microsoft Windows NTLM Hash Disclosure Spoofing Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-31201**: (Apple Multiple Products Arbitrary Read and Write Vulnerability) -
+Vendor Project: Apple - 
+Product: Multiple Products
+- **CVE-2025-31200**: (Apple Multiple Products Memory Corruption Vulnerability) -
+Vendor Project: Apple - 
+Product: Multiple Products
 - **CVE-2021-20035**: (SonicWall SMA100 Appliances OS Command Injection Vulnerability) -
 Vendor Project: SonicWall - 
 Product: SMA100 Appliances
