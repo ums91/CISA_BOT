@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-30406**: (Gladinet CentreStack and Triofox Use of Hard-coded Cryptographic Key Vulnerability) -
+Vendor Project: Gladinet - 
+Product: CentreStack
 - **CVE-2025-24054**: (Microsoft Windows NTLM Hash Disclosure Spoofing Vulnerability) -
 Vendor Project: Microsoft - 
 Product: Windows
