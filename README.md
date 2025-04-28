@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2025-1976**: (Broadcom Brocade Fabric OS Code Injection Vulnerability) -
+Vendor Project: Broadcom - 
+Product: Brocade Fabric OS
+- **CVE-2025-42599**: (Qualitia Active! Mail Stack-Based Buffer Overflow Vulnerability) -
+Vendor Project: Qualitia - 
+Product: Active! Mail
+- **CVE-2025-3928**: (Commvault Web Server Unspecified Vulnerability) -
+Vendor Project: Commvault - 
+Product: Web Server
 - **CVE-2025-30406**: (Gladinet CentreStack and Triofox Use of Hard-coded Cryptographic Key Vulnerability) -
 Vendor Project: Gladinet - 
 Product: CentreStack
