@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-31324**: (SAP NetWeaver Unrestricted File Upload Vulnerability) -
+Vendor Project: SAP - 
+Product: NetWeaver
 - **CVE-2025-1976**: (Broadcom Brocade Fabric OS Code Injection Vulnerability) -
 Vendor Project: Broadcom - 
 Product: Brocade Fabric OS
