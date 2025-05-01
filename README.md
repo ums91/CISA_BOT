@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2024-38475**: (Apache HTTP Server Improper Escaping of Output Vulnerability) -
+Vendor Project: Apache - 
+Product: HTTP Server
+- **CVE-2023-44221**: (SonicWall SMA100 Appliances OS Command Injection Vulnerability) -
+Vendor Project: SonicWall - 
+Product: SMA100 Appliances
 - **CVE-2025-31324**: (SAP NetWeaver Unrestricted File Upload Vulnerability) -
 Vendor Project: SAP - 
 Product: NetWeaver
