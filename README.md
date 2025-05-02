@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2025-34028**: (Commvault Command Center Path Traversal Vulnerability) -
+Vendor Project: Commvault - 
+Product: Command Center
+- **CVE-2024-58136**: (Yiiframework Yii Improper Protection of Alternate Path Vulnerability) -
+Vendor Project: Yiiframework - 
+Product: Yii
+- **CVE-2025-22457**: (Ivanti Connect Secure, Policy Secure, and ZTA Gateways Stack-Based Buffer Overflow Vulnerability) -
+Vendor Project: Ivanti - 
+Product: Connect Secure, Policy Secure, and ZTA Gateways
 - **CVE-2024-38475**: (Apache HTTP Server Improper Escaping of Output Vulnerability) -
 Vendor Project: Apache - 
 Product: HTTP Server
