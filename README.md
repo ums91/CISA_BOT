@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-3248**: (Langflow Missing Authentication Vulnerability) -
+Vendor Project: Langflow - 
+Product: Langflow
 - **CVE-2025-34028**: (Commvault Command Center Path Traversal Vulnerability) -
 Vendor Project: Commvault - 
 Product: Command Center
