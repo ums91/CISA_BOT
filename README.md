@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-27363**: (FreeType Out-of-Bounds Write Vulnerability) -
+Vendor Project: FreeType - 
+Product: FreeType
 - **CVE-2025-3248**: (Langflow Missing Authentication Vulnerability) -
 Vendor Project: Langflow - 
 Product: Langflow
