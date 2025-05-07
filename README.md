@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2024-11120**: (GeoVision Devices OS Command Injection Vulnerability) -
+Vendor Project: GeoVision - 
+Product: Multiple Devices
+- **CVE-2024-6047**: (GeoVision Devices OS Command Injection Vulnerability) -
+Vendor Project: GeoVision - 
+Product: Multiple Devices
 - **CVE-2025-27363**: (FreeType Out-of-Bounds Write Vulnerability) -
 Vendor Project: FreeType - 
 Product: FreeType
