@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-47729**: (TeleMessage TM SGNL Hidden Functionality Vulnerability) -
+Vendor Project: TeleMessage - 
+Product: TM SGNL
 - **CVE-2024-11120**: (GeoVision Devices OS Command Injection Vulnerability) -
 Vendor Project: GeoVision - 
 Product: Multiple Devices
