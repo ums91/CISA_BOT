@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-32756**: (Fortinet Multiple Products Stack-Based Buffer Overflow Vulnerability) -
+Vendor Project: Fortinet - 
+Product: Multiple Products
 - **CVE-2025-32709**: (Microsoft Windows Ancillary Function Driver for WinSock Use-After-Free Vulnerability) -
 Vendor Project: Microsoft - 
 Product: Windows
