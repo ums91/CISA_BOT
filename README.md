@@ -1,5 +1,20 @@
 
 ## New Vulnerabilities
+- **CVE-2025-32709**: (Microsoft Windows Ancillary Function Driver for WinSock Use-After-Free Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-30397**: (Microsoft Windows Scripting Engine Type Confusion Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-32706**: (Microsoft Windows Common Log File System (CLFS) Driver Heap-Based Buffer Overflow Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-32701**: (Microsoft Windows Common Log File System (CLFS) Driver Use-After-Free Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
+- **CVE-2025-30400**: (Microsoft Windows DWM Core Library Use-After-Free Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
 - **CVE-2025-47729**: (TeleMessage TM SGNL Hidden Functionality Vulnerability) -
 Vendor Project: TeleMessage - 
 Product: TM SGNL
