@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2025-42999**: (SAP NetWeaver Deserialization Vulnerability) -
+Vendor Project: SAP - 
+Product: NetWeaver
+- **CVE-2024-12987**: (DrayTek Vigor Routers OS Command Injection Vulnerability) -
+Vendor Project: DrayTek - 
+Product: Vigor Routers
+- **CVE-2025-4664**: (Google Chromium Loader Insufficient Policy Enforcement Vulnerability) -
+Vendor Project: Google - 
+Product: Chromium
 - **CVE-2025-32756**: (Fortinet Multiple Products Stack-Based Buffer Overflow Vulnerability) -
 Vendor Project: Fortinet - 
 Product: Multiple Products
