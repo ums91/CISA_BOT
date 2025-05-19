@@ -1,5 +1,23 @@
 
 ## New Vulnerabilities
+- **CVE-2023-38950**: (ZKTeco BioTime Path Traversal Vulnerability) -
+Vendor Project: ZKTeco - 
+Product: BioTime
+- **CVE-2024-27443**: (Synacor Zimbra Collaboration Suite (ZCS) Cross-Site Scripting (XSS) Vulnerability) -
+Vendor Project: Synacor - 
+Product: Zimbra Collaboration Suite (ZCS)
+- **CVE-2025-27920**: (Srimax Output Messenger Directory Traversal Vulnerability) -
+Vendor Project: Srimax - 
+Product: Output Messenger
+- **CVE-2024-11182**: (MDaemon Email Server Cross-Site Scripting (XSS) Vulnerability) -
+Vendor Project: MDaemon - 
+Product: Email Server
+- **CVE-2025-4428**: (Ivanti Endpoint Manager Mobile (EPMM) Code Injection Vulnerability) -
+Vendor Project: Ivanti - 
+Product: Endpoint Manager Mobile (EPMM)
+- **CVE-2025-4427**: (Ivanti Endpoint Manager Mobile (EPMM) Authentication Bypass Vulnerability) -
+Vendor Project: Ivanti - 
+Product: Endpoint Manager Mobile (EPMM)
 - **CVE-2025-42999**: (SAP NetWeaver Deserialization Vulnerability) -
 Vendor Project: SAP - 
 Product: NetWeaver
