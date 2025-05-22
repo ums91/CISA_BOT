@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-4632**: (Samsung MagicINFO 9 Server Path Traversal Vulnerability) -
+Vendor Project: Samsung - 
+Product: MagicINFO 9 Server
 - **CVE-2023-38950**: (ZKTeco BioTime Path Traversal Vulnerability) -
 Vendor Project: ZKTeco - 
 Product: BioTime
