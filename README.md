@@ -1,5 +1,23 @@
 
 ## New Vulnerabilities
+- **CVE-2025-32433**: (Erlang Erlang/OTP SSH Server Missing Authentication for Critical Function Vulnerability) -
+Vendor Project: Erlang - 
+Product: Erlang/OTP
+- **CVE-2025-5419**: (Google Chromium V8 Out-of-Bounds Read and Write Vulnerability) -
+Vendor Project: Google - 
+Product: Chromium V8
+- **CVE-2025-21479**: (Qualcomm Multiple Chipsets Incorrect Authorization Vulnerability) -
+Vendor Project: Qualcomm - 
+Product: Multiple Chipsets
+- **CVE-2025-21480**: (Qualcomm Multiple Chipsets Incorrect Authorization Vulnerability) -
+Vendor Project: Qualcomm - 
+Product: Multiple Chipsets
+- **CVE-2025-27038**: (Qualcomm Multiple Chipsets Use-After-Free Vulnerability) -
+Vendor Project: Qualcomm - 
+Product: Multiple Chipsets
+- **CVE-2021-32030**: (ASUS Routers Improper Authentication Vulnerability) -
+Vendor Project: ASUS - 
+Product: Routers
 - **CVE-2023-0386**: (Linux Kernel Improper Ownership Management Vulnerability) -
 Vendor Project: Linux - 
 Product: Kernel
