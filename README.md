@@ -1,5 +1,23 @@
 
 ## New Vulnerabilities
+- **CVE-2023-0386**: (Linux Kernel Improper Ownership Management Vulnerability) -
+Vendor Project: Linux - 
+Product: Kernel
+- **CVE-2023-33538**: (TP-Link Multiple Routers Command Injection Vulnerability) -
+Vendor Project: TP-Link - 
+Product: Multiple Routers
+- **CVE-2025-43200**: (Apple Multiple Products Unspecified Vulnerability) -
+Vendor Project: Apple - 
+Product: Multiple Products
+- **CVE-2025-33053**: (Web Distributed Authoring and Versioning (WebDAV) External Control of File Name or Path Vulnerability) -
+Vendor Project: Web Distributed Authoring and Versioning - 
+Product: Web Distributed Authoring and Versioning (WebDAV)
+- **CVE-2025-24016**: (Wazuh Server Deserialization of Untrusted Data Vulnerability) -
+Vendor Project: Wazuh - 
+Product: Wazuh Server
+- **CVE-2024-42009**: (RoundCube Webmail Cross-Site Scripting Vulnerability) -
+Vendor Project: Roundcube - 
+Product: Webmail
 - **CVE-2025-4632**: (Samsung MagicINFO 9 Server Path Traversal Vulnerability) -
 Vendor Project: Samsung - 
 Product: MagicINFO 9 Server
