@@ -1,5 +1,17 @@
 
 ## New Vulnerabilities
+- **CVE-2025-3935**: (ConnectWise ScreenConnect Improper Authentication Vulnerability) -
+Vendor Project: ConnectWise - 
+Product: ScreenConnect
+- **CVE-2025-35939**: (Craft CMS External Control of Assumed-Immutable Web Parameter Vulnerability) -
+Vendor Project: Craft CMS - 
+Product: Craft CMS
+- **CVE-2024-56145**: (Craft CMS Code Injection Vulnerability) -
+Vendor Project: Craft CMS - 
+Product: Craft CMS
+- **CVE-2023-39780**: (ASUS RT-AX55 Routers OS Command Injection Vulnerability) -
+Vendor Project: ASUS - 
+Product: RT-AX55 Routers
 - **CVE-2025-32433**: (Erlang Erlang/OTP SSH Server Missing Authentication for Critical Function Vulnerability) -
 Vendor Project: Erlang - 
 Product: Erlang/OTP
