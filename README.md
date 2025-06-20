@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-33053**: ( Microsoft Windows External Control of File Name or Path Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Windows
 - **CVE-2025-3935**: (ConnectWise ScreenConnect Improper Authentication Vulnerability) -
 Vendor Project: ConnectWise - 
 Product: ScreenConnect
