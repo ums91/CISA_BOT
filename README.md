@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2019-6693**: (Fortinet FortiOS Use of Hard-Coded Credentials Vulnerability) -
+Vendor Project: Fortinet - 
+Product: FortiOS
+- **CVE-2024-0769**: ( D-Link DIR-859 Router Path Traversal Vulnerability) -
+Vendor Project: D-Link - 
+Product: DIR-859 Router
+- **CVE-2024-54085**: (AMI MegaRAC SPx Authentication Bypass by Spoofing Vulnerability) -
+Vendor Project: AMI - 
+Product: MegaRAC SPx
 - **CVE-2025-33053**: ( Microsoft Windows External Control of File Name or Path Vulnerability) -
 Vendor Project: Microsoft - 
 Product: Windows
