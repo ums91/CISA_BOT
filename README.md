@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-6543**: (Citrix NetScaler ADC and Gateway Buffer Overflow Vulnerability) -
+Vendor Project: Citrix - 
+Product: NetScaler ADC and Gateway
 - **CVE-2019-6693**: (Fortinet FortiOS Use of Hard-Coded Credentials Vulnerability) -
 Vendor Project: Fortinet - 
 Product: FortiOS
