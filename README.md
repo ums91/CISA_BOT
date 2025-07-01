@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2025-48928**: (TeleMessage TM SGNL Exposure of Core Dump File to an Unauthorized Control Sphere Vulnerability) -
+Vendor Project: TeleMessage - 
+Product: TM SGNL
+- **CVE-2025-48927**: (TeleMessage TM SGNL Initialization of a Resource with an Insecure Default Vulnerability) -
+Vendor Project: TeleMessage - 
+Product: TM SGNL
 - **CVE-2025-6543**: (Citrix NetScaler ADC and Gateway Buffer Overflow Vulnerability) -
 Vendor Project: Citrix - 
 Product: NetScaler ADC and Gateway
