@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-6554**: (Google Chromium V8 Type Confusion Vulnerability) -
+Vendor Project: Google - 
+Product: Chromium V8
 - **CVE-2025-48928**: (TeleMessage TM SGNL Exposure of Core Dump File to an Unauthorized Control Sphere Vulnerability) -
 Vendor Project: TeleMessage - 
 Product: TM SGNL
