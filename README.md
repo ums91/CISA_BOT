@@ -1,5 +1,17 @@
 
 ## New Vulnerabilities
+- **CVE-2019-9621**: (Synacor Zimbra Collaboration Suite (ZCS) Server-Side Request Forgery (SSRF) Vulnerability) -
+Vendor Project: Synacor - 
+Product: Zimbra Collaboration Suite (ZCS)
+- **CVE-2019-5418**: (Rails Ruby on Rails Path Traversal Vulnerability) -
+Vendor Project: Rails - 
+Product: Ruby on Rails
+- **CVE-2016-10033**: (PHPMailer Command Injection Vulnerability) -
+Vendor Project: PHP - 
+Product: PHPMailer
+- **CVE-2014-3931**: (Multi-Router Looking Glass (MRLG) Buffer Overflow Vulnerability) -
+Vendor Project: Looking Glass - 
+Product: Multi-Router Looking Glass (MRLG)
 - **CVE-2025-6554**: (Google Chromium V8 Type Confusion Vulnerability) -
 Vendor Project: Google - 
 Product: Chromium V8
