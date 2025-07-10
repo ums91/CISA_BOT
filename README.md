@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-5777**: (Citrix NetScaler ADC and Gateway Out-of-Bounds Read Vulnerability) -
+Vendor Project: Citrix - 
+Product: NetScaler ADC and Gateway
 - **CVE-2019-9621**: (Synacor Zimbra Collaboration Suite (ZCS) Server-Side Request Forgery (SSRF) Vulnerability) -
 Vendor Project: Synacor - 
 Product: Zimbra Collaboration Suite (ZCS)
