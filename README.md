@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-47812**: (Wing FTP Server Improper Neutralization of Null Byte or NUL Character Vulnerability) -
+Vendor Project: Wing FTP Server - 
+Product: Wing FTP Server
 - **CVE-2025-5777**: (Citrix NetScaler ADC and Gateway Out-of-Bounds Read Vulnerability) -
 Vendor Project: Citrix - 
 Product: NetScaler ADC and Gateway
