@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-25257**: (Fortinet FortiWeb SQL Injection Vulnerability) -
+Vendor Project: Fortinet - 
+Product: FortiWeb
 - **CVE-2025-47812**: (Wing FTP Server Improper Neutralization of Null Byte or NUL Character Vulnerability) -
 Vendor Project: Wing FTP Server - 
 Product: Wing FTP Server
