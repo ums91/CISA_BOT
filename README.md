@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-53770**: (Microsoft SharePoint Deserialization of Untrusted Data Vulnerability) -
+Vendor Project: Microsoft - 
+Product: SharePoint
 - **CVE-2025-25257**: (Fortinet FortiWeb SQL Injection Vulnerability) -
 Vendor Project: Fortinet - 
 Product: FortiWeb
