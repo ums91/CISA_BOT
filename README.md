@@ -1,5 +1,23 @@
 
 ## New Vulnerabilities
+- **CVE-2025-2775**: (SysAid On-Prem Improper Restriction of XML External Entity Reference Vulnerability) -
+Vendor Project: SysAid - 
+Product: SysAid On-Prem
+- **CVE-2025-2776**: (SysAid On-Prem Improper Restriction of XML External Entity Reference Vulnerability) -
+Vendor Project: SysAid - 
+Product: SysAid On-Prem
+- **CVE-2025-6558**: (Google Chromium ANGLE and GPU Improper Input Validation Vulnerability) -
+Vendor Project: Google - 
+Product: Chromium
+- **CVE-2025-54309**: ( CrushFTP Unprotected Alternate Channel Vulnerability) -
+Vendor Project: CrushFTP - 
+Product: CrushFTP
+- **CVE-2025-49704**: (Microsoft SharePoint Code Injection Vulnerability) -
+Vendor Project: Microsoft - 
+Product: SharePoint
+- **CVE-2025-49706**: (Microsoft SharePoint Improper Authentication Vulnerability) -
+Vendor Project: Microsoft - 
+Product: SharePoint
 - **CVE-2025-53770**: (Microsoft SharePoint Deserialization of Untrusted Data Vulnerability) -
 Vendor Project: Microsoft - 
 Product: SharePoint
