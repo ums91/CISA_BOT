@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2023-2533**: (PaperCut NG/MF Cross-Site Request Forgery (CSRF) Vulnerability) -
+Vendor Project: PaperCut - 
+Product: NG/MF
+- **CVE-2025-20337**: (Cisco Identity Services Engine Injection Vulnerability) -
+Vendor Project: Cisco - 
+Product: Identity Services Engine
+- **CVE-2025-20281**: (Cisco Identity Services Engine Injection Vulnerability) -
+Vendor Project: Cisco - 
+Product: Identity Services Engine
 - **CVE-2025-2775**: (SysAid On-Prem Improper Restriction of XML External Entity Reference Vulnerability) -
 Vendor Project: SysAid - 
 Product: SysAid On-Prem
