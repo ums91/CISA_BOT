@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2020-25078**: (D-Link DCS-2530L and DCS-2670L Devices Unspecified Vulnerability) -
+Vendor Project: D-Link - 
+Product: DCS-2530L and DCS-2670L Devices
+- **CVE-2020-25079**: (D-Link DCS-2530L and DCS-2670L Command Injection Vulnerability) -
+Vendor Project: D-Link - 
+Product: DCS-2530L and DCS-2670L Devices
+- **CVE-2022-40799**: (D-Link DNR-322L Download of Code Without Integrity Check Vulnerability) -
+Vendor Project: D-Link - 
+Product: DNR-322L
 - **CVE-2023-2533**: (PaperCut NG/MF Cross-Site Request Forgery (CSRF) Vulnerability) -
 Vendor Project: PaperCut - 
 Product: NG/MF
