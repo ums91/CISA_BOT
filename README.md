@@ -1,5 +1,14 @@
 
 ## New Vulnerabilities
+- **CVE-2025-8088**: (RARLAB WinRAR Path Traversal Vulnerability) -
+Vendor Project: RARLAB - 
+Product: WinRAR
+- **CVE-2007-0671**: (Microsoft Office Excel Remote Code Execution Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Office
+- **CVE-2013-3893**: (Microsoft Internet Explorer Resource Management Errors Vulnerability) -
+Vendor Project: Microsoft - 
+Product: Internet Explorer
 - **CVE-2020-25078**: (D-Link DCS-2530L and DCS-2670L Devices Unspecified Vulnerability) -
 Vendor Project: D-Link - 
 Product: DCS-2530L and DCS-2670L Devices
