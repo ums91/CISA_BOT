@@ -1,5 +1,11 @@
 
 ## New Vulnerabilities
+- **CVE-2025-8876**: (N-able N-Central Command Injection Vulnerability) -
+Vendor Project: N-able - 
+Product: N-Central
+- **CVE-2025-8875**: (N-able N-Central Insecure Deserialization Vulnerability) -
+Vendor Project: N-able - 
+Product: N-Central
 - **CVE-2025-8088**: (RARLAB WinRAR Path Traversal Vulnerability) -
 Vendor Project: RARLAB - 
 Product: WinRAR
