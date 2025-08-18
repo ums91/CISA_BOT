@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-54948**: (Trend Micro Apex One OS Command Injection Vulnerability) -
+Vendor Project: Trend Micro - 
+Product: Apex One
 - **CVE-2025-8876**: (N-able N-Central Command Injection Vulnerability) -
 Vendor Project: N-able - 
 Product: N-Central
