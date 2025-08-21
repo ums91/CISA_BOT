@@ -1,5 +1,8 @@
 
 ## New Vulnerabilities
+- **CVE-2025-43300**: (Apple iOS, iPadOS, and macOS Out-of-Bounds Write Vulnerability) -
+Vendor Project: Apple - 
+Product: iOS, iPadOS, and macOS
 - **CVE-2025-54948**: (Trend Micro Apex One OS Command Injection Vulnerability) -
 Vendor Project: Trend Micro - 
 Product: Apex One
